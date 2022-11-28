@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  },
+  "dependencies": {
+    "daisyui": "^2.40.1",
+    "ngx-csv-parser": "^1.2.0"
+  }
+}

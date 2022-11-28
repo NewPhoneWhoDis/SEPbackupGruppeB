@@ -1,0 +1,139 @@
+<!-- Components used from https://daisyui.com/ -->
+<input type="checkbox" id="registration-modal" class="modal-toggle" />
+<label for="registration-modal" class="modal cursor-pointer">
+  <label class="modal-box relative" for="registration-modal">
+    <div class="py-6 px-6 lg:px-8">
+      <h3 class="mb-4 text-2xl font-medium">Willst du mit tippen?</h3>
+      <form class="space-y-6" (ngSubmit)="onSubmit()">
+        <!-- Close-Button -->
+        <label
+          for="registration-modal"
+          class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+          >✕</label
+        >
+        <!-- Grid used to place 2 Input-fields on same row -->
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <!-- Input for Firstname -->
+          <div>
+            <label class="label">
+              <span class="label-text">Vorname</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Manuel"
+              class="input input-bordered w-full"
+              [(ngModel)]="registrationRequest.firstName"
+              name="firstName"
+            />
+          </div>
+          <!-- Input for Lastname -->
+          <div>
+            <label class="label">
+              <span class="label-text">Nachname</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Neuer"
+              class="input input-bordered w-full"
+              [(ngModel)]="registrationRequest.lastName"
+              name="lastName"
+            />
+          </div>
+        </div>
+        <!-- Input for Birthdate -->
+        <div>
+          <label class="label">
+            <span class="label-text">Gebutsdatum</span>
+          </label>
+          <input
+            id="datePicker"
+            placeholder="27.03.1986"
+            class="textbox-n input input-bordered w-full"
+            type="text"
+            onfocus="(this.type='date')"
+            id="date"
+            [(ngModel)]="registrationRequest.dateOfBirth"
+            name="dateOfBirth"
+          />
+        </div>
+        <!-- Input for Profile-Picture -->
+        <div>
+          <label class="label">
+            <span class="label-text">Profilbild hochladen</span>
+          </label>
+          <input
+            type="file"
+            class="file-input file-input-bordered w-full"
+            accept=".png , .jpg"
+            (change)="saveImage($event)"
+            name="image"
+          />
+        </div>
+        <!-- Input for Email-Adress -->
+        <div>
+          <label class="label">
+            <span class="label-text">E-Mail Adresse</span>
+          </label>
+          <input
+            type="email"
+            placeholder="manuel.neuer@tipphub.de"
+            class="input input-bordered w-full"
+            [(ngModel)]="registrationRequest.email"
+            name="email"
+            #email="ngModel"
+          />
+          <small *ngIf="email.touched" class="label-text-alt ml-1 text-error"
+            >Bitte gib eine Email-Adresse ein.</small
+          >
+        </div>
+        <!-- Input for Password -->
+        <div>
+          <label class="label">
+            <span class="label-text">Passwort</span>
+          </label>
+          <input
+            type="password"
+            placeholder="•••••••••"
+            class="input input-bordered w-full"
+            [(ngModel)]="registrationRequest.password"
+            name="password"
+            #password="ngModel"
+          />
+          <span *ngIf="password.touched" class="label-text-alt ml-1 text-error"
+            >Bitte gib ein Passwort ein.</span
+          >
+        </div>
+        <!-- Checkbox for Admin -->
+        <div class="flex justify-between">
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input
+                id="remember"
+                type="checkbox"
+                class="toggle toggle-primary"
+                [(ngModel)]="registrationRequest.isAdmin"
+                name="isAdmin"
+              />
+            </div>
+            <label for="remember" class="ml-2 text-sm font-medium"
+              >Als Admin registrieren</label
+            >
+          </div>
+        </div>
+        <!-- Submit-Button -->
+        <label
+          (click)="onSubmit()"
+          for="registration-modal"
+          class="w-full btn btn-primary"
+        >
+          TippHub-Account erstellen
+        </label>
+        <!-- Link to open Login-Modal -->
+        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+          Bereits registriert?
+          <a href="" class="link link-primary hover:underline">Einloggen</a>
+        </div>
+      </form>
+    </div>
+  </label>
+</label>

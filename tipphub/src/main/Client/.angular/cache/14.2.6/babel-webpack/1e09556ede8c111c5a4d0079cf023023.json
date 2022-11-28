@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class GameSchedule {\n  constructor() {\n    this.gamedayList = new Array();\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

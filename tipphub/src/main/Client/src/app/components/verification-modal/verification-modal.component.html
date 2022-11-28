@@ -1,0 +1,23 @@
+<label for="verification-modal" class="btn btn-primary">open modal</label>
+<input type="checkbox" id="verification-modal" class="modal-toggle" />
+<label for="verification-modal" class="modal cursor-pointer">
+    <label class="modal-box relative" for="verification-modal">
+        <div class="py-6 px-6 lg:px-8 text-white">
+            <h3 class="mb-4 text-2xl font-medium ">Gib den Verifizierungscode ein</h3>
+            <form class="space-y-6" (ngSubmit)="onSubmit()">
+                <!-- Close-Button -->
+                <label
+                        for="verification-modal"
+                        class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+                >✕</label>
+                    <div id="otp" class="flex flex-row justify-center text-center px-2 mt-5">
+                        <input class="m-2 border h-10 w-40 text-center form-control rounded" type="text" id="first" maxlength="6"/>
+                    </div>
+                <!-- Submit-Button -->
+                <button type="submit" class="w-full btn btn-primary">
+                    Verifizieren
+                </button>
+            </form>
+        </div>
+    </label>
+</label>

@@ -1,0 +1,125 @@
+<!--Benutzte Materialen aus der Udemy Course Angluar https://www.udemy.com/course/complete-angular-developer-zero-to-mastery/ -->
+<input type="checkbox" id="league-update" class="modal-toggle" />
+<label for="league-update" class="modal cursor-pointer">
+  <label class="modal-box relative">
+    <div class="py-6 px-6 lg:px-8">
+      <app-tabs-container>
+        <!-- Liga ändern Form -->
+        <app-tab tabTitle="Liga ändern">
+          <form (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="label">
+                <span class="label-text">Zu ändernde Liga</span>
+              </label>
+              <input
+                type="text"
+                [(ngModel)]="league.name"
+                id="leagueName"
+                name="leagueName"
+                class="input input-bordered w-full mb-3"
+                placeholder="Liga-Name"
+              />
+            </div>
+            <div class="divider">Liga ändern</div>
+            <div class="mb-3">
+              <label class="label">
+                <span class="label-text">Liga-Name</span>
+              </label>
+              <input
+                type="text"
+                [(ngModel)]="newName"
+                id="leagueName"
+                name="leagueName"
+                class="input input-bordered w-full"
+                placeholder="Neuen Namen eingeben"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="label">
+                <span class="label-text">Logo hochladen</span>
+              </label>
+              <input
+                type="file"
+                (change)="saveImage($event)"
+                class="file-input file-input-bordered w-full"
+                accept=".png , .jpg"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-full mt-4">
+              Einreichen
+            </button>
+          </form>
+        </app-tab>
+
+        <!-- Spieltag hinzufügen Form -->
+        <app-tab tabTitle="Spiel hinzufügen oder löschen">
+          <form>
+            <!-- Liga Name -->
+            <div class="mb-3">
+              <label class="label">
+                <span class="label-text">Zu ändernde Liga</span>
+              </label>
+              <input
+                type="text"
+                [(ngModel)]="league.name"
+                id="leagueName"
+                name="leagueName"
+                class="input input-bordered w-full mb-3"
+                placeholder="Liga-Name"
+              />
+            </div>
+            <div class="divider">Spiel hinzufügen</div>
+            <div>
+              <label class="label">
+                <span class="label-text">Datum des Spiels</span>
+              </label>
+              <input
+                id="datePicker"
+                placeholder="TT.MM.YYYY"
+                class="textbox-n input input-bordered w-full"
+                type="text"
+                onfocus="(this.type='date')"
+                id="date"
+                [(ngModel)]="game.date"
+                name="date"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="label">
+                <span class="label-text">Heimmannschaft</span>
+              </label>
+              <input
+                type="text"
+                class="input input-bordered w-full"
+                placeholder="Team 1 eingeben"
+                [(ngModel)]="game.homeTeam"
+                id="homeTeam"
+                name="homeTeam"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="label">
+                <span class="label-text">Gastmannschaft</span>
+              </label>
+              <input
+                type="text"
+                class="input input-bordered w-full"
+                placeholder="Team 2 eingeben"
+                [(ngModel)]="game.awayTeam"
+                id="awayTeam"
+                name="awayTeam"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-full mt-2" (click)="onSubmitAddGame()">
+              Hinzufügen
+            </button>
+            <button type="submit" class="btn btn-primary w-full mt-2" (click)="onSubmitDeleteGame()">
+              Löschen
+            </button>
+          </form>
+        </app-tab>
+      </app-tabs-container>
+    </div>
+  </label>
+</label>

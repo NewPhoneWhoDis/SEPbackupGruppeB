@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  angular:
+    container_name: frontend
+    build: ./src/main/Client
+    platform: linux/arm64
+    depends_on:
+      - "spring-boot"
+    ports:
+      - 4200:4200
+    image: frontend
+    restart: unless-stopped
+    environment:
+      API_URL: http://127.0.0.1:8080/
+
+
+  spring-boot:
+    image: backend
+    build: 
+      context: .
+    container_name: backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tipphub
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: 'postgres:14-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=tipphub

@@ -1,0 +1,39 @@
+<!-- Components used from https://daisyui.com/ -->
+<input type="checkbox" id="systemdate-modal" class="modal-toggle" />
+<label for="systemdate-modal" class="modal cursor-pointer">
+    <label class="modal-box relative" for="systemdate-modal">
+        <div class="py-6 px-6 lg:px-8">
+            <h3 class="mb-4 text-2xl font-medium">Systemdatum anpassen:</h3>
+            <form class="space-y-6" (ngSubmit)="onSubmit()">
+                <!-- Close-Button -->
+                <label
+                        for="systemdate-modal"
+                        class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+                >✕</label
+                >
+                <!-- Input for Systemdate -->
+                <div>
+                    <input
+                            id="datePicker"
+                            placeholder="27.03.1986"
+                            class="textbox-n input input-bordered w-full"
+                            type="text"
+                            onfocus="(this.type='date')"
+                            id="date"
+                            [(ngModel)]="hubSystem.systemDate"
+                            name="date"
+                    />
+                </div>
+                <!-- Submit-Button -->
+                <label
+                        (click)="onSubmit()"
+                        for="systemdate-modal"
+                        class="w-full btn btn-primary"
+                >
+                    Speichern
+                </label>
+
+            </form>
+        </div>
+    </label>
+</label>

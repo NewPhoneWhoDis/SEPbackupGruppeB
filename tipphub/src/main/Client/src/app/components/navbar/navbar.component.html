@@ -1,0 +1,95 @@
+<div class="navbar shadow-lg bg-base-300 rounded-box">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <!--HAMBURGERMENU SVG-->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"
+          />
+        </svg>
+      </label>
+      <!--NAVBAR FOR MOBILE-->
+      <ul
+        tabindex="0"
+        class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+      >
+        <li><a>Statistiken</a></li>
+        <!--SUBMENU-->
+        <li tabindex="0">
+          <a class="justify-between">
+            Ligen
+            <!--ARROW SVG-->
+            <svg
+              class="fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"
+              />
+            </svg>
+          </a>
+          <ul class="p-2">
+            <li><a>La Liga</a></li>
+            <li><a>Bundesliga</a></li>
+          </ul>
+        </li>
+        <li><a>Bets & Pieces</a></li>
+      </ul>
+    </div>
+    <!--LOGO-BUTTON FUNCTIONS AS GO-HOME-BUTTON-->
+    <a class="btn btn-ghost normal-case text-xl" href="home"
+      ><img
+        class="h-8"
+        src="../../../../assets/images/TippHubLogo_dark.png"
+        alt="TippHubLogo_dark"
+    /></a>
+  </div>
+  <!--NAVBAR FOR DESKTOP-->
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal p-0">
+      <li><a>Statistiken</a></li>
+      <li tabindex="0">
+        <a>
+          Ligen
+          <svg
+            class="fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+            />
+          </svg>
+        </a>
+        <ul class="p-2">
+          <li *ngFor="let league of leagues"><a>{{league.name}}</a></li>
+        </ul>
+      </li>
+      <li><a>Bets & Pieces</a></li>
+    </ul>
+  </div>
+
+  <label for="systemdate-modal" class="btn btn-ghost">{{systemDate}}</label>
+  <!--LOGIN BUTTON-->
+  <div class="navbar-end">
+    <div class="btn-group">
+      <label for="registration-modal" class="btn btn">Registrieren</label>
+      <label for="login-modal" class="btn btn-primary">Einloggen</label>
+    </div>
+  </div>
+</div>

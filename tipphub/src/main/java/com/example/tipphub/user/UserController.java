@@ -1,0 +1,41 @@
+package com.example.tipphub.user;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping(path = "/user")
+public class UserController {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService){
+        this.userService = userService;
+    }
+
+    @GetMapping("/all")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
+
+    @PostMapping("/add")
+    public void addNewUser(@RequestBody User user){
+        userService.addNewUser(user);
+    }
+
+    @GetMapping("/getByUsername")
+    public UserDetails loadUserByEmail(String email){
+        return userService.loadUserByEmail(email);
+    }
+
+    @PostMapping("/getByEmail")
+    public User getByEmail(@RequestBody User user){
+        return userService.getByEmail(user.getEmail());
+    }
+    
+}

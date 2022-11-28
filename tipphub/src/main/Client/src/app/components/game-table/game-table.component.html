@@ -1,0 +1,32 @@
+<div class="container grid h-screen place-items-center" *ngFor="let league of leaguesWithGames | keyvalue">
+    <button class="btn gap-8 btn-lg">
+        {{league.key.name}}
+        <div class="avatar">
+            <div class="w-12 mask mask-squircle">
+                <img [src]="league.key.logoURL" />
+            </div>
+        </div>
+    </button>
+    <table class="text-left w-3/4">
+        <thead class="bg-black flex text-white w-full">
+        <tr class="flex w-full mb-4">
+            <th class="p-4 w-1/4">Round</th>
+            <th class="p-4 w-1/4">Heimmannschaft</th>
+            <th class="p-4 w-1/4">#</th>
+            <th class="p-4 w-1/4">#</th>
+            <th class="p-4 w-1/4">Auswärtsmannschaft</th>
+            <th class="p-4 w-1/4">Datum</th>
+        </tr>
+        </thead>
+        <tbody class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full" style="height: 60vh;">
+        <tr class="flex w-full mb-4" *ngFor="let game of league.value">
+            <td class="p-4 w-1/4">{{game.id}}</td>
+            <td class="p-4 w-1/4">{{game.homeTeam}}</td>
+            <td class="p-4 w-1/4">{{game.scoreHomeTeam}}</td>
+            <td class="p-4 w-1/4">{{game.scoreAwayTeam}}</td>
+            <td class="p-4 w-1/4">{{game.awayTeam}}</td>
+            <td class="p-4 w-1/4">{{game.date}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

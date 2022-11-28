@@ -1,0 +1,96 @@
+<!--Benutzte Materialen aus der Udemy Course Angluar https://www.udemy.com/course/complete-angular-developer-zero-to-mastery/ -->
+<input type="checkbox" id="creation-of-league" class="modal-toggle" />
+<label for="creation-of-league" class="modal cursor-pointer">
+  <label class="modal-box relative">
+    <div class="py-6 px-6 lg:px-8">
+      <app-tabs-container>
+        <!-- Liga erstellung Form -->
+        <app-tab tabTitle="Liga erstellen">
+          <form (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="inline-block mb-2">Name</label>
+              <input
+                type="text"
+                [(ngModel)]="league.name"
+                id="leagueName"
+                name="leagueName"
+                class="input input-bordered w-full"
+                placeholder="Name eingeben"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="inline-block mb-2">CSV hochladen</label>
+              <input
+                type="file"
+                class="file-input file-input-bordered w-full"
+                id="csvFile"
+                (change)="fileChangeListener($event)"
+                accept=".csv"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="inline-block mb-2">Logo hochladen</label>
+              <input
+                type="file"
+                (change)="saveImage($event)"
+                class="file-input file-input-bordered w-full"
+                accept=".png , .jpg"
+              />
+            </div>
+            <label for="creation-of-league"></label>
+            <button type="submit" class="btn btn-primary w-full mt-2">
+              Einreichen
+            </button>
+          </form>
+        </app-tab>
+
+        <!-- Spielplan erstellen Form -->
+        <app-tab tabTitle="Spielplan erstellen">
+          <form>
+            <!-- Liga Name -->
+            <div class="mb-3">
+              <label class="inline-block mb-2">Anzahl Spieltage</label>
+              <input
+                type="text"
+                class="input input-bordered w-full"
+                placeholder="Anzahl von Spieltagen eingeben"
+              />
+            </div>
+
+
+            <div class="mb-3">
+              <label class="inline-block mb-2">Datum des Spieles</label>
+              <input
+                type="date"
+                min="1940-01-01"
+                max="2100-12-31"
+                class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+              />
+            </div>
+
+
+            <div class="mb-3">
+              <label class="inline-block mb-2">Team 1</label>
+              <input
+                type="text"
+                class="input input-bordered w-full"
+                placeholder="Team 1 eingeben"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="inline-block mb-2">Team 2</label>
+              <input
+                type="text"
+                class="input input-bordered w-full"
+                placeholder="Team 2 eingeben"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-full mt-2">
+              Einreichen
+            </button>
+          </form>
+        </app-tab>
+      </app-tabs-container>
+    </div>
+  </label>
+</label>

@@ -1,0 +1,78 @@
+<!-- Components used from https://daisyui.com/ -->
+<!--<label for="login-modal" class="btn btn-primary">open modal</label>-->
+<input type="checkbox" id="login-modal" class="modal-toggle" />
+<label for="login-modal" class="modal cursor-pointer ">
+  <label class="modal-box relative " for="login-modal">
+    <div class="py-6 px-6 lg:px-8 text-white">
+      <h3 class="mb-4 text-2xl font-medium">Willst du mit tippen?</h3>
+      <form class="space-y-6" (ngSubmit)="onSubmit()" >
+        <!-- Close-Button -->
+        <label
+          for="login-modal"
+          class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+          >✕</label
+        >
+        <!-- Input for Email-Adresse -->
+        <div *ngIf="!checker">
+        <div>
+          <label class="label">
+            <span class="label-text">E-Mail Adresse</span>
+          </label>
+          <input
+            type="email"
+            placeholder="manuel.neuer@tipphub.de"
+            class="input input-bordered w-full"
+            [(ngModel)]="loginRequest.email"
+            name="email"
+          />
+        </div>
+        <!-- Input for Password -->
+        <div>
+          <label class="label">
+            <span class="label-text">Passwort</span>
+          </label>
+          <input
+            type="password"
+            placeholder="•••••••••"
+            class="input input-bordered w-full"
+            [(ngModel)]="loginRequest.password"
+            name="password"
+          />
+        </div>
+        <!-- Submit-Button -->
+        <button
+                type="submit"
+          (click)="onSubmit()"
+          class="w-full btn btn-primary"
+        >
+          Rein!
+        </button>
+        <!-- Link to Registration-Modal -->
+        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+          Noch nicht registriert?
+          <a class="link link-primary hover:underline">Registrieren</a>
+        </div>
+        </div>
+
+
+        <div class="py-6 px-6 lg:px-8 text-white" *ngIf="checker">
+          <h3 class="mb-4 text-2xl font-medium ">Gib den Verifizierungscode ein</h3>
+          <form class="space-y-6" (ngSubmit)="verifyCode()">
+            <!-- Close-Button -->
+            <label
+                    for="login-modal"
+                    class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+            >✕</label>
+            <div id="otp" class="flex flex-row justify-center text-center px-2 mt-5">
+              <input class="m-2 border h-10 w-40 text-center form-control rounded" type="text" id="first" maxlength="6" [(ngModel)]="typedCode" name="code"/>
+            </div>
+            <!-- Submit-Button -->
+            <a (click)="verifyCode()" href="home" class="w-full btn btn-primary" >
+              Verifizieren
+            </a>
+          </form>
+        </div>
+      </form>
+    </div>
+  </label>
+</label>
