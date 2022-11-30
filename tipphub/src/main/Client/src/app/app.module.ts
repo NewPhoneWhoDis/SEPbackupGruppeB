@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-
+import { ReactiveFormsModule } from "@angular/forms";
 import { NgxCsvParserModule } from "ngx-csv-parser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -46,7 +46,8 @@ import {CookieService} from "./Service/cookie.service";
     HttpClientModule,
     FormsModule,
     NgxCsvParserModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   providers: [LeagueService,CookieService],
   bootstrap: [AppComponent],
