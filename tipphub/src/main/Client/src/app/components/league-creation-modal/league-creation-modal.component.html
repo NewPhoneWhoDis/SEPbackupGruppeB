@@ -46,8 +46,12 @@
                 type="file"
                 class="file-input file-input-bordered w-full"
                 id="csvFile"
+                [(ngModel)]="csvRecords"
+                name="csvFile"
+                #csvFile="ngModel"
                 (change)="fileChangeListener($event)"
                 accept=".csv"
+                required
               />
             </div>
             <div class="mb-3">
@@ -60,7 +64,7 @@
               />
             </div>
             <label for="creation-of-league"></label>
-            <button type="submit" class="btn btn-primary w-full mt-2">
+            <button type="submit" class="btn btn-primary w-full mt-2 disabled:btn-disabled" [disabled]="leagueCreationForm.invalid">
               Einreichen
             </button>
           </form>
@@ -107,7 +111,7 @@
                 placeholder="Team 2 eingeben"
               />
             </div>
-            <button type="submit" class="btn btn-primary w-full mt-2">
+            <button type="submit" class="btn btn-primary w-full mt-2 disabled:btn-disabled" [disabled]="leagueCreationForm.invalid">
               Einreichen
             </button>
           </form>
