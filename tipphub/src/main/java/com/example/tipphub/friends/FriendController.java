@@ -1,5 +1,7 @@
 package com.example.tipphub.friends;
 
+import com.example.tipphub.security.services.UserDetailsImpl;
+import com.example.tipphub.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,18 +15,18 @@ public class FriendController {
     FriendService friendService;
 
     @Autowired
-    SecurityService securityService;
+    UserDetailsServiceImpl securityService;
 
     @PostMapping("addFriend")
-    public ResponseEntity<?> addUser(@RequestParam("friendId")String friendId) throws NullPointerException{
-        UserDto currentUser = securityService.getUser();
+    public ResponseEntity<?> addUser(@RequestParam("friendId")String friendId, String email) throws NullPointerException{
+        UserDetailsServiceImpl currentUser = securityService.loadUserByEmail(email);
         friendService.saveFriend(currentUser,Integer.parseInt(friendId));
         return ResponseEntity.ok("Friend added successfully");
     }
 
     @PutMapping("deleteFriend")
     public ResponseEntity<?> deleteUser(@RequestParam("friendId")String friendId) throws NullPointerException{
-        UserDto currentUser = securityService.getUser();
+        UserDto currentUser = securityService.loadUserByUsername();
         friendService.saveFriend(currentUser,Integer.parseInt(friendId));
         return ResponseEntity.ok("Friend added successfully");
     }
