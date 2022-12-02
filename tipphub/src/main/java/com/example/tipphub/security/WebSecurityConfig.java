@@ -19,14 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.tipphub.security.jwt.AuthEntryPointJwt;
 import com.example.tipphub.security.jwt.AuthTokenFilter;
-import com.example.tipphub.security.services.UserDetailsServiceImpl;
+import com.example.tipphub.security.services.UserInfoService;
 
 @Configuration
 @EnableGlobalMethodSecurity(
         prePostEnabled = true)
 public class WebSecurityConfig {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    UserInfoService userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;

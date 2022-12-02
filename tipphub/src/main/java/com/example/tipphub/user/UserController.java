@@ -1,6 +1,10 @@
 package com.example.tipphub.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +40,48 @@ public class UserController {
     @PostMapping("/getByEmail")
     public User getByEmail(@RequestBody User user){
         return userService.getByEmail(user.getEmail());
+    }
+
+    @GetMapping("/friends")
+    public Page<UserView> getFriends(
+            User profile,
+            @RequestParam(name = "searchTerm", defaultValue = "", required = false) String searchTerm,
+            @PageableDefault(size = 20) Pageable pageRequest) {
+
+        final Page<User> friends = userService.getFriends(profile, searchTerm, pageRequest);
+
+        //return friends.map(UserView::new);
+    }
+
+    @GetMapping("/friendOf")
+    public Page<UserView> getFriendOf(User profile,
+            @RequestParam(name = "searchTerm", defaultValue = "", required = false) String searchTerm) {
+
+        final Page<User> friendOf = userService.getFriendOf(profile, searchTerm);
+
+        //return friendOf.map(UserView::new);
+    }
+
+    @PutMapping("/friends/add/{userId}")
+    public ResponseEntity<Void> addFriend(
+            User profile, String email) {
+        final User user = (User) userService.loadUserByEmail(email);
+        if (null == user) {
+            return ResponseEntity.notFound().build();
+        }
+        userService.addFriend(profile, user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/friends/remove/{userId}")
+    public ResponseEntity<Void> removeFriend(
+            User profile, String email) {
+        final User user = (User) userService.loadUserByEmail(email);
+        if (null == user) {
+            return ResponseEntity.notFound().build();
+        }
+        userService.removeFriend(profile, user);
+        return ResponseEntity.ok().build();
     }
     
 }

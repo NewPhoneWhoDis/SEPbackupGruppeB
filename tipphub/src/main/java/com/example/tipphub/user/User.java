@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "UserEntity")
@@ -22,6 +24,19 @@ public class User {
     private String imageURL;
     private LocalDate dateOfBirth;
     private boolean isAdmin;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+
+    private Set<User> friends = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "friend_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id"))
+    private Set<User> friendOf = new HashSet<>();
 
     public User() {
     }
@@ -98,5 +113,23 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public boolean hasFriend(User friend) {
+        return friends.contains(friend);
+    }
+
+    public void addFriend(User friend) {
+        friends.add(friend);
+        friend.friendOf.add(this);
+    }
+
+    public void removeFriend(User friend) {
+        friends.remove(friend);
+        friend.friendOf.remove(this);
+    }
+
+    public boolean isFriendOf(User person) {
+        return friendOf.contains(person);
     }
 }

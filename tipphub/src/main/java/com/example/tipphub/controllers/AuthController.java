@@ -21,7 +21,7 @@ import com.example.tipphub.payload.response.*;
 import com.example.tipphub.payload.request.*;
 import com.example.tipphub.user.UserRepository;
 import com.example.tipphub.security.jwt.JwtUtils;
-import com.example.tipphub.security.services.UserDetailsImpl;
+import com.example.tipphub.security.services.UserInfo;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -51,7 +51,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserInfo userDetails = (UserInfo) authentication.getPrincipal();
 
 
         return ResponseEntity.ok(new JwtResponse(jwt,

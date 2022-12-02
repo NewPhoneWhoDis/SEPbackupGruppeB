@@ -1,12 +1,12 @@
 package com.example.tipphub.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,4 +41,29 @@ public class UserService{
     public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
         return null;
     }
+
+    @Transactional(readOnly = true)
+    public Page<User> getFriends(User user, String searchTerm, Pageable pageRequest) {
+        return userRepository.findFriends(user, searchTerm, pageRequest);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<User> getFriendOf(User user, String searchTerm) {
+        return userRepository.findFriendOf(user, searchTerm);
+    }
+
+    @Transactional
+    public void addFriend(User user, User friend) {
+        if (!user.hasFriend(friend)) {
+            user.addFriend(friend);
+        }
+    }
+
+    @Transactional
+    public void removeFriend(User user, User friend) {
+        if (user.hasFriend(friend)) {
+            user.removeFriend(friend);
+        }
+    }
+
 }
