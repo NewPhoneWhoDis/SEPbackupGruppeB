@@ -6,17 +6,39 @@
       <app-tabs-container>
         <!-- Liga erstellung Form -->
         <app-tab tabTitle="Liga erstellen">
-          <form (ngSubmit)="onSubmit()">
+          <form (ngSubmit)="onSubmit()" #leagueCreationForm="ngForm">
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
               <input
+                #leagueName="ngModel"
                 type="text"
                 [(ngModel)]="league.name"
                 id="leagueName"
                 name="leagueName"
                 class="input input-bordered w-full"
                 placeholder="Name eingeben"
+                required
+                minlength="3"
               />
+              
+                <div class="alert alert-error shadow-lg" *ngIf="leagueName.touched && leagueName.dirty">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>
+                        Feld ist erforderlich!
+                        </span>
+                    </div>
+                </div>
+                <div class="alert alert-error shadow-lg" *ngIf="leagueName.errors?.['minlength']">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>
+                        Current length: {{ leagueName.errors?.['minlength']['actualLength'] }}
+                        Min length: 3
+                        </span>
+                    </div>
+                </div>
+              
             </div>
             <div class="mb-3">
               <label class="inline-block mb-2">CSV hochladen</label>
@@ -24,8 +46,12 @@
                 type="file"
                 class="file-input file-input-bordered w-full"
                 id="csvFile"
+                [(ngModel)]="csvRecords"
+                name="csvFile"
+                #csvFile="ngModel"
                 (change)="fileChangeListener($event)"
                 accept=".csv"
+                required
               />
             </div>
             <div class="mb-3">
@@ -38,7 +64,7 @@
               />
             </div>
             <label for="creation-of-league"></label>
-            <button type="submit" class="btn btn-primary w-full mt-2">
+            <button type="submit" class="btn btn-primary w-full mt-2 disabled:btn-disabled" [disabled]="leagueCreationForm.invalid">
               Einreichen
             </button>
           </form>
@@ -85,7 +111,7 @@
                 placeholder="Team 2 eingeben"
               />
             </div>
-            <button type="submit" class="btn btn-primary w-full mt-2">
+            <button type="submit" class="btn btn-primary w-full mt-2 disabled:btn-disabled" [disabled]="leagueCreationForm.invalid">
               Einreichen
             </button>
           </form>
