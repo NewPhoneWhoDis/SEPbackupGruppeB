@@ -1,6 +1,5 @@
 package com.example.tipphub.betround;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +31,18 @@ public class BetroundController {
     }
 
     @PutMapping("/bet/{ownerId}/{betroundId}")
-    public void addNewBet(@PathVariable("ownerId") Long ownerId,
-                               @PathVariable("betroundId") Long betroundId,
-                               @RequestBody Bet bet){
+    public void betInRound(@PathVariable("ownerId") Long ownerId,
+                           @PathVariable("betroundId") Long betroundId,
+                           @RequestBody Bet bet){
         betroundService.betInRound(ownerId, betroundId, bet);
     }
 
+    @GetMapping("/evaluation/{ownerId}/{betroundId}")
+    public int getEvaluationInRound(@PathVariable("ownerId") Long ownerId,
+                                    @PathVariable("betroundId") Long betroundId){
+
+    return betroundService.getEvaluationInRound(ownerId,betroundId);
+    }
 
 
 
