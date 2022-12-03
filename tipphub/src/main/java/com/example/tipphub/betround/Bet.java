@@ -17,28 +17,31 @@ public class Bet {
     private String awayTeam;
     int homeTeamScore;
     int awayTeamScore;
-    private LocalDate date;
+    private LocalDate dateOfGame;
+    private LocalDate dateOfBet;
+    private int betScore;
 
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "betround_id", referencedColumnName = "id")
     private Betround betround;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User betOwner;
 
     public Bet() {
     }
 
     public Bet(Long id, String homeTeam, String awayTeam,
-               int homeTeamScore, int awayTeamScore, LocalDate date,
-               Betround betround, User betOwner) {
+               int homeTeamScore, int awayTeamScore, LocalDate dateOfGame,
+               LocalDate dateOfBet, Betround betround, User betOwner) {
         this.id = id;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeTeamScore = homeTeamScore;
         this.awayTeamScore = awayTeamScore;
-        this.date = date;
+        this.dateOfGame = dateOfGame;
+        this.dateOfBet = dateOfBet;
         this.betround = betround;
         this.betOwner = betOwner;
     }
@@ -83,12 +86,20 @@ public class Bet {
         this.awayTeamScore = awayTeamScore;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDateOfGame() {
+        return dateOfGame;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateOfGame(LocalDate dateOfGame) {
+        this.dateOfGame = dateOfGame;
+    }
+
+    public LocalDate getDateOfBet() {
+        return dateOfBet;
+    }
+
+    public void setDateOfBet(LocalDate dateOfBet) {
+        this.dateOfBet = dateOfBet;
     }
 
     public Betround getBetround() {
@@ -105,5 +116,13 @@ public class Bet {
 
     public void setBetOwner(User betOwner) {
         this.betOwner = betOwner;
+    }
+
+    public int getBetScore() {
+        return betScore;
+    }
+
+    public void setBetScore(int betScore) {
+        this.betScore = betScore;
     }
 }
