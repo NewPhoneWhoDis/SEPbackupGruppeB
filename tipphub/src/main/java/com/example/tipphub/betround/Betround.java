@@ -162,4 +162,6 @@ public class Betround {
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
     }
+
+
 }
