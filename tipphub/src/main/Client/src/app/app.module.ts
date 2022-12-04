@@ -22,6 +22,8 @@ import { LeagueDeleteComponent } from './components/league-delete/league-delete.
 import { LeagueUpdateComponent } from './components/league-update/league-update.component';
 import { SharedModule } from "./shared/shared.module";
 import {CookieService} from "./Service/cookie.service";
+import { FriendslistComponent } from './components/friendslist/friendslist.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import {CookieService} from "./Service/cookie.service";
     LoginComponent,
     LeagueDeleteComponent,
     LeagueUpdateComponent,
+    FriendslistComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
