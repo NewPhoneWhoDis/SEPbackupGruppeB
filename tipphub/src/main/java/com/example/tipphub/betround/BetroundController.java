@@ -1,5 +1,6 @@
 package com.example.tipphub.betround;
 
+import com.example.tipphub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,18 @@ public class BetroundController {
     return betroundService.getEvaluationInRound(ownerId,betroundId);
     }
 
+    @PostMapping("/inviteGeneration")
+    public void generateInvite(@RequestBody Betround betround, @RequestBody User user) {
+        betroundService.generateInviteURL(betround, user);
+    }
 
+    @GetMapping("/getInivteURL")
+    public String sendInviteURL(@PathVariable("betround") Betround betround) {
+        return betround.getInviteURL();
+    }
 
-
+    @PostMapping("/onLinkClick")
+    public void saveUserInBetrounds(@RequestBody User user, @RequestBody Betround betround) {
+        betroundService.addInvitedUserToBetround(user, betround);
+    }
 }

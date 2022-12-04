@@ -20,7 +20,7 @@ public class Betround {
     private int scoreRightDiff;
     private int scoreRightWin;
     private int scoreRightResult;
-
+    private String inviteURL;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
@@ -53,12 +53,13 @@ public class Betround {
 
 
     public Betround(String name, int scoreRightDiff, int scoreRightWin,
-                    int scoreRightResult, User owner, String password,
+                    int scoreRightResult, String inviteURL, User owner, String password,
                     boolean isPublic, League league, List<Bet> bets, List<User> users) {
         this.name = name;
         this.scoreRightDiff = scoreRightDiff;
         this.scoreRightWin = scoreRightWin;
         this.scoreRightResult = scoreRightResult;
+        this.inviteURL = inviteURL;
         this.owner = owner;
         this.password = password;
         this.isPublic = isPublic;
@@ -101,6 +102,14 @@ public class Betround {
 
     public boolean getIsPublic() {
         return isPublic;
+    }
+
+    public String getInviteURL() {
+        return inviteURL;
+    }
+
+    public void setInviteURL(String inviteURL) {
+        this.inviteURL = inviteURL;
     }
 
     public void setIsPublic(boolean isPublic) {
