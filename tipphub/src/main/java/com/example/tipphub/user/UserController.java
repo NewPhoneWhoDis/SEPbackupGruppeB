@@ -50,30 +50,29 @@ public class UserController {
 
         final Page<User> friends = userService.getFriends(profile, searchTerm, pageRequest);
 
-        //return friends.map(UserView::new);
+        return friends.map(UserView::new);
     }
 
     @GetMapping("/friendOf")
-    public Page<UserView> getFriendOf(User profile,
-            @RequestParam(name = "searchTerm", defaultValue = "", required = false) String searchTerm) {
+    public Page<UserView> getFriendOf(
+            User profile,
+            @RequestParam(name = "searchTerm", defaultValue = "", required = false) String searchTerm,
+            @PageableDefault(size = 20) Pageable pageRequest) {
 
-        final Page<User> friendOf = userService.getFriendOf(profile, searchTerm);
+        final Page<User> friendOf = userService.getFriendOf(profile, searchTerm, pageRequest);
 
-        //return friendOf.map(UserView::new);
+        return friendOf.map(UserView::new);
     }
 
-    @PutMapping("/friends/add/{userId}")
+    @PutMapping("/friends/add/{id}/{friend_id}")
     public ResponseEntity<Void> addFriend(
-            User profile, String email) {
-        final User user = (User) userService.loadUserByEmail(email);
-        if (null == user) {
-            return ResponseEntity.notFound().build();
-        }
-        userService.addFriend(profile, user);
+            @PathVariable Long id, @PathVariable Long friend_id) {
+
+        userService.addFriend(id, friend_id);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/friends/remove/{userId}")
+    @PutMapping("/friends/remove/{id}")
     public ResponseEntity<Void> removeFriend(
             User profile, String email) {
         final User user = (User) userService.loadUserByEmail(email);

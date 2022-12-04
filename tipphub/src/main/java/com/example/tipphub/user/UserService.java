@@ -48,12 +48,14 @@ public class UserService{
     }
 
     @Transactional(readOnly = true)
-    public Page<User> getFriendOf(User user, String searchTerm) {
-        return userRepository.findFriendOf(user, searchTerm);
+    public Page<User> getFriendOf(User user, String searchTerm, Pageable pageRequest) {
+        return userRepository.findFriendOf(user, searchTerm, pageRequest);
     }
 
     @Transactional
-    public void addFriend(User user, User friend) {
+    public void addFriend(Long id, Long friend_id) {
+        User user = userRepository.findById(id).get();
+        User friend = userRepository.findById(friend_id).get();
         if (!user.hasFriend(friend)) {
             user.addFriend(friend);
         }

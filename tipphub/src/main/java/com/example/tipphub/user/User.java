@@ -27,7 +27,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends",
-            joinColumns = @JoinColumn(name = "person_id"),
+            joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
 
     private Set<User> friends = new HashSet<>();
@@ -35,7 +35,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends",
             joinColumns = @JoinColumn(name = "friend_id"),
-            inverseJoinColumns = @JoinColumn(name = "person_id"))
+            inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<User> friendOf = new HashSet<>();
 
     public User() {

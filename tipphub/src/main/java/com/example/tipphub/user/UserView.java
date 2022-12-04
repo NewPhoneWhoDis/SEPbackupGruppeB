@@ -15,7 +15,7 @@ public class UserView {
     private boolean isFriendOfMine;
 
     public UserView(User user) {
-        final User profile = SecurityUtils.currentProfile();
+        final User profile = user;
 
         this.id = user.getId();
         this.firstName = user.getFirstName();

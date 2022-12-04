@@ -17,20 +17,21 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Query("SELECT u FROM User u " +
             "WHERE (:user) MEMBER OF u.friendOf " +
-            "   AND LOWER(u.fullName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "ORDER BY u.fullName")
+            "   AND LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "ORDER BY u.firstName")
     Page<User> findFriends(
             @Param("user") User user,
             @Param("searchTerm") String searchTerm,
             Pageable pageRequest);
 
-    @Query("SELECT p FROM User p " +
-            "WHERE (:user) MEMBER OF p.friends " +
-            "   AND LOWER(p.fullName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "ORDER BY p.fullName")
+    @Query("SELECT u FROM User u " +
+            "WHERE (:user) MEMBER OF u.friends " +
+            "   AND LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "ORDER BY u.firstName")
     Page<User> findFriendOf(
             @Param("user") User user,
-            @Param("searchTerm") String searchTerm);
+            @Param("searchTerm") String searchTerm,
+            Pageable pageRequest);
 
 
 }

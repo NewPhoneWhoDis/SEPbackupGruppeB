@@ -3,6 +3,7 @@ package com.example.tipphub.controllers;
 import javax.validation.Valid;
 
 import com.example.tipphub.email.EmailSenderService;
+import com.example.tipphub.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +22,6 @@ import com.example.tipphub.payload.response.*;
 import com.example.tipphub.payload.request.*;
 import com.example.tipphub.user.UserRepository;
 import com.example.tipphub.security.jwt.JwtUtils;
-import com.example.tipphub.security.services.UserInfo;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -51,7 +51,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserInfo userDetails = (UserInfo) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
 
         return ResponseEntity.ok(new JwtResponse(jwt,
