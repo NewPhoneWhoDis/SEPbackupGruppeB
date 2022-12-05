@@ -22,7 +22,7 @@ public class UserView {
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.dateOfBirth = user.getDateOfBirth();
-        this.isMyFriend = user.isFriendOf(profile);
+        //this.isMyFriend = user.isFriendOf(profile);
         this.isFriendOfMine = user.hasFriend(profile);
         this.imageURL = user.getImageURL();
     }

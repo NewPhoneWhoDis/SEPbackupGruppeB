@@ -1,6 +1,7 @@
 package com.example.tipphub.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
@@ -25,18 +26,13 @@ public class User {
     private LocalDate dateOfBirth;
     private boolean isAdmin;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends",
             joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
 
     private Set<User> friends = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "friends",
-            joinColumns = @JoinColumn(name = "friend_id"),
-            inverseJoinColumns = @JoinColumn(name = "id"))
-    private Set<User> friendOf = new HashSet<>();
 
     public User() {
     }
@@ -121,15 +117,17 @@ public class User {
 
     public void addFriend(User friend) {
         friends.add(friend);
-        //friend.friendOf.add(this);
     }
 
     public void removeFriend(User friend) {
         friends.remove(friend);
-        friend.friendOf.remove(this);
     }
 
-    public boolean isFriendOf(User person) {
-        return friendOf.contains(person);
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 }

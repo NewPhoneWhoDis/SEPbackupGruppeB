@@ -42,14 +42,10 @@ public class UserService{
         return null;
     }
 
-    @Transactional(readOnly = true)
-    public Page<User> getFriends(User user, String searchTerm, Pageable pageRequest) {
-        return userRepository.findFriends(user, searchTerm, pageRequest);
-    }
 
-    @Transactional(readOnly = true)
-    public Page<User> getFriendOf(User user, String searchTerm, Pageable pageRequest) {
-        return userRepository.findFriendOf(user, searchTerm, pageRequest);
+    public List<User> getFriends(Long id){
+        User user = userRepository.findById(id).get();
+        return user.getFriends().stream().toList();
     }
 
     @Transactional

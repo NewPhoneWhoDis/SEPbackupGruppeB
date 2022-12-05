@@ -14,15 +14,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByEmail(String email);
 
     Boolean existsByEmail(String email);
-
-    @Query("SELECT u FROM User u " +
-            "WHERE (:user) MEMBER OF u.friendOf " +
-            "   AND LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "ORDER BY u.firstName")
-    Page<User> findFriends(
-            @Param("user") User user,
-            @Param("searchTerm") String searchTerm,
-            Pageable pageRequest);
+    
 
     @Query("SELECT u FROM User u " +
             "WHERE (:user) MEMBER OF u.friends " +

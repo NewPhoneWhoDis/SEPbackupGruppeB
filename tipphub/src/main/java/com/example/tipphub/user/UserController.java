@@ -43,26 +43,9 @@ public class UserController {
         return userService.getByEmail(user.getEmail());
     }
 
-    @GetMapping("/friends")
-    public Page<UserView> getFriends(
-            User profile,
-            @RequestParam(name = "searchTerm", defaultValue = "", required = false) String searchTerm,
-            @PageableDefault(size = 20) Pageable pageRequest) {
-
-        final Page<User> friends = userService.getFriends(profile, searchTerm, pageRequest);
-
-        return friends.map(UserView::new);
-    }
-
-    @GetMapping("/friendOf")
-    public Page<UserView> getFriendOf(
-            User profile,
-            @RequestParam(name = "searchTerm", defaultValue = "", required = false) String searchTerm,
-            @PageableDefault(size = 20) Pageable pageRequest) {
-
-        final Page<User> friendOf = userService.getFriendOf(profile, searchTerm, pageRequest);
-
-        return friendOf.map(UserView::new);
+    @GetMapping("/friends/{id}")
+    public List<User> getFriends(@PathVariable Long id) {
+        return userService.getFriends(id);
     }
 
     @PutMapping("/friends/add/{id}/{friend_id}")
@@ -70,6 +53,7 @@ public class UserController {
             @PathVariable Long id, @PathVariable Long friend_id) {
 
         userService.addFriend(id, friend_id);
+        userService.addFriend(friend_id, id);
         return ResponseEntity.ok().build();
     }
 
@@ -77,6 +61,7 @@ public class UserController {
     public ResponseEntity<Void> removeFriend(
             @PathVariable Long id, @PathVariable Long friend_id) {
         userService.removeFriend(id, friend_id);
+        userService.removeFriend(friend_id, id);
         return ResponseEntity.ok().build();
     }
     
