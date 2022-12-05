@@ -1,5 +1,6 @@
 package com.example.tipphub.betround;
 
+import com.example.tipphub.email.EmailSenderService;
 import com.example.tipphub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,13 @@ import java.util.List;
 public class BetroundController {
 
     private final BetroundService betroundService;
+    private final EmailSenderService emailSenderService;
 
 @Autowired
-    public BetroundController(BetroundService betroundService) {
+    public BetroundController(BetroundService betroundService, EmailSenderService emailSenderService) {
         this.betroundService = betroundService;
-    }
+    this.emailSenderService = emailSenderService;
+}
 
 
     @GetMapping("/all")
@@ -45,9 +48,11 @@ public class BetroundController {
     return betroundService.getEvaluationInRound(ownerId,betroundId);
     }
 
-    @PostMapping("/inviteGeneration")
-    public void generateInvite(@RequestBody Betround betround, @RequestBody User user) {
-        betroundService.generateInviteURL(betround, user);
+    @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
+    public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId, @PathVariable Long targetetUserId) {
+        User targetetUser = betroundService.getTargetetUser(targetetUserId);
+        betroundService.generateInviteURL(betroundId, userId);
+        emailSenderService.sendEmailInviteBetround(betroundId, targetetUser.getEmail());
     }
 
     @GetMapping("/getInivteURL")

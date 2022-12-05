@@ -157,7 +157,10 @@ private final HubSystemRepository hubSystemRepository;
 
    }
 
-   public String generateInviteURL(Betround betround, User user) {
+   public String generateInviteURL(Long betroundId, Long userId) {
+        Betround betround = betroundRepository.findById(betroundId).get();
+        User user = userRepository.findById(userId).get();
+
         String generatedURL = betround.getName() + betround.getId();
         betround.setInviteURL(generatedURL);
 
@@ -167,6 +170,10 @@ private final HubSystemRepository hubSystemRepository;
 
         betroundRepository.save(betround);
         return generatedURL;
+   }
+
+   public User getTargetetUser(Long targetetUserId) {
+        return userRepository.findById(targetetUserId).get();
    }
 
    public void addInvitedUserToBetround(User user, Betround betround) {
