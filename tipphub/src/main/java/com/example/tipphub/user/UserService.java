@@ -62,7 +62,9 @@ public class UserService{
     }
 
     @Transactional
-    public void removeFriend(User user, User friend) {
+    public void removeFriend(Long id, Long friend_id) {
+        User user = userRepository.findById(id).get();
+        User friend = userRepository.findById(friend_id).get();
         if (user.hasFriend(friend)) {
             user.removeFriend(friend);
         }

@@ -121,7 +121,7 @@ public class User {
 
     public void addFriend(User friend) {
         friends.add(friend);
-        friend.friendOf.add(this);
+        //friend.friendOf.add(this);
     }
 
     public void removeFriend(User friend) {
