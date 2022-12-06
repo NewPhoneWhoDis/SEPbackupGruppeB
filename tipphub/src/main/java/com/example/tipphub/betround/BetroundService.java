@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.StringWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BetroundService {
@@ -135,7 +134,7 @@ public class BetroundService {
 
     @Transactional
     public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
-        for (Bet betIterator : getPossibleBetsInRound(betroundRepository.findById(betroundId).get(),
+/*        for (Bet betIterator : getPossibleBetsInRound(betroundRepository.findById(betroundId).get(),
                 wantedBet.getDateOfBet())) {
             if (wantedBet.getHomeTeam().equals(betIterator.getHomeTeam()) &&
                     wantedBet.getAwayTeam().equals(betIterator.getAwayTeam()) &&
@@ -150,9 +149,19 @@ public class BetroundService {
                 userRepository.findById(ownerId).get().setBets(userBets);
                 return;
             }
-
         }
-        System.out.println("Wette nicht möglich!");
+        System.out.println("Wette nicht möglich!");*/
+
+        wantedBet.setBetOwner(userRepository.findById(ownerId).get());
+        wantedBet.setBetround(betroundRepository.findById(betroundId).get());
+        Game game = getGameForBet(wantedBet);
+        if(game != null){
+            betRepository.save(wantedBet);
+
+            List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
+            userBets.add(wantedBet);
+            userRepository.findById(ownerId).get().setBets(userBets);
+        }
 
     }
 
@@ -194,5 +203,83 @@ public class BetroundService {
         return returnGame;
     }
 
+
+    @Transactional
+    public List<String> getTopThreeTeams(Long leagueId){
+        List<String> returnList = new ArrayList<>();
+        League league = leagueRepository.findById(leagueId).get();
+        List<Betround> betrounds = league.getBetrounds();
+        Hashtable<String, Integer> teamsWithScore = new Hashtable<String, Integer>();
+        List<String> teamsList = getAllTeams(leagueId);
+        for(String team: teamsList){
+            teamsWithScore.put(team, 0);
+        }
+        for (Betround betround: betrounds){
+            for(Bet bet: betround.getBets()){
+                Game game = getGameForBet(bet);
+                LocalDate currentSystemDate = hubSystemRepository.findById(1L).get().getSystemDate();
+                if(game.getDate().isBefore(currentSystemDate)){
+                    teamsWithScore.put(bet.getHomeTeam(),teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore()/2);
+                    teamsWithScore.put(bet.getAwayTeam(),teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore()/2);
+                }
+            }
+        }
+
+
+        String team1 = getTeamWithMaxScore(teamsWithScore);
+        teamsWithScore.remove(team1);
+        returnList.add(team1);
+        String team2 = getTeamWithMaxScore(teamsWithScore);
+        teamsWithScore.remove(team2);
+        returnList.add(team2);
+        String team3 = getTeamWithMaxScore(teamsWithScore);
+        returnList.add(team3);
+
+        return returnList;
+    }
+
+    @Transactional
+    public Game getGameForBet(Bet bet){
+        for(Gameday gameday: bet.getBetround().getLeague().getGameSchedule().getGamedayList()){
+            for(Game game: gameday.getGames()){
+                if(game.getAwayTeam().equals(bet.getAwayTeam()) &&
+                    game.getHomeTeam().equals(bet.getHomeTeam()) &&
+                    game.getDate().isEqual(bet.getDateOfGame())) {
+                    return game;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<String> getAllTeams(Long leagueId){
+        List<String> returnList = new ArrayList<>();
+        League league = leagueRepository.findById(leagueId).get();
+        for(Gameday gameday: league.getGameSchedule().getGamedayList()){
+            for(Game game: gameday.getGames()){
+                if(!returnList.contains(game.getHomeTeam())){
+                    returnList.add(game.getHomeTeam());
+                }
+                if(!returnList.contains(game.getAwayTeam())){
+                    returnList.add(game.getAwayTeam());
+                }
+            }
+        }
+        return returnList;
+    }
+
+    public String getTeamWithMaxScore(Hashtable<String, Integer> teamsWithScore){
+        Set<String> teams = teamsWithScore.keySet();
+        String returnTeam = "";
+        int highestScore = 0;
+        for(String key: teams){
+            if(teamsWithScore.get(key) >= highestScore){
+                returnTeam = key;
+                highestScore = teamsWithScore.get(key);
+            }
+        }
+        return returnTeam;
+    }
 
 }

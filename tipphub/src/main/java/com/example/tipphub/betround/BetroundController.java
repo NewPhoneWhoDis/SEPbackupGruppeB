@@ -51,4 +51,9 @@ public class BetroundController {
         return betroundService.getBetHelp(gameId);
     }
 
+    @GetMapping("/getTopThreeTeams/{leagueId}")
+    public List<String> getTopThreeTeams(@PathVariable Long leagueId){
+        return betroundService.getTopThreeTeams(leagueId);
+    }
+
 }
