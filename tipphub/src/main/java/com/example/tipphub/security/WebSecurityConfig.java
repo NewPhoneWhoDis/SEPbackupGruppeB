@@ -1,5 +1,7 @@
 package com.example.tipphub.security;
 
+import com.example.tipphub.security.services.UserDetailsImpl;
+import com.example.tipphub.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.tipphub.security.jwt.AuthEntryPointJwt;
 import com.example.tipphub.security.jwt.AuthTokenFilter;
-import com.example.tipphub.security.services.UserDetailsServiceImpl;
+
 
 @Configuration
 @EnableGlobalMethodSecurity(

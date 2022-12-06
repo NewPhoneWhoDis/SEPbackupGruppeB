@@ -1,6 +1,11 @@
 package com.example.tipphub.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +41,28 @@ public class UserController {
     @PostMapping("/getByEmail")
     public User getByEmail(@RequestBody User user){
         return userService.getByEmail(user.getEmail());
+    }
+
+    @GetMapping("/friends/{id}")
+    public List<User> getFriends(@PathVariable Long id) {
+        return userService.getFriends(id);
+    }
+
+    @PutMapping("/friends/add/{id}/{friend_id}")
+    public ResponseEntity<Void> addFriend(
+            @PathVariable Long id, @PathVariable Long friend_id) {
+
+        userService.addFriend(id, friend_id);
+        userService.addFriend(friend_id, id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/friends/remove/{id}/{friend_id}")
+    public ResponseEntity<Void> removeFriend(
+            @PathVariable Long id, @PathVariable Long friend_id) {
+        userService.removeFriend(id, friend_id);
+        userService.removeFriend(friend_id, id);
+        return ResponseEntity.ok().build();
     }
     
 }
