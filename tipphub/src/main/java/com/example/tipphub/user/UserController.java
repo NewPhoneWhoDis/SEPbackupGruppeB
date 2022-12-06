@@ -57,12 +57,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/friends/remove/{id}/{friend_id}")
+    @DeleteMapping("/friends/remove/{id}/{friend_id}")
     public ResponseEntity<Void> removeFriend(
             @PathVariable Long id, @PathVariable Long friend_id) {
         userService.removeFriend(id, friend_id);
         userService.removeFriend(friend_id, id);
         return ResponseEntity.ok().build();
     }
-    
 }
