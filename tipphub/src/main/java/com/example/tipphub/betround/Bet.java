@@ -1,6 +1,7 @@
 package com.example.tipphub.betround;
 
 import com.example.tipphub.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,11 +22,12 @@ public class Bet {
     private LocalDate dateOfBet;
     private int betScore;
 
-
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "betround_id", referencedColumnName = "id")
     private Betround betround;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User betOwner;
 
