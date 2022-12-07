@@ -19,32 +19,32 @@ import java.util.List;
 @Service
 public class BetroundService {
 
-private final BetroundRepository betroundRepository;
-private final BetRepository betRepository;
-private final UserRepository userRepository;
-private final LeagueRepository leagueRepository;
-private final HubSystemRepository hubSystemRepository;
+    private final BetroundRepository betroundRepository;
+    private final BetRepository betRepository;
+    private final UserRepository userRepository;
+    private final LeagueRepository leagueRepository;
+    private final HubSystemRepository hubSystemRepository;
 
-@Autowired
+    @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
                            UserRepository userRepository,
                            LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
         this.userRepository = userRepository;
-        this.leagueRepository= leagueRepository;
-    this.hubSystemRepository = hubSystemRepository;
-}
+        this.leagueRepository = leagueRepository;
+        this.hubSystemRepository = hubSystemRepository;
+    }
 
 
     @Transactional
-    public List<Betround> getAllBetrounds(){
+    public List<Betround> getAllBetrounds() {
         return betroundRepository.findAll();
     }
 
 
- @Transactional
-    public void addNewBetround(Long leagueOfRound, Long ownerOfRound, Betround wantedRound){
+    @Transactional
+    public void addNewBetround(Long leagueOfRound, Long ownerOfRound, Betround wantedRound) {
         List<Bet> betsOfRound = wantedRound.getBets();
 
         League leagueOfBetround = leagueRepository.findById(leagueOfRound).get();
@@ -55,7 +55,7 @@ private final HubSystemRepository hubSystemRepository;
 
         betroundRepository.save(wantedRound);
 
-        for(Bet bet: betsOfRound){
+        for (Bet bet : betsOfRound) {
             bet.setBetround(wantedRound);
             betRepository.save(bet);
         }
@@ -88,13 +88,13 @@ private final HubSystemRepository hubSystemRepository;
                                 actualGame.getScoreAwayTeam() == betOfUser.getAwayTeamScore()) {
                             betOfUser.setBetScore(betOfUser.getBetround().getScoreRightResult());
                             evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
-                        } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam()) * -1 )==
+                        } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam()) * -1) ==
                                 ((betOfUser.getHomeTeamScore() - betOfUser.getAwayTeamScore()) * -1)) {
                             betOfUser.setBetScore(betOfUser.getBetround().getScoreRightDiff());
                             evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
                         } else if ((actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() &&
                                 betOfUser.getHomeTeamScore() > betOfUser.getAwayTeamScore()) ||
-                                ( actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
+                                (actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
                                         betOfUser.getHomeTeamScore() < betOfUser.getAwayTeamScore())) {
                             betOfUser.setBetScore(betOfUser.getBetround().getScoreRightWin());
                             evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
@@ -114,48 +114,51 @@ private final HubSystemRepository hubSystemRepository;
     }
 
 
+    @Transactional
+    public List<Bet> getPossibleBetsInRound(Betround betround, LocalDate dateOfDay) {
+        List<Gameday> remainingGames = betround.getLeague().getGameSchedule().getGamedayList();
+        List<Bet> possibleBets = new ArrayList<>();
+        for (Gameday gameday : remainingGames) {
+            for (Game gameIterator : gameday.getGames()) {
+                if (dateOfDay.isAfter(gameIterator.getDate()) ||
+                        dateOfDay.isEqual(gameIterator.getDate())) {
+                    Bet gameToBet = new Bet(gameIterator.getId(), gameIterator.getHomeTeam(),
+                            gameIterator.getAwayTeam(), 0,
+                            0, gameIterator.getDate(), dateOfDay, betround, null);
+                    betRepository.save(gameToBet);
+                    possibleBets.add(gameToBet);
+                }
+            }
+        }
+        return possibleBets;
+    }
 
     @Transactional
-   public List<Bet> getPossibleBetsInRound(Betround betround, LocalDate dateOfDay) {
-       List<Gameday> remainingGames = betround.getLeague().getGameSchedule().getGamedayList();
-       List<Bet> possibleBets = new ArrayList<>();
-       for (Gameday gameday : remainingGames) {
-           for (Game gameIterator : gameday.getGames()) {
-               if(dateOfDay.isAfter(gameIterator.getDate())||
-               dateOfDay.isEqual(gameIterator.getDate())){
-                   Bet gameToBet= new Bet(gameIterator.getId(),gameIterator.getHomeTeam(),
-                           gameIterator.getAwayTeam(),0,
-                           0,gameIterator.getDate(), dateOfDay, betround, null);
-                   betRepository.save(gameToBet);
-                possibleBets.add(gameToBet);
-               }
-           }
-       }
-       return possibleBets;
-   }
+    public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
+        for (Bet betIterator : getPossibleBetsInRound(betroundRepository.findById(betroundId).get(),
+                wantedBet.getDateOfBet())) {
+            if (wantedBet.getHomeTeam().equals(betIterator.getHomeTeam()) &&
+                    wantedBet.getAwayTeam().equals(betIterator.getAwayTeam()) &&
+                    wantedBet.getDateOfGame().equals(betIterator.getDateOfGame())) {
 
-@Transactional
-   public void betInRound(Long ownerId, Long betroundId, Bet wantedBet){
-    for(Bet betIterator: getPossibleBetsInRound(betroundRepository.findById(betroundId).get(),
-            wantedBet.getDateOfBet())){
-    if(wantedBet.getHomeTeam().equals(betIterator.getHomeTeam())&&
-    wantedBet.getAwayTeam().equals(betIterator.getAwayTeam())&&
-    wantedBet.getDateOfGame().equals(betIterator.getDateOfGame())){
+                wantedBet.setBetOwner(userRepository.findById(ownerId).get());
+                wantedBet.setBetround(betroundRepository.findById(betroundId).get());
+                betRepository.save(wantedBet);
 
-        wantedBet.setBetOwner(userRepository.findById(ownerId).get());
-        wantedBet.setBetround(betroundRepository.findById(betroundId).get());
-        betRepository.save(wantedBet);
+                List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
+                userBets.add(wantedBet);
+                userRepository.findById(ownerId).get().setBets(userBets);
 
-        List<Bet> userBets= userRepository.findById(ownerId).get().getBets();
-        userBets.add(wantedBet);
-        userRepository.findById(ownerId).get().setBets(userBets);
-        return;
-    }
+                List<User> increasingUsers= betroundRepository.findById(betroundId).get().getUsers();
+                increasingUsers.add(userRepository.findById(ownerId).get());
+                betroundRepository.findById(betroundId).get().setUsers(increasingUsers);
+                return;
+            }
+
+        }
+        System.out.println("Wette nicht möglich!");
 
     }
-     System.out.println("Wette nicht möglich!");
-
-   }
 
 
 

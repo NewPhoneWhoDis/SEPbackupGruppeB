@@ -1,5 +1,6 @@
 package com.example.tipphub.betround;
 
+import com.example.tipphub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,10 @@ public class BetroundController {
     return betroundService.getEvaluationInRound(ownerId,betroundId);
     }
 
+    @GetMapping("/getBest/{betroundId}")
+    public User[] getBestUsersInRound(@PathVariable("betroundId") Long betroundId){
+    return betroundService.getTopThreeBetters(betroundId);
+    }
 
 
 
