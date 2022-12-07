@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
     });
     this.switchChecker();
     console.log(this.loginRequest.email + " " + this.loginRequest.password);
+    console.log(this.storageService.getLoggedUser().id);
   }
 
   switchChecker():void{
