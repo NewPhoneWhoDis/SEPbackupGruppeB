@@ -29,6 +29,7 @@ public class Betround {
     private String password;
     private boolean isPublic;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "league_id", referencedColumnName = "id")
     private League league;

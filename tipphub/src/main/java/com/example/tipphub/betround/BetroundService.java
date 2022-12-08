@@ -2,19 +2,16 @@ package com.example.tipphub.betround;
 
 
 import com.example.tipphub.hubSystem.HubSystemRepository;
-import com.example.tipphub.league.Game;
-import com.example.tipphub.league.Gameday;
-import com.example.tipphub.league.League;
-import com.example.tipphub.league.LeagueRepository;
+import com.example.tipphub.league.*;
 import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.StringWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BetroundService {
@@ -23,17 +20,19 @@ public class BetroundService {
     private final BetRepository betRepository;
     private final UserRepository userRepository;
     private final LeagueRepository leagueRepository;
+    private final GameRepository gameRepository;
     private final HubSystemRepository hubSystemRepository;
 
-    @Autowired
+@Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
                            UserRepository userRepository,
-                           LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository) {
+                           LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository, GameRepository gameRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
         this.userRepository = userRepository;
         this.leagueRepository = leagueRepository;
         this.hubSystemRepository = hubSystemRepository;
+        this.gameRepository = gameRepository;
     }
 
 
@@ -52,11 +51,6 @@ public class BetroundService {
 
         User owner = userRepository.findById(ownerOfRound).get();
         wantedRound.setOwner(owner);
-
-        List<Betround> increaseRounds= owner.getBetrounds();
-        increaseRounds.add(wantedRound);
-        owner.setBetrounds(increaseRounds);
-
 
         betroundRepository.save(wantedRound);
 
@@ -119,6 +113,7 @@ public class BetroundService {
     }
 
 
+
     @Transactional
     public List<Bet> getPossibleBetsInRound(Betround betround, LocalDate dateOfDay) {
         List<Gameday> remainingGames = betround.getLeague().getGameSchedule().getGamedayList();
@@ -140,71 +135,137 @@ public class BetroundService {
 
     @Transactional
     public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
-        for (Bet betIterator : getPossibleBetsInRound(betroundRepository.findById(betroundId).get(),
-                wantedBet.getDateOfBet())) {
-            if (wantedBet.getHomeTeam().equals(betIterator.getHomeTeam()) &&
-                    wantedBet.getAwayTeam().equals(betIterator.getAwayTeam()) &&
-                    wantedBet.getDateOfGame().equals(betIterator.getDateOfGame())) {
 
-                wantedBet.setBetOwner(userRepository.findById(ownerId).get());
-                wantedBet.setBetround(betroundRepository.findById(betroundId).get());
-                betRepository.save(wantedBet);
+        wantedBet.setBetOwner(userRepository.findById(ownerId).get());
+        wantedBet.setBetround(betroundRepository.findById(betroundId).get());
+        Game game = getGameForBet(wantedBet);
+        if(game != null){
+            betRepository.save(wantedBet);
 
-                List<Bet> betsOfRound= betroundRepository.findById(betroundId).get().getBets();
-                betsOfRound.add(wantedBet);
-                betroundRepository.findById(betroundId).get().setBets(betsOfRound);
-
-                List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
-                userBets.add(wantedBet);
-                userRepository.findById(ownerId).get().setBets(userBets);
-
-                List<User> increasingUsers= betroundRepository.findById(betroundId).get().getUsers();
-                increasingUsers.add(userRepository.findById(ownerId).get());
-                betroundRepository.findById(betroundId).get().setUsers(increasingUsers);
-
-                return;
-            }
-
+            List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
+            userBets.add(wantedBet);
+            userRepository.findById(ownerId).get().setBets(userBets);
+            Betround b = betroundRepository.findById(betroundId).get();
+            b.getBets().add(wantedBet);
         }
-        System.out.println("Wette nicht möglich!");
 
     }
 
     @Transactional
-    public User[] getTopThreeBetters(Long betroundId) {
-
-        User[] bestUsers= new User[3];
-        int firstPlace= 0;
-        int secondPlace= 0;
-        int thirdPlace= 0;
-
-        Betround betround = betroundRepository.findById(betroundId).get();
-        for (User userIterator : betround.getUsers()){
-
-            if((getEvaluationInRound(userIterator.getId(),betroundId)>secondPlace)&&
-             (getEvaluationInRound(userIterator.getId(),betroundId)>thirdPlace)){
-                bestUsers[0]= userIterator;
-                firstPlace= getEvaluationInRound(userIterator.getId(),betroundId);
+    public Game getBetHelp(Long gameId){
+        Game game = gameRepository.findById(gameId).get();
+        String homeTeam = game.getHomeTeam();
+        String awayTeam = game.getAwayTeam();
+        int scoreHomeTeam = 0;
+        int scoreAwayTeam = 0;
+        List<Gameday> gamedayList = game.getGameday().getGameSchedule().getGamedayList();
+        int counterHomeTeam = 0;
+        int counterAwayTeam = 0;
+        for (Gameday gameday: gamedayList){
+            for(Game currentGame: gameday.getGames()){
+                if(currentGame.getDate().isBefore(game.getDate())){
+                    if(currentGame.getHomeTeam().equals(homeTeam)){
+                        scoreHomeTeam += currentGame.getScoreHomeTeam();
+                        counterHomeTeam += 1;
+                    }
+                    if(currentGame.getAwayTeam().equals(awayTeam)){
+                        scoreAwayTeam += currentGame.getScoreAwayTeam();
+                        counterAwayTeam +=1;
+                    }
+                }
             }
-            else if((getEvaluationInRound(userIterator.getId(),betroundId)<=firstPlace)&&
-                    (getEvaluationInRound(userIterator.getId(),betroundId)>thirdPlace)){
-                bestUsers[1]= userIterator;
-                secondPlace= getEvaluationInRound(userIterator.getId(),betroundId);
-            }
-            else if((getEvaluationInRound(userIterator.getId(),betroundId)<firstPlace)&&
-                    (getEvaluationInRound(userIterator.getId(),betroundId)<=secondPlace)){
-                bestUsers[2]= userIterator;
-                thirdPlace= getEvaluationInRound(userIterator.getId(),betroundId);
-
-            }
-        }/*
-        System.out.println("Platz 1: "+ bestUsers[0].getFirstName()+ bestUsers[0].getLastName());
-        System.out.println("Platz 2: "+ bestUsers[1].getFirstName()+ bestUsers[1].getLastName());
-        System.out.println("Platz 3: "+ bestUsers[2].getFirstName()+ bestUsers[2].getLastName());
-*/
-        return bestUsers;
-
+        }
+        Game returnGame = new Game();
+        if(counterHomeTeam != 0){
+            int resultHomeTeam = (int) Math.round((double) scoreHomeTeam/(double) counterHomeTeam);
+            returnGame.setScoreHomeTeam(resultHomeTeam);
+        }
+        if(counterAwayTeam != 0){
+            int resultAwayTeam = (int) Math.round((double) scoreAwayTeam/(double) counterAwayTeam);
+            returnGame.setScoreAwayTeam(resultAwayTeam);
+        }
+        returnGame.setAwayTeam(awayTeam);
+        returnGame.setHomeTeam(homeTeam);
+        return returnGame;
     }
 
+
+    @Transactional
+    public List<String> getTopThreeTeams(Long leagueId){
+        List<String> returnList = new ArrayList<>();
+        League league = leagueRepository.findById(leagueId).get();
+        List<Betround> betrounds = league.getBetrounds();
+        Hashtable<String, Integer> teamsWithScore = new Hashtable<String, Integer>();
+        List<String> teamsList = getAllTeams(leagueId);
+        for(String team: teamsList){
+            teamsWithScore.put(team, 0);
+        }
+        for (Betround betround: betrounds){
+            for(Bet bet: betround.getBets()){
+                Game game = getGameForBet(bet);
+                LocalDate currentSystemDate = hubSystemRepository.findById(1L).get().getSystemDate();
+                if(game.getDate().isBefore(currentSystemDate)){
+                    teamsWithScore.put(bet.getHomeTeam(),teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore()/2);
+                    teamsWithScore.put(bet.getAwayTeam(),teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore()/2);
+                }
+            }
+        }
+
+
+        String team1 = getTeamWithMaxScore(teamsWithScore);
+        teamsWithScore.remove(team1);
+        returnList.add(team1);
+        String team2 = getTeamWithMaxScore(teamsWithScore);
+        teamsWithScore.remove(team2);
+        returnList.add(team2);
+        String team3 = getTeamWithMaxScore(teamsWithScore);
+        returnList.add(team3);
+
+        return returnList;
+    }
+
+    @Transactional
+    public Game getGameForBet(Bet bet){
+        for(Gameday gameday: bet.getBetround().getLeague().getGameSchedule().getGamedayList()){
+            for(Game game: gameday.getGames()){
+                if(game.getAwayTeam().equals(bet.getAwayTeam()) &&
+                    game.getHomeTeam().equals(bet.getHomeTeam()) &&
+                    game.getDate().isEqual(bet.getDateOfGame())) {
+                    return game;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<String> getAllTeams(Long leagueId){
+        List<String> returnList = new ArrayList<>();
+        League league = leagueRepository.findById(leagueId).get();
+        for(Gameday gameday: league.getGameSchedule().getGamedayList()){
+            for(Game game: gameday.getGames()){
+                if(!returnList.contains(game.getHomeTeam())){
+                    returnList.add(game.getHomeTeam());
+                }
+                if(!returnList.contains(game.getAwayTeam())){
+                    returnList.add(game.getAwayTeam());
+                }
+            }
+        }
+        return returnList;
+    }
+
+    public String getTeamWithMaxScore(Hashtable<String, Integer> teamsWithScore){
+        Set<String> teams = teamsWithScore.keySet();
+        String returnTeam = "";
+        int highestScore = 0;
+        for(String key: teams){
+            if(teamsWithScore.get(key) >= highestScore){
+                returnTeam = key;
+                highestScore = teamsWithScore.get(key);
+            }
+        }
+        return returnTeam;
+    }
 
 }
