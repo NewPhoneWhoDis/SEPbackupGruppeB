@@ -122,4 +122,12 @@ public class User {
     public void setBets(List<Bet> bets) {
         this.bets = bets;
     }
+
+    public List<Betround> getBetrounds() {
+        return betrounds;
+    }
+
+    public void setBetrounds(List<Betround> betrounds) {
+        this.betrounds = betrounds;
+    }
 }

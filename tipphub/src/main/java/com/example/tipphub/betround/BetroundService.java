@@ -53,6 +53,11 @@ public class BetroundService {
         User owner = userRepository.findById(ownerOfRound).get();
         wantedRound.setOwner(owner);
 
+        List<Betround> increaseRounds= owner.getBetrounds();
+        increaseRounds.add(wantedRound);
+        owner.setBetrounds(increaseRounds);
+
+
         betroundRepository.save(wantedRound);
 
         for (Bet bet : betsOfRound) {
@@ -145,6 +150,10 @@ public class BetroundService {
                 wantedBet.setBetround(betroundRepository.findById(betroundId).get());
                 betRepository.save(wantedBet);
 
+                List<Bet> betsOfRound= betroundRepository.findById(betroundId).get().getBets();
+                betsOfRound.add(wantedBet);
+                betroundRepository.findById(betroundId).get().setBets(betsOfRound);
+
                 List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
                 userBets.add(wantedBet);
                 userRepository.findById(ownerId).get().setBets(userBets);
@@ -152,6 +161,7 @@ public class BetroundService {
                 List<User> increasingUsers= betroundRepository.findById(betroundId).get().getUsers();
                 increasingUsers.add(userRepository.findById(ownerId).get());
                 betroundRepository.findById(betroundId).get().setUsers(increasingUsers);
+
                 return;
             }
 
@@ -160,8 +170,41 @@ public class BetroundService {
 
     }
 
+    @Transactional
+    public User[] getTopThreeBetters(Long betroundId) {
 
+        User[] bestUsers= new User[3];
+        int firstPlace= 0;
+        int secondPlace= 0;
+        int thirdPlace= 0;
 
+        Betround betround = betroundRepository.findById(betroundId).get();
+        for (User userIterator : betround.getUsers()){
+
+            if((getEvaluationInRound(userIterator.getId(),betroundId)>secondPlace)&&
+             (getEvaluationInRound(userIterator.getId(),betroundId)>thirdPlace)){
+                bestUsers[0]= userIterator;
+                firstPlace= getEvaluationInRound(userIterator.getId(),betroundId);
+            }
+            else if((getEvaluationInRound(userIterator.getId(),betroundId)<=firstPlace)&&
+                    (getEvaluationInRound(userIterator.getId(),betroundId)>thirdPlace)){
+                bestUsers[1]= userIterator;
+                secondPlace= getEvaluationInRound(userIterator.getId(),betroundId);
+            }
+            else if((getEvaluationInRound(userIterator.getId(),betroundId)<firstPlace)&&
+                    (getEvaluationInRound(userIterator.getId(),betroundId)<=secondPlace)){
+                bestUsers[2]= userIterator;
+                thirdPlace= getEvaluationInRound(userIterator.getId(),betroundId);
+
+            }
+        }/*
+        System.out.println("Platz 1: "+ bestUsers[0].getFirstName()+ bestUsers[0].getLastName());
+        System.out.println("Platz 2: "+ bestUsers[1].getFirstName()+ bestUsers[1].getLastName());
+        System.out.println("Platz 3: "+ bestUsers[2].getFirstName()+ bestUsers[2].getLastName());
+*/
+        return bestUsers;
+
+    }
 
 
 }

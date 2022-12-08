@@ -159,8 +159,8 @@ public class Betround {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
 
