@@ -134,23 +134,6 @@ public class BetroundService {
 
     @Transactional
     public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
-/*        for (Bet betIterator : getPossibleBetsInRound(betroundRepository.findById(betroundId).get(),
-                wantedBet.getDateOfBet())) {
-            if (wantedBet.getHomeTeam().equals(betIterator.getHomeTeam()) &&
-                    wantedBet.getAwayTeam().equals(betIterator.getAwayTeam()) &&
-                    wantedBet.getDateOfGame().equals(betIterator.getDateOfGame())) {
-
-                wantedBet.setBetOwner(userRepository.findById(ownerId).get());
-                wantedBet.setBetround(betroundRepository.findById(betroundId).get());
-                betRepository.save(wantedBet);
-
-                List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
-                userBets.add(wantedBet);
-                userRepository.findById(ownerId).get().setBets(userBets);
-                return;
-            }
-        }
-        System.out.println("Wette nicht möglich!");*/
 
         wantedBet.setBetOwner(userRepository.findById(ownerId).get());
         wantedBet.setBetround(betroundRepository.findById(betroundId).get());
@@ -161,6 +144,8 @@ public class BetroundService {
             List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
             userBets.add(wantedBet);
             userRepository.findById(ownerId).get().setBets(userBets);
+            Betround b = betroundRepository.findById(betroundId).get();
+            b.getBets().add(wantedBet);
         }
 
     }
