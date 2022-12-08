@@ -146,9 +146,8 @@ public class BetroundService {
         if(game != null){
             betRepository.save(wantedBet);
 
-            List<Bet> userBets = userRepository.findById(ownerId).get().getBets();
-            userBets.add(wantedBet);
-            userRepository.findById(ownerId).get().setBets(userBets);
+            userRepository.findById(ownerId).get().getBets().add(wantedBet);
+
             Betround b = betroundRepository.findById(betroundId).get();
             b.getBets().add(wantedBet);
         }
