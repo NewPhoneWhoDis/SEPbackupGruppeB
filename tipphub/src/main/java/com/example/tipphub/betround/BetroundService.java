@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.StringWriter;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class BetroundService {
@@ -51,6 +53,8 @@ public class BetroundService {
 
         User owner = userRepository.findById(ownerOfRound).get();
         wantedRound.setOwner(owner);
+
+        owner.getBetrounds().add(wantedRound);
 
         betroundRepository.save(wantedRound);
 
