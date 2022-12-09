@@ -51,6 +51,8 @@ public class BetroundService {
         League leagueOfBetround = leagueRepository.findById(leagueOfRound).get();
         wantedRound.setLeague(leagueOfBetround);
 
+        leagueOfBetround.getBetrounds().add(wantedRound);
+
         User owner = userRepository.findById(ownerOfRound).get();
         wantedRound.setOwner(owner);
 
@@ -58,9 +60,12 @@ public class BetroundService {
 
         betroundRepository.save(wantedRound);
 
-        for (Bet bet : betsOfRound) {
-            bet.setBetround(wantedRound);
-            betRepository.save(bet);
+        if(wantedRound.getBets()!=null) {
+            List<Bet> betsOfRound = wantedRound.getBets();
+            for (Bet bet : betsOfRound) {
+                bet.setBetround(wantedRound);
+                betRepository.save(bet);
+            }
         }
 
     }
