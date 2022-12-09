@@ -25,4 +25,8 @@ export class UserService {
   public getByEmail(user: User): Observable<User>{
     return this.http.post<User>(`${this.userURL}/getByEmail`,user);
   }
+
+  public getUserById(userId : number) : Observable<User>{
+    return this.http.get<User>(`${this.userURL}/getUserById/${userId}`)
+  }
 }

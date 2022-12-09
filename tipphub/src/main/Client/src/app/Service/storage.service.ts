@@ -30,7 +30,8 @@ export class StorageService {
   public getLoggedUser(): any {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
-      return JSON.parse(user);
+      let temp = JSON.parse(user);
+      return JSON.stringify(temp.id);
     }
     return {};
   }

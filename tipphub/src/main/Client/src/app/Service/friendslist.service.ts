@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable, ObservedValueOf} from "rxjs";
 import {User} from "../Model/User";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {StorageService} from "./storage.service";
 
 const httpHeaders = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json',
@@ -11,12 +12,12 @@ const httpHeaders = {
   providedIn: 'root'
 })
 export class FriendslistService {
-  userURL : String
+  userURL : String;
 
   constructor(private http: HttpClient) {
-    this.userURL = "http://localhost:8080/user/friends/"; }
+    this.userURL = "http://localhost:8080/user/friends/";
+  }
 
-  //todo get user by friendID
   public addFriend(userID : number, friendID : number): Observable<User>{
     return this.http.put<User>(`${this.userURL}add/${userID}/${friendID}`,null);
   }

@@ -64,4 +64,9 @@ public class UserController {
         userService.removeFriend(friend_id, id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/getUserById/{userId}")
+    public User getByEmail(@PathVariable Long userId){
+        return userService.getUserById(userId);
+    }
 }
