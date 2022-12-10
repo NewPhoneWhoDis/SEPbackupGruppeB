@@ -66,7 +66,12 @@ public class UserController {
     }
 
     @GetMapping("/getUserById/{userId}")
-    public User getByEmail(@PathVariable Long userId){
+    public User getUserById(@PathVariable Long userId){
         return userService.getUserById(userId);
+    }
+
+    @GetMapping("/getUserByEmail/{email}")
+    public User getUserByEmail(@PathVariable String email){
+        return userService.getByEmail(email);
     }
 }

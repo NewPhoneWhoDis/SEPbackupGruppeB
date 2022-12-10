@@ -18,7 +18,7 @@ export class FriendslistService {
     this.userURL = "http://localhost:8080/user/friends/";
   }
 
-  public addFriend(userID : number, friendID : number): Observable<User>{
+  public addFriend(userID : number | undefined, friendID : number | undefined): Observable<User>{
     return this.http.put<User>(`${this.userURL}add/${userID}/${friendID}`,null);
   }
 

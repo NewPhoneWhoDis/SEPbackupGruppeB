@@ -22,11 +22,11 @@ export class UserService {
     return this.http.post<User>(`${this.userURL}/add`, user);
   }
 
-  public getByEmail(user: User): Observable<User>{
-    return this.http.post<User>(`${this.userURL}/getByEmail`,user);
+  public getUserByEmail(email: String): Observable<User>{
+    return this.http.get<User>(`${this.userURL}/getUserByEmail/${email}`);
   }
 
-  public getUserById(userId : number) : Observable<User>{
-    return this.http.get<User>(`${this.userURL}/getUserById/${userId}`)
+  public getUserById(userId : number | undefined) : Observable<User>{
+    return this.http.get<User>(`${this.userURL}/getUserById/${userId}`);
   }
 }
