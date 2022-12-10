@@ -301,8 +301,7 @@ public class BetroundService {
         League league = leagueRepository.findById(leagueId).get();
         for (Betround betroundIterator : league.getBetrounds()) {
             for (User userIterator : betroundIterator.getUsers()) {
-                userWithScore.put(userIterator.getEmail()+getTotalScoreOfUserForLeague(leagueId,userIterator.getId())
-                        , getTotalScoreOfUserForLeague(leagueId,userIterator.getId()));
+                userWithScore.put(userIterator.getEmail(), getTotalScoreOfUserForLeague(leagueId,userIterator.getId()));
             }
         }
       List<String> top3= userWithScore.entrySet().stream().sorted(Collections.
