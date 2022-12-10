@@ -23,18 +23,29 @@ export class FriendslistComponent implements OnInit {
   }
 
   addFriend(email : String): void {
-    this.userService.getUserByEmail(email).subscribe(data =>{this.foundUser = data});
-    if (this.userService.getUserById(this.foundUser?.id)){
-      this.friendslistService.addFriend(this.currentUser?.id,this.foundUser?.id)
-      console.log("Added Friend: " + email + " " + this.foundUser?.id)
-    }else {
-      //todo validation
-    }
+    this.userService.getUserByEmail(email).subscribe(data =>{
+      this.foundUser = data
+      console.log(this.currentUser?.id,this.foundUser?.id )
+      if (this.userService.getUserById(this.foundUser?.id)){
+        this.friendslistService.addFriend(this.currentUser?.id,this.foundUser?.id).subscribe((data) => {
+          window.location.reload();
+          console.log(data)
+        });
+        console.log("Added Friend: " + email + " " + this.foundUser?.id)
+      }else {
+        //todo validation
+      }
+    });
+
+
   }
-/*
+
   deleteFriend(friendId : number | undefined): void{
-    this.friendslistService.deleteFriend(this.currentUser?.id,friendId)
-  }*/
+    this.friendslistService.deleteFriend(this.currentUser?.id,friendId).subscribe((data) => {
+      window.location.reload();
+      console.log(data)
+    });
+  }
 
   /*openOptions(): void{
     this.isOpen = true;

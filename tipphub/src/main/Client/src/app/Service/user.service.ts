@@ -23,7 +23,7 @@ export class UserService {
   }
 
   public getUserByEmail(email: String): Observable<User>{
-    return this.http.get<User>(`${this.userURL}/getUserByEmail/${email}`);
+    return this.http.get<User>(`${this.userURL}/getUserByEmail/`+ email);
   }
 
   public getUserById(userId : number | undefined) : Observable<User>{

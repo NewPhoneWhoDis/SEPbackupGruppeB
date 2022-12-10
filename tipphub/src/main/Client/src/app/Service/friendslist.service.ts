@@ -18,15 +18,15 @@ export class FriendslistService {
     this.userURL = "http://localhost:8080/user/friends/";
   }
 
-  public addFriend(userID : number | undefined, friendID : number | undefined): Observable<User>{
-    return this.http.put<User>(`${this.userURL}add/${userID}/${friendID}`,null);
+  public addFriend(userID : number | undefined, friendID : number | undefined) : Observable<void>{
+    return this.http.put<void>(`${this.userURL}add/${userID}/${friendID}`,null);
   }
 
   public getAllFriends(userID : number | undefined) : Observable<User[]>{
       return this.http.get<User[]>(`${this.userURL}${userID}`);
   }
 
-  public deleteFriend(userID : number, friendID : number) : Observable<void>{
+  public deleteFriend(userID : number | undefined, friendID : number | undefined) : Observable<void>{
     return this.http.delete<void>(`${this.userURL}remove/${userID}/${friendID}`);
   }
 }
