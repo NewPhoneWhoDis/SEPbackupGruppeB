@@ -1,7 +1,6 @@
 package com.example.tipphub.betround;
 
 import com.example.tipphub.league.Game;
-import com.example.tipphub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +46,9 @@ public class BetroundController {
         return betroundService.getEvaluationInRound(ownerId, betroundId);
     }
 
-    @GetMapping("/getBest/{betroundId}")
-    public User[] getBestUsersInRound(@PathVariable("betroundId") Long betroundId){
-    return null;
+    @GetMapping("/getBest/{leagueId}")
+    public List<String> getBestUsersOfLeague(@PathVariable("leagueId") Long leagueId){
+    return betroundService.getBestUsersOfLeague(leagueId);
     }
     @GetMapping("/getBetHelp/{gameId}")
     public Game getBetHelp(@PathVariable("gameId") Long gameId){
