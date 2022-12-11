@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { User } from "../Model/User";
+import { Betround } from "../Model/Betround";
 import { RegistrationRequest } from "../Model/RegistrationRequest";
 
 const httpHeaders = {
@@ -26,8 +26,8 @@ export class BetroundService {
     leagueId: number,
     ownerId: number,
     betround: Betround
-  ): Observable<RegistrationRequest> {
-    return this.http.put<Bet>(
+  ): Observable<Betround> {
+    return this.http.put<Betround>(
       `${this.betroundURL}/betround/${leagueId}/${ownerId}`,
       betround
     );
