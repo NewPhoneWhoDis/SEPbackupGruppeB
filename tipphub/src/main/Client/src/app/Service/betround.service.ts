@@ -29,4 +29,20 @@ export class BetroundService {
     return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, betround);
   }
 
+  public getEvaluationInRound(ownerId: number, betroundId: number) {
+    return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`);
+  }
+
+  public generateInvite(betroundId: number, ownerId: number, targetetUserId: number, betround: Betround): Observable<Betround> {
+    return this.http.put<Betround>(`${this.betroundUrl}/inviteGeneration/${betroundId}/${ownerId}/${targetetUserId}`, betround);
+  }
+
+  //
+  public getInviteURL(betround: Betround): Observable<Betround> {
+    return this.http.get<Betround>(`${this.betroundUrl}/getInivteURL`);
+  }
+
+  public saveUserInBetrounds(userId: User, betroundId: Betround, betround: Betround): Observable<Betround> {
+    return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround);
+  }
 }

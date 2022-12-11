@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BetroundService {
@@ -187,7 +188,13 @@ private final HubSystemRepository hubSystemRepository;
         betroundRepository.save(betround);
    }
 
+   public User getUserById(Long userId) {
+        return userRepository.findById(userId).get();
+   }
 
+   public Betround getBetroundById(Long betId) {
+        return betroundRepository.findById(betId).get();
+   }
 
 
 }

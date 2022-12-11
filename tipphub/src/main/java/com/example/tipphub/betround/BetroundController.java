@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -18,7 +19,7 @@ public class BetroundController {
 @Autowired
     public BetroundController(BetroundService betroundService, EmailSenderService emailSenderService) {
         this.betroundService = betroundService;
-    this.emailSenderService = emailSenderService;
+        this.emailSenderService = emailSenderService;
 }
 
 
@@ -60,8 +61,10 @@ public class BetroundController {
         return betround.getInviteURL();
     }
 
-    @PostMapping("/onLinkClick")
-    public void saveUserInBetrounds(@RequestBody User user, @RequestBody Betround betround) {
+    @PostMapping("/onLinkClick/{userId}/{betroundId}")
+    public void saveUserInBetrounds(@PathVariable Long userId, @PathVariable Long betroundId) {
+        User user = betroundService.getUserById(userId);
+        Betround betround = betroundService.getBetroundById(betroundId);
         betroundService.addInvitedUserToBetround(user, betround);
         //invitation id as attribute
     }
