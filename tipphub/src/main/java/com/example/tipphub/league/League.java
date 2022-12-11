@@ -1,6 +1,7 @@
 package com.example.tipphub.league;
 
 import com.example.tipphub.betround.Betround;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class League {
     @JoinColumn(name = "gameSchedule_id", referencedColumnName = "id")
     private GameSchedule gameSchedule;
 
+    @JsonIgnore
     @OneToMany(fetch= FetchType.LAZY, mappedBy = "league")
     private List<Betround> betrounds = new ArrayList<>();
 

@@ -29,6 +29,7 @@ public class Betround {
     private String password;
     private boolean isPublic;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "league_id", referencedColumnName = "id")
     private League league;
@@ -168,8 +169,8 @@ public class Betround {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
 

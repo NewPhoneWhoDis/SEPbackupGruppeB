@@ -23,6 +23,7 @@ import { LeagueDeleteComponent } from './components/league-delete/league-delete.
 import { LeagueUpdateComponent } from './components/league-update/league-update.component';
 import { SharedModule } from "./shared/shared.module";
 import {CookieService} from "./Service/cookie.service";
+import { BetHelpComponent } from './components/bet-help/bet-help.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {CookieService} from "./Service/cookie.service";
     LoginComponent,
     LeagueDeleteComponent,
     LeagueUpdateComponent,
+    BetHelpComponent,
   ],
   imports: [
     BrowserModule,
