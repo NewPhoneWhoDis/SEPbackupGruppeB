@@ -19,4 +19,9 @@ export class BetsOverviewComponent implements OnInit {
     $event.preventDefault();
     this.router.navigateByUrl('/bets-creation');
   }
+
+  betsManagementClick($event: Event) {
+    $event.preventDefault();
+    this.router.navigateByUrl('/bets-management');
+  }
 }
