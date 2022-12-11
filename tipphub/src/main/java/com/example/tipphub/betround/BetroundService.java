@@ -57,7 +57,7 @@ public class BetroundService {
 
         betroundRepository.save(wantedRound);
 
-        if(wantedRound.getBets()!=null) {
+        if (wantedRound.getBets() != null) {
             List<Bet> betsOfRound = wantedRound.getBets();
             for (Bet bet : betsOfRound) {
                 bet.setBetround(wantedRound);
@@ -119,25 +119,24 @@ public class BetroundService {
     }
 
 
-    /*
-        @Transactional
-        public List<Bet> getPossibleBetsInRound(Betround betround, LocalDate dateOfDay) {
-            List<Gameday> remainingGames = betround.getLeague().getGameSchedule().getGamedayList();
-            List<Bet> possibleBets = new ArrayList<>();
-            for (Gameday gameday : remainingGames) {
-                for (Game gameIterator : gameday.getGames()) {
-                    if (dateOfDay.isAfter(gameIterator.getDate()) ||
-                            dateOfDay.isEqual(gameIterator.getDate())) {
-                        Bet gameToBet = new Bet(gameIterator.getId(), gameIterator.getHomeTeam(),
-                                gameIterator.getAwayTeam(), 0,
-                                0, gameIterator.getDate(), dateOfDay, betround, null);
-                        betRepository.save(gameToBet);
-                        possibleBets.add(gameToBet);
-                    }
+    @Transactional
+    public List<Bet> getPossibleBetsInRound(Betround betround, LocalDate dateOfDay) {
+        List<Gameday> remainingGames = betround.getLeague().getGameSchedule().getGamedayList();
+        List<Bet> possibleBets = new ArrayList<>();
+        for (Gameday gameday : remainingGames) {
+            for (Game gameIterator : gameday.getGames()) {
+                if (dateOfDay.isAfter(gameIterator.getDate()) ||
+                        dateOfDay.isEqual(gameIterator.getDate())) {
+                    Bet gameToBet = new Bet(gameIterator.getId(), gameIterator.getHomeTeam(),
+                            gameIterator.getAwayTeam(), 0,
+                            0, gameIterator.getDate(), dateOfDay, betround, null);
+                    betRepository.save(gameToBet);
+                    possibleBets.add(gameToBet);
                 }
             }
-            return possibleBets;
         }
+        return possibleBets;
+    }
 
     @Transactional
     public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
@@ -149,10 +148,10 @@ public class BetroundService {
         if (game != null) {
             betRepository.save(wantedBet);
             User owner = userRepository.findById(ownerId).get();
-            Betround wantedRound= betroundRepository.findById(betroundId).get();
+            Betround wantedRound = betroundRepository.findById(betroundId).get();
 
             owner.getBets().add(wantedBet);
-            if(!(owner.getBetrounds().contains(wantedRound))) {
+            if (!(owner.getBetrounds().contains(wantedRound))) {
                 owner.getBetrounds().add(wantedRound);
             }
 
@@ -164,7 +163,7 @@ public class BetroundService {
     }
 
     @Transactional
-    public Game getBetHelp(Long gameId){
+    public Game getBetHelp(Long gameId) {
         Game game = gameRepository.findById(gameId).get();
         String homeTeam = game.getHomeTeam();
         String awayTeam = game.getAwayTeam();
@@ -173,27 +172,27 @@ public class BetroundService {
         List<Gameday> gamedayList = game.getGameday().getGameSchedule().getGamedayList();
         int counterHomeTeam = 0;
         int counterAwayTeam = 0;
-        for (Gameday gameday: gamedayList){
-            for(Game currentGame: gameday.getGames()){
-                if(currentGame.getDate().isBefore(game.getDate())){
-                    if(currentGame.getHomeTeam().equals(homeTeam)){
+        for (Gameday gameday : gamedayList) {
+            for (Game currentGame : gameday.getGames()) {
+                if (currentGame.getDate().isBefore(game.getDate())) {
+                    if (currentGame.getHomeTeam().equals(homeTeam)) {
                         scoreHomeTeam += currentGame.getScoreHomeTeam();
                         counterHomeTeam += 1;
                     }
-                    if(currentGame.getAwayTeam().equals(awayTeam)){
+                    if (currentGame.getAwayTeam().equals(awayTeam)) {
                         scoreAwayTeam += currentGame.getScoreAwayTeam();
-                        counterAwayTeam +=1;
+                        counterAwayTeam += 1;
                     }
                 }
             }
         }
         Game returnGame = new Game();
-        if(counterHomeTeam != 0){
-            int resultHomeTeam = (int) Math.round((double) scoreHomeTeam/(double) counterHomeTeam);
+        if (counterHomeTeam != 0) {
+            int resultHomeTeam = (int) Math.round((double) scoreHomeTeam / (double) counterHomeTeam);
             returnGame.setScoreHomeTeam(resultHomeTeam);
         }
-        if(counterAwayTeam != 0){
-            int resultAwayTeam = (int) Math.round((double) scoreAwayTeam/(double) counterAwayTeam);
+        if (counterAwayTeam != 0) {
+            int resultAwayTeam = (int) Math.round((double) scoreAwayTeam / (double) counterAwayTeam);
             returnGame.setScoreAwayTeam(resultAwayTeam);
         }
         returnGame.setAwayTeam(awayTeam);
@@ -203,22 +202,22 @@ public class BetroundService {
 
 
     @Transactional
-    public List<String> getTopThreeTeams(Long leagueId){
+    public List<String> getTopThreeTeams(Long leagueId) {
         List<String> returnList = new ArrayList<>();
         League league = leagueRepository.findById(leagueId).get();
         List<Betround> betrounds = league.getBetrounds();
         Hashtable<String, Integer> teamsWithScore = new Hashtable<String, Integer>();
         List<String> teamsList = getAllTeams(leagueId);
-        for(String team: teamsList){
+        for (String team : teamsList) {
             teamsWithScore.put(team, 0);
         }
-        for (Betround betround: betrounds){
-            for(Bet bet: betround.getBets()){
+        for (Betround betround : betrounds) {
+            for (Bet bet : betround.getBets()) {
                 Game game = getGameForBet(bet);
                 LocalDate currentSystemDate = hubSystemRepository.findById(1L).get().getSystemDate();
-                if(game.getDate().isBefore(currentSystemDate)){
-                    teamsWithScore.put(bet.getHomeTeam(),teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore()/2);
-                    teamsWithScore.put(bet.getAwayTeam(),teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore()/2);
+                if (game.getDate().isBefore(currentSystemDate)) {
+                    teamsWithScore.put(bet.getHomeTeam(), teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore() / 2);
+                    teamsWithScore.put(bet.getAwayTeam(), teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore() / 2);
                 }
             }
         }
@@ -237,12 +236,12 @@ public class BetroundService {
     }
 
     @Transactional
-    public Game getGameForBet(Bet bet){
-        for(Gameday gameday: bet.getBetround().getLeague().getGameSchedule().getGamedayList()){
-            for(Game game: gameday.getGames()){
-                if(game.getAwayTeam().equals(bet.getAwayTeam()) &&
-                    game.getHomeTeam().equals(bet.getHomeTeam()) &&
-                    game.getDate().isEqual(bet.getDateOfGame())) {
+    public Game getGameForBet(Bet bet) {
+        for (Gameday gameday : bet.getBetround().getLeague().getGameSchedule().getGamedayList()) {
+            for (Game game : gameday.getGames()) {
+                if (game.getAwayTeam().equals(bet.getAwayTeam()) &&
+                        game.getHomeTeam().equals(bet.getHomeTeam()) &&
+                        game.getDate().isEqual(bet.getDateOfGame())) {
                     return game;
                 }
             }
@@ -251,15 +250,15 @@ public class BetroundService {
     }
 
     @Transactional
-    public List<String> getAllTeams(Long leagueId){
+    public List<String> getAllTeams(Long leagueId) {
         List<String> returnList = new ArrayList<>();
         League league = leagueRepository.findById(leagueId).get();
-        for(Gameday gameday: league.getGameSchedule().getGamedayList()){
-            for(Game game: gameday.getGames()){
-                if(!returnList.contains(game.getHomeTeam())){
+        for (Gameday gameday : league.getGameSchedule().getGamedayList()) {
+            for (Game game : gameday.getGames()) {
+                if (!returnList.contains(game.getHomeTeam())) {
                     returnList.add(game.getHomeTeam());
                 }
-                if(!returnList.contains(game.getAwayTeam())){
+                if (!returnList.contains(game.getAwayTeam())) {
                     returnList.add(game.getAwayTeam());
                 }
             }
@@ -267,12 +266,12 @@ public class BetroundService {
         return returnList;
     }
 
-    public String getTeamWithMaxScore(Hashtable<String, Integer> teamsWithScore){
+    public String getTeamWithMaxScore(Hashtable<String, Integer> teamsWithScore) {
         Set<String> teams = teamsWithScore.keySet();
         String returnTeam = "";
         int highestScore = 0;
-        for(String key: teams){
-            if(teamsWithScore.get(key) >= highestScore){
+        for (String key : teams) {
+            if (teamsWithScore.get(key) >= highestScore) {
                 returnTeam = key;
                 highestScore = teamsWithScore.get(key);
             }
@@ -301,11 +300,11 @@ public class BetroundService {
         League league = leagueRepository.findById(leagueId).get();
         for (Betround betroundIterator : league.getBetrounds()) {
             for (User userIterator : betroundIterator.getUsers()) {
-                userWithScore.put(userIterator.getEmail(), getTotalScoreOfUserForLeague(leagueId,userIterator.getId()));
+                userWithScore.put(userIterator.getEmail(), getTotalScoreOfUserForLeague(leagueId, userIterator.getId()));
             }
         }
-      List<String> top3= userWithScore.entrySet().stream().sorted(Collections.
-                              reverseOrder(Map.Entry.comparingByValue()))
+        List<String> top3 = userWithScore.entrySet().stream().sorted(Collections.
+                        reverseOrder(Map.Entry.comparingByValue()))
                 .limit(3)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
@@ -313,8 +312,6 @@ public class BetroundService {
         return top3;
 
     }
-
-
 
 
 }
