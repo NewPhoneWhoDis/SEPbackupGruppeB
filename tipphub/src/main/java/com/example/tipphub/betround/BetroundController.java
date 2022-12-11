@@ -63,5 +63,6 @@ public class BetroundController {
     @PostMapping("/onLinkClick")
     public void saveUserInBetrounds(@RequestBody User user, @RequestBody Betround betround) {
         betroundService.addInvitedUserToBetround(user, betround);
+        //invitation id as attribute
     }
 }

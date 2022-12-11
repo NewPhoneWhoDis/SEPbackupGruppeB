@@ -164,9 +164,13 @@ private final HubSystemRepository hubSystemRepository;
         String generatedURL = betround.getName() + betround.getId();
         betround.setInviteURL(generatedURL);
 
+        /*
         List<User> extendedList = betround.getUsers();
         extendedList.add(user);
         betround.setUsers(extendedList);
+        */
+
+       betround.getUsers().add(user);
 
         betroundRepository.save(betround);
         return generatedURL;
