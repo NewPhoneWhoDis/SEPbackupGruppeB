@@ -1,0 +1,55 @@
+<!--Benutzte Materialen aus der Udemy Course Angluar https://www.udemy.com/course/complete-angular-developer-zero-to-mastery/ -->
+<input type="checkbox" id="betround-creation-modal" class="modal-toggle" />
+<label for="betround-creation-modal" class="modal cursor-pointer">
+  <label class="modal-box relative">
+    <div class="py-6 px-6 lg:px-8">
+      <h3 class="mb-4 text-2xl font-medium">Tipprunde erstellen</h3>
+      <form
+        class="space-y-6"
+        (ngSubmit)="onSubmit()"
+        #registrationForm="ngForm"
+      >
+        <!-- Close-Button -->
+        <label
+          for="betround-creation-modal"
+          class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+          >✕</label
+        >
+        <!-- Input for Betround-Name -->
+        <div>
+          <label class="label">
+            <span class="label-text">Name</span>
+          </label>
+          <input
+            type="name"
+            placeholder="Tipprunden Name"
+            class="input input-bordered w-full"
+            name="name"
+            required
+          />
+        </div>
+        <!-- Input for Password -->
+        <div>
+          <label class="label">
+            <span class="label-text">Passwort</span>
+          </label>
+          <input
+            type="password"
+            placeholder="•••••••••"
+            class="input input-bordered w-full"
+            name="password"
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+          />
+          <!-- Submit-Button -->
+          <label
+            (click)="onSubmit()"
+            for="betround-creation-modal"
+            class="w-full btn btn-primary mt-10 mb-1"
+          >
+            Tipprunde erstellen
+          </label>
+        </div>
+      </form>
+    </div></label
+  ></label
+>
