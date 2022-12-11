@@ -1,3 +1,4 @@
+import { BetsModule } from './bets/bets.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -47,7 +48,8 @@ import {CookieService} from "./Service/cookie.service";
     FormsModule,
     NgxCsvParserModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BetsModule
   ],
   providers: [LeagueService,CookieService],
   bootstrap: [AppComponent],
