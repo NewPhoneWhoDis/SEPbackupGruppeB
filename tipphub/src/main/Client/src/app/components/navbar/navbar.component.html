@@ -26,27 +26,11 @@
         <li><a>Statistiken</a></li>
         <!--SUBMENU-->
         <li tabindex="0">
-          <a class="justify-between">
+          <a class="justify-between" href="ligen-management">
             Ligen
-            <!--ARROW SVG-->
-            <svg
-              class="fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"
-              />
-            </svg>
           </a>
-          <ul class="p-2">
-            <li><a>La Liga</a></li>
-            <li><a>Bundesliga</a></li>
-          </ul>
         </li>
-        <li><a routerLink="bets-and-pieces">Bets & Pieces</a></li>
+        <li><a routerLink="bets-overview">Bets Management</a></li>
       </ul>
     </div>
     <!--LOGO-BUTTON FUNCTIONS AS GO-HOME-BUTTON-->
@@ -62,27 +46,11 @@
     <ul class="menu menu-horizontal p-0">
       <li><a>Statistiken</a></li>
       <li tabindex="0">
-        <a>
+        <a routerLink="ligen-management">
           Ligen
-          <svg
-            class="fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
-            />
-          </svg>
         </a>
-        <ul class="p-2">
-          <li *ngFor="let league of leagues">
-            <a>{{ league.name }}</a>
-          </li>
-        </ul>
       </li>
-      <li><a routerLink="bets-and-pieces">Bets & Pieces</a></li>
+      <li><a routerLink="bets-overview">Bets Management</a></li>
     </ul>
   </div>
 

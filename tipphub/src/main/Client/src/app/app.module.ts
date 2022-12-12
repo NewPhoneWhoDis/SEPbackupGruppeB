@@ -1,3 +1,4 @@
+import { BetsRoutingModule } from './bets/bets-routing.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgxCsvParserModule } from "ngx-csv-parser";
@@ -27,6 +28,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { BetroundCreationModalComponent } from './components/betround-creation-modal/betround-creation-modal';
 import { BetHelpComponent } from './components/bet-help/bet-help.component';
 import { betroundPage } from './components/pages/betroundPage/betroundPage';
+import { LeageCreationPageComponent } from './components/pages/leage-creation-page/leage-creation-page.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { betroundPage } from './components/pages/betroundPage/betroundPage';
     FriendslistComponent,
     ProfileComponent,
     NotificationComponent,
+    LeageCreationPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,8 @@ import { betroundPage } from './components/pages/betroundPage/betroundPage';
     HttpClientModule,
     FormsModule,
     NgxCsvParserModule,
-    SharedModule
+    SharedModule,
+    BetsRoutingModule
   ],
   providers: [LeagueService,CookieService,FriendslistComponent],
   bootstrap: [AppComponent],
