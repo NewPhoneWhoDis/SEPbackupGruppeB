@@ -7,10 +7,12 @@
         <li><a class="hover:active">Teilnehmer</a></li>
     </ul>
     <div class="flex-initial w-56 justify-end">
-        <input type="search" placeholder="Tipprunde suchen" class="input input-bordered input-primary w-full max-w-xs" />
+        <input type="search" placeholder="Tipprunde suchen" class="input input-bordered input-primary w-full max-w-xs" 
+        [(ngModel)]="searchText"/>
     </div>
     <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
         <li><a>Item 1</a></li>
+        <li *ngFor="let betround of betrounds | betroundFilterPipe: searchText">{{betround.name}}</li>
     </ul>
 </div>
 

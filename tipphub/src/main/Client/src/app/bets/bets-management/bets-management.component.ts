@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BetsManagementComponent implements OnInit {
 
+  searchText = '';
   betrounds: Betround[] | undefined;
 
   constructor(private betround: BetroundService) { }
@@ -19,18 +20,4 @@ export class BetsManagementComponent implements OnInit {
     });
     console.log(this.betrounds)
   }
-
-  filterBetrounds(betrounds: any[], searchText: string): any[] {
-    if(!betrounds) {
-      return [];
-    }
-    if(!searchText) {
-      return betrounds;
-    }
-
-    return betrounds.filter(betround => {
-      return betround.name.toLocaleLowerCase() === searchText.toLocaleLowerCase();
-    })
-  }
-
 }
