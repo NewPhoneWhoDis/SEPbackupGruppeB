@@ -32,6 +32,7 @@ public class UserService{
         userRepository.save(user);
     }
 
+    @Transactional
     public User getByEmail(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException
@@ -42,7 +43,7 @@ public class UserService{
         return null;
     }
 
-
+    @Transactional
     public List<User> getFriends(Long id){
         User user = userRepository.findById(id).get();
         return user.getFriends().stream().toList();
@@ -66,6 +67,7 @@ public class UserService{
         }
     }
 
+    @Transactional
     public User getUserById(Long userId) throws UsernameNotFoundException {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException
