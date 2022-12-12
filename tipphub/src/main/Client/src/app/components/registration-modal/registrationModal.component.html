@@ -4,7 +4,7 @@
   <label class="modal-box relative" for="registration-modal">
     <div class="py-6 px-6 lg:px-8">
       <h3 class="mb-4 text-2xl font-medium">Willst du mit tippen?</h3>
-      <form class="space-y-6" (ngSubmit)="onSubmit()">
+      <form class="space-y-6" (ngSubmit)="onSubmit()" #registrationForm="ngForm">
         <!-- Close-Button -->
         <label
           for="registration-modal"
@@ -19,12 +19,33 @@
               <span class="label-text">Vorname</span>
             </label>
             <input
+              #firstName="ngModel"
               type="text"
               placeholder="Manuel"
               class="input input-bordered w-full"
               [(ngModel)]="registrationRequest.firstName"
+              id="firstName"
               name="firstName"
+              required
+              minlength="2"
             />
+            <div class="alert alert-error shadow-lg" *ngIf="firstName.touched && firstName.dirty">
+              <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>
+                  Feld ist erforderlich!
+                  </span>
+              </div>
+            </div>
+            <div class="alert alert-error shadow-lg" *ngIf="firstName.errors?.['minlength']">
+              <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>
+                  Current length: {{ registrationForm.errors?.['minlength']['actualLength'] }}
+                  Min length: 3
+                  </span>
+              </div>
+            </div>
           </div>
           <!-- Input for Lastname -->
           <div>
@@ -32,12 +53,33 @@
               <span class="label-text">Nachname</span>
             </label>
             <input
+              #lastName="ngModel"
               type="text"
               placeholder="Neuer"
               class="input input-bordered w-full"
               [(ngModel)]="registrationRequest.lastName"
               name="lastName"
+              id="lastName"
+              required=""
+              minlength="2"
             />
+            <div class="alert alert-error shadow-lg" *ngIf="lastName.touched && lastName.dirty">
+              <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>
+                  Feld ist erforderlich!
+                  </span>
+              </div>
+            </div>
+            <div class="alert alert-error shadow-lg" *ngIf="lastName.errors?.['minlength']">
+              <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>
+                  Current length: {{ lastName.errors?.['minlength']['actualLength'] }}
+                  Min length: 3
+                  </span>
+              </div>
+            </div>
           </div>
         </div>
         <!-- Input for Birthdate -->
@@ -46,6 +88,7 @@
             <span class="label-text">Gebutsdatum</span>
           </label>
           <input
+            #birthdate="ngModel"
             id="datePicker"
             placeholder="27.03.1986"
             class="textbox-n input input-bordered w-full"
@@ -54,7 +97,16 @@
             id="date"
             [(ngModel)]="registrationRequest.dateOfBirth"
             name="dateOfBirth"
+            required
           />
+          <div class="alert alert-error shadow-lg" *ngIf="birthdate.touched && birthdate.dirty">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>
+                Feld ist erforderlich!
+                </span>
+            </div>
+          </div>
         </div>
         <!-- Input for Profile-Picture -->
         <div>
@@ -81,10 +133,25 @@
             [(ngModel)]="registrationRequest.email"
             name="email"
             #email="ngModel"
+            required
+            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
           />
-          <small *ngIf="email.touched" class="label-text-alt ml-1 text-error"
-            >Bitte gib eine Email-Adresse ein.</small
-          >
+          <div class="alert alert-error shadow-lg" *ngIf="email.touched && email.dirty">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>
+                Feld ist erforderlich!
+                </span>
+            </div>
+          </div>
+          <div class="alert alert-error shadow-lg" *ngIf="email.errors?.['pattern']">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>
+                  Gibe eine gültige E-Mail Adresse ein!
+                </span>
+            </div>
+          </div>
         </div>
         <!-- Input for Password -->
         <div>
@@ -98,10 +165,26 @@
             [(ngModel)]="registrationRequest.password"
             name="password"
             #password="ngModel"
+            required
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
           />
-          <span *ngIf="password.touched" class="label-text-alt ml-1 text-error"
-            >Bitte gib ein Passwort ein.</span
-          >
+          <div class="alert alert-error shadow-lg" *ngIf="password.touched && password.dirty">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>
+                Feld ist erforderlich!
+                </span>
+            </div>
+          </div>
+          <div class="alert alert-error shadow-lg" *ngIf="password.errors?.['pattern']">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>
+                  Das Passwort muss aus mindestens 8 Zeichen bestehen,
+                  1 Großbuchstabe, 1 Kleinbuchstabe und 1 Zahl!
+                </span>
+            </div>
+          </div>
         </div>
         <!-- Checkbox for Admin -->
         <div class="flex justify-between">
@@ -115,9 +198,6 @@
                 name="isAdmin"
               />
             </div>
-            <label for="remember" class="ml-2 text-sm font-medium"
-              >Als Admin registrieren</label
-            >
           </div>
         </div>
         <!-- Submit-Button -->

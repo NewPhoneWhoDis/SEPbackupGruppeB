@@ -1,17 +1,20 @@
 package com.example.tipphub.user;
 
 
+import com.example.tipphub.betround.Bet;
+import com.example.tipphub.betround.Betround;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "UserEntity")
+@Table(name = "User_Entity")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +28,19 @@ public class User {
     private String imageURL;
     private LocalDate dateOfBirth;
     private boolean isAdmin;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "user_betrounds",
+            joinColumns = { @JoinColumn(name = "user_Entity_id") },
+            inverseJoinColumns = { @JoinColumn(name = "betround_id") })
+    private List<Betround> betrounds= new ArrayList<>();
+
+    @OneToMany(fetch= FetchType.LAZY, mappedBy = "betOwner")
+    private List<Bet>  bets = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
@@ -129,5 +145,21 @@ public class User {
 
     public void setFriends(Set<User> friends) {
         this.friends = friends;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
+    }
+
+    public List<Betround> getBetrounds() {
+        return betrounds;
+    }
+
+    public void setBetrounds(List<Betround> betrounds) {
+        this.betrounds = betrounds;
     }
 }

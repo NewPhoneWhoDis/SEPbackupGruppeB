@@ -3,6 +3,7 @@ import {LeagueService} from "../../Service/league.service";
 import {League} from "../../Model/League";
 import {NgxCsvParser, NgxCSVParserError} from "ngx-csv-parser";
 import {Observable, Subscriber} from "rxjs";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: "app-league-creation-modal",
@@ -13,6 +14,27 @@ export class LeagueCreationModalComponent implements OnInit {
   league: League;
   csvRecords: any;
   header: boolean = false;
+
+  leagueNameValidator = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  leagueCSVValidator = new FormControl('', [Validators.required]);
+  leagueLogoImageValidator = new FormControl('', [Validators.required]);
+  leagueNumberOfGameDaysValidator = new FormControl('', [Validators.required]);
+  leagueDateOfGameValidator = new FormControl('', [Validators.required]);
+  leagueTeamOneValidator = new FormControl('', [Validators.required]);
+  leagueTeamTwoValidator = new FormControl('', [Validators.required]);
+
+  leagueCreationValidationForm = new FormGroup({
+    leagueName: this.leagueNameValidator,
+    csvFile: this.leagueCSVValidator,
+    logoImage: this.leagueLogoImageValidator,
+  })
+
+  gamePlanCreationValidationForm = new FormGroup({
+    numberOfGamedays: this.leagueNumberOfGameDaysValidator,
+    dateOfGame: this.leagueDateOfGameValidator,
+    teamOne: this.leagueTeamOneValidator,
+    teamTwo: this.leagueTeamTwoValidator
+  })
 
   constructor(
     private leagueService: LeagueService,
