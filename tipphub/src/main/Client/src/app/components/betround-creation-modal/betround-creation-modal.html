@@ -15,18 +15,30 @@
           class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
           >✕</label
         >
-        <!-- Input for Betround-Name -->
-        <div>
-          <label class="label">
-            <span class="label-text">Name</span>
-          </label>
-          <input
-            type="name"
-            placeholder="Tipprunden Name"
-            class="input input-bordered w-full"
-            name="name"
-            required
-          />
+        <!-- Grid used to place 2 Input-fields on same row -->
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <!-- Input for Betround-Name -->
+          <div>
+            <label class="label">
+              <span class="label-text">Name</span>
+            </label>
+            <input
+              type="text"
+              placeholder="SEP-Tipper"
+              class="input input-bordered w-full"
+            />
+          </div>
+          <!-- Input for Lastname -->
+          <div>
+            <label class="label">
+              <span class="label-text">Liga</span>
+            </label>
+            <select
+              type="text"
+              placeholder="Bundesliga"
+              class="select select-bordered w-full"
+            ></select>
+          </div>
         </div>
         <!-- Input for Password -->
         <div>

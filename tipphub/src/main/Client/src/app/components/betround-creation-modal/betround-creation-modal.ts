@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { BetroundService } from "../../Service/betround.service";
 import { Betround } from "../../Model/Betround";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { LeagueService } from "src/app/Service/league.service";
 
 @Component({
   selector: "betround-creation-modal",
@@ -16,22 +17,15 @@ export class BetroundCreationModalComponent implements OnInit {
     Validators.required,
     Validators.minLength(3),
   ]);
-  betroundCSVValidator = new FormControl("", [Validators.required]);
-  betroundLogoImageValidator = new FormControl("", [Validators.required]);
-  betroundNumberOfGameDaysValidator = new FormControl("", [
-    Validators.required,
-  ]);
-  betroundDateOfGameValidator = new FormControl("", [Validators.required]);
-  betroundTeamOneValidator = new FormControl("", [Validators.required]);
-  betroundTeamTwoValidator = new FormControl("", [Validators.required]);
 
   betroundCreationValidationForm = new FormGroup({
     betroundName: this.betroundNameValidator,
-    csvFile: this.betroundCSVValidator,
-    password: this.betroundLogoImageValidator,
   });
 
-  constructor(private betroundService: BetroundService) {
+  constructor(
+    private betroundService: BetroundService,
+    private leagueService: LeagueService
+  ) {
     this.betround = new Betround();
   }
 
@@ -44,5 +38,9 @@ export class BetroundCreationModalComponent implements OnInit {
         this.betround = data;
         window.location.reload();
       });
+  }
+
+  getLeagues() {
+    console.table(this.leagueService.getAllLeagues);
   }
 }

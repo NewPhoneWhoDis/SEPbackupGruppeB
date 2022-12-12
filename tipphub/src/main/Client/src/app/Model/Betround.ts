@@ -1,7 +1,10 @@
 export class Betround {
   id: number | undefined;
   name: string | undefined;
-  password: string | undefined;
+  password?: string | undefined;
   ownerId: number | undefined;
   leagueId: number | undefined;
+  scoreRightDiff: number | undefined;
+  scoreRightWin: number | undefined;
+  scoreRightResult: number | undefined;
 }
