@@ -21,6 +21,9 @@ import { LeagueDeleteComponent } from "./components/league-delete/league-delete.
 import { LeagueUpdateComponent } from "./components/league-update/league-update.component";
 import { SharedModule } from "./shared/shared.module";
 import {CookieService} from "./Service/cookie.service";
+import { FriendslistComponent } from './components/friendslist/friendslist.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { NotificationComponent } from './components/notification/notification.component';
 import { BetroundCreationModalComponent } from './components/betround-creation-modal/betround-creation-modal';
 import { BetHelpComponent } from './components/bet-help/bet-help.component';
 import { betroundPage } from './components/pages/betroundPage/betroundPage';
@@ -42,6 +45,9 @@ import { betroundPage } from './components/pages/betroundPage/betroundPage';
     LeagueDeleteComponent,
     LeagueUpdateComponent,
     BetHelpComponent,
+    FriendslistComponent,
+    ProfileComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,7 @@ import { betroundPage } from './components/pages/betroundPage/betroundPage';
     NgxCsvParserModule,
     SharedModule
   ],
-  providers: [LeagueService, CookieService],
+  providers: [LeagueService,CookieService,FriendslistComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

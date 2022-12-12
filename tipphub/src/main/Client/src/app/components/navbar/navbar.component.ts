@@ -6,6 +6,9 @@ import {RegistrationService} from "../../Service/registration.service";
 import {HubSystemService} from "../../Service/hub-system.service";
 import {League} from "../../Model/League";
 import {LeagueService} from "../../Service/league.service";
+import {User} from "../../Model/User";
+import {UserService} from "../../Service/user.service";
+import {StorageService} from "../../Service/storage.service";
 
 @Component({
   selector: "app-navbar",
@@ -15,6 +18,7 @@ import {LeagueService} from "../../Service/league.service";
 export class NavbarComponent implements OnInit {
   systemDate: Date | undefined;
   leagues: League[] | undefined;
+  currentUser : User | undefined;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -27,11 +31,14 @@ export class NavbarComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public registrationService: RegistrationService,
     private hubSystemService: HubSystemService,
-    private leagueService: LeagueService
+    private leagueService: LeagueService,
+    private userService: UserService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
     this.leagueService.getAllLeagues().subscribe(data => {this.leagues = data});
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
   }
 }

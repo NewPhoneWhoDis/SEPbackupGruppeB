@@ -3,11 +3,15 @@ package com.example.tipphub.user;
 
 import com.example.tipphub.betround.Bet;
 import com.example.tipphub.betround.Betround;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "User_Entity")
@@ -37,6 +41,14 @@ public class User {
 
     @OneToMany(fetch= FetchType.LAZY, mappedBy = "betOwner")
     private List<Bet>  bets = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+
+    private Set<User> friends = new HashSet<>();
 
     public User() {
     }
@@ -113,6 +125,26 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public boolean hasFriend(User friend) {
+        return friends.contains(friend);
+    }
+
+    public void addFriend(User friend) {
+        friends.add(friend);
+    }
+
+    public void removeFriend(User friend) {
+        friends.remove(friend);
+    }
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 
     public List<Bet> getBets() {
