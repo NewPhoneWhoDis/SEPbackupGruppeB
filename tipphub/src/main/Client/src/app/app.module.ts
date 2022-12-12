@@ -24,6 +24,7 @@ import { SharedModule } from "./shared/shared.module";
 import {CookieService} from "./Service/cookie.service";
 import { FriendslistComponent } from './components/friendslist/friendslist.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     LeagueUpdateComponent,
     FriendslistComponent,
     ProfileComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     NgxCsvParserModule,
     SharedModule
   ],
-  providers: [LeagueService,CookieService],
+  providers: [LeagueService,CookieService,FriendslistComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
