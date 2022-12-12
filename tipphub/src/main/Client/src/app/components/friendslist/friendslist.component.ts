@@ -14,6 +14,7 @@ export class FriendslistComponent implements OnInit {
   currentUser : User | undefined;
   friends : User[] | undefined;
   searchedUser : String = "";
+  clickedFriend : User | undefined;
 
   constructor(private friendslistService : FriendslistService, private storageService : StorageService, private userService : UserService) { }
 
