@@ -1,3 +1,4 @@
+import { BetsModule } from './bets/bets.module';
 import { BetsRoutingModule } from './bets/bets-routing.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
@@ -61,7 +62,8 @@ import { LeageCreationPageComponent } from './components/pages/leage-creation-pa
     FormsModule,
     NgxCsvParserModule,
     SharedModule,
-    BetsRoutingModule
+    BetsRoutingModule,
+    BetsModule
   ],
   providers: [LeagueService,CookieService,FriendslistComponent],
   bootstrap: [AppComponent],

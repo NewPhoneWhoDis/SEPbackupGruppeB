@@ -1,5 +1,7 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BetroundFilterPipePipe } from '../Pipes/betround-filter-pipe.pipe';
 
 import { BetsRoutingModule } from './bets-routing.module';
 import { BetsCreationComponent } from './bets-creation/bets-creation.component';
@@ -11,11 +13,13 @@ import { BetsManagementComponent } from './bets-management/bets-management.compo
   declarations: [
     BetsCreationComponent,
     BetsOverviewComponent,
-    BetsManagementComponent
+    BetsManagementComponent,
+    BetroundFilterPipePipe
   ],
   imports: [
     CommonModule,
-    BetsRoutingModule
+    BetsRoutingModule,
+    FormsModule
   ]
 })
 export class BetsModule { }
