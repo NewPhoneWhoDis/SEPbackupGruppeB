@@ -16,7 +16,7 @@ export class BetroundFilterPipePipe implements PipeTransform {
 
     
     return betrounds.filter(betround => {
-      return betround?.name?.toLocaleLowerCase() === searchText.toLocaleLowerCase();
+      return betround?.name?.toLocaleLowerCase().includes(searchText.toLocaleLowerCase());
     })
   }
 }
