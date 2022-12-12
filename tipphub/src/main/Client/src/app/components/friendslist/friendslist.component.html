@@ -8,10 +8,10 @@
                     <!-- Sidebar content here -->
                     <li *ngFor="let friend of friends">
                             <label title="Profil ansehen" for="profile-modal" class="avatar h-12" (click)="clickedFriend = friend">
-                                <div *ngIf="friend.image" class="w-10 rounded-full">
-                                    <img [src]="friend.image"/>
+                                <div *ngIf="friend.imageURL" class="w-10 rounded-full">
+                                    <img [src]="friend.imageURL"/>
                                 </div>
-                                <div *ngIf="!friend.image" class="w-10 rounded-full">
+                                <div *ngIf="!friend.imageURL" class="w-10 rounded-full">
                                     <img src="./assets/images/Tipper_Andrii.jpeg"/>
                                 </div>
                                 {{friend.firstName}} {{friend.lastName}}

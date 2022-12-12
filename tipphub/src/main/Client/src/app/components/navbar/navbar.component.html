@@ -95,8 +95,11 @@
       </label>
       <label for="friendslist-drawer"  class="avatar btn gap-5 justify-center text-primary">
         {{currentUser.firstName}} {{currentUser.lastName}}
-        <div class="w-12 rounded-full">
-          <img src="https://placeimg.com/192/192/people" />
+        <div *ngIf="currentUser.imageURL" class="w-12 rounded-full">
+          <img [src]="currentUser.imageURL"/>
+        </div>
+        <div *ngIf="!currentUser.imageURL" class="w-12 rounded-full">
+          <img src="./assets/images/Tipper_Andrii.jpeg"/>
         </div>
       </label>
     </div>
