@@ -1,24 +1,16 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
-import { LeagueTableComponent } from './league-table.component';
+import { LeagueTableComponent } from "./league-table.component";
 
-describe('LeagueTableComponent', () => {
+describe("LeagueTableComponent", () => {
   let component: LeagueTableComponent;
   let fixture: ComponentFixture<LeagueTableComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeagueTableComponent ],
-      imports: [
-        NoopAnimationsModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-      ]
+      declarations: [LeagueTableComponent],
+      imports: [NoopAnimationsModule],
     }).compileComponents();
   }));
 
@@ -28,7 +20,7 @@ describe('LeagueTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should compile', () => {
+  it("should compile", () => {
     expect(component).toBeTruthy();
   });
 });

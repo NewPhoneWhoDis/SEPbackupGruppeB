@@ -1,6 +1,11 @@
 package com.example.tipphub.league;
 
+import com.example.tipphub.betround.Betround;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -14,6 +19,10 @@ public class League {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "gameSchedule_id", referencedColumnName = "id")
     private GameSchedule gameSchedule;
+
+    @JsonIgnore
+    @OneToMany(fetch= FetchType.LAZY, mappedBy = "league")
+    private List<Betround> betrounds = new ArrayList<>();
 
     public League() {
     }
@@ -54,5 +63,13 @@ public class League {
 
     public void setGameSchedule(GameSchedule gameSchedule) {
         this.gameSchedule = gameSchedule;
+    }
+
+    public List<Betround> getBetrounds() {
+        return betrounds;
+    }
+
+    public void setBetrounds(List<Betround> betrounds) {
+        this.betrounds = betrounds;
     }
 }
