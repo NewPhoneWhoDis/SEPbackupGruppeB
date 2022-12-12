@@ -46,7 +46,7 @@
             <li><a>Bundesliga</a></li>
           </ul>
         </li>
-        <li><a>Bets</a></li>
+        <li><a routerLink="bets-and-pieces">Bets & Pieces</a></li>
       </ul>
     </div>
     <!--LOGO-BUTTON FUNCTIONS AS GO-HOME-BUTTON-->
@@ -77,14 +77,16 @@
           </svg>
         </a>
         <ul class="p-2">
-          <li *ngFor="let league of leagues"><a>{{league.name}}</a></li>
+          <li *ngFor="let league of leagues">
+            <a>{{ league.name }}</a>
+          </li>
         </ul>
       </li>
-      <li routerLink="bets-overview"><a>Bets</a></li>
+      <li><a routerLink="bets-and-pieces">Bets & Pieces</a></li>
     </ul>
   </div>
 
-  <label for="systemdate-modal" class="btn btn-ghost">{{systemDate}}</label>
+  <label for="systemdate-modal" class="btn btn-ghost">{{ systemDate }}</label>
   <!--LOGIN BUTTON-->
   <div class="navbar-end">
     <div class="btn-group">

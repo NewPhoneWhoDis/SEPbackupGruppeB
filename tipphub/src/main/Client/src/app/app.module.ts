@@ -1,7 +1,5 @@
-import { BetsModule } from './bets/bets.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { ReactiveFormsModule } from "@angular/forms";
 import { NgxCsvParserModule } from "ngx-csv-parser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -16,14 +14,16 @@ import { FormsModule } from "@angular/forms";
 import { homePage } from "./components/pages/homePage/homePage";
 import { RegistrationModalComponent } from "./components/registration-modal/registrationModal.component";
 import { GameTableComponent } from "./components/game-table/game-table.component";
-import { SystemdateModalComponent } from './components/systemdate-modal/systemdate-modal.component';
-import { VerificationModalComponent } from './components/verification-modal/verification-modal.component';
+import { SystemdateModalComponent } from "./components/systemdate-modal/systemdate-modal.component";
+import { VerificationModalComponent } from "./components/verification-modal/verification-modal.component";
 import { LoginComponent } from "./components/login/login.component";
-import { LeagueDeleteComponent } from './components/league-delete/league-delete.component';
-import { LeagueUpdateComponent } from './components/league-update/league-update.component';
+import { LeagueDeleteComponent } from "./components/league-delete/league-delete.component";
+import { LeagueUpdateComponent } from "./components/league-update/league-update.component";
 import { SharedModule } from "./shared/shared.module";
 import {CookieService} from "./Service/cookie.service";
+import { BetroundCreationModalComponent } from './components/betround-creation-modal/betround-creation-modal';
 import { BetHelpComponent } from './components/bet-help/bet-help.component';
+import { betroundPage } from './components/pages/betroundPage/betroundPage';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,9 @@ import { BetHelpComponent } from './components/bet-help/bet-help.component';
     LeagueTableComponent,
     RegistrationModalComponent,
     LeagueCreationModalComponent,
+    BetroundCreationModalComponent,
     homePage,
+    betroundPage,
     GameTableComponent,
     SystemdateModalComponent,
     VerificationModalComponent,
@@ -49,11 +51,9 @@ import { BetHelpComponent } from './components/bet-help/bet-help.component';
     HttpClientModule,
     FormsModule,
     NgxCsvParserModule,
-    SharedModule,
-    ReactiveFormsModule,
-    BetsModule
+    SharedModule
   ],
-  providers: [LeagueService,CookieService],
+  providers: [LeagueService, CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
