@@ -29,6 +29,7 @@ public class User {
     private LocalDate dateOfBirth;
     private boolean isAdmin;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
