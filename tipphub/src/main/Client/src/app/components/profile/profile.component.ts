@@ -34,6 +34,7 @@ export class ProfileComponent implements OnInit {
     }
     return {};
   }
+
   public getFriendIcon(): any {
     const user = window.sessionStorage.getItem("clickedFriend");
     if (user) {
@@ -42,6 +43,7 @@ export class ProfileComponent implements OnInit {
     }
     return {};
   }
+
   public getFriendEmail(): any {
     const user = window.sessionStorage.getItem("clickedFriend");
     if (user) {
