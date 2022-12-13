@@ -12,7 +12,8 @@
     </div>
     <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
         <li><a>Item 1</a></li>
-        <li *ngFor="let betround of betrounds | betroundFilterPipe: searchText">{{betround.name}}</li>
+        <li (onclick)="navigateToBetroundDetails($event, betround.id)" *ngFor="let betround of betrounds | betroundFilterPipe: searchText">{{betround.name}}</li>
     </ul>
+    <p *ngFor="let betround of betrounds"> Item is: {{betround}}</p>
 </div>
 
