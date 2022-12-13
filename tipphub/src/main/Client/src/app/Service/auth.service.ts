@@ -31,12 +31,20 @@ export class AuthService {
 
   verify(code:String, typedCode:String){
     if(typedCode == "test" || code == typedCode){
-      this.cookieService.setCookie("Status","verified",7);
+      window.sessionStorage.setItem("Status","verified");
       console.log("verified");
     }else{
-      this.cookieService.setCookie("Status","unverified",1)
+      window.sessionStorage.setItem("Status","unverified");
       console.log("unverified");
     }
 
+  }
+
+  isVerified():boolean{
+    if(window.sessionStorage.getItem("Status") == "verified"){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

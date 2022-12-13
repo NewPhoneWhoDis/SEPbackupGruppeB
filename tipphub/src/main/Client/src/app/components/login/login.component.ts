@@ -54,4 +54,7 @@ export class LoginComponent implements OnInit {
   verifyCode():void{
     this.authService.verify(this.code,this.typedCode);
   }
+  isVerified():boolean{
+    return this.authService.isVerified();
+  }
 }

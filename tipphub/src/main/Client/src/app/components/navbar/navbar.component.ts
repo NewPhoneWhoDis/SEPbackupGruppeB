@@ -9,6 +9,7 @@ import {LeagueService} from "../../Service/league.service";
 import {User} from "../../Model/User";
 import {UserService} from "../../Service/user.service";
 import {StorageService} from "../../Service/storage.service";
+import {AuthService} from "../../Service/auth.service";
 
 @Component({
   selector: "app-navbar",
@@ -33,12 +34,14 @@ export class NavbarComponent implements OnInit {
     private hubSystemService: HubSystemService,
     private leagueService: LeagueService,
     private userService: UserService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
     this.leagueService.getAllLeagues().subscribe(data => {this.leagues = data});
-    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+    if(this.authService.isVerified()){
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});}
   }
 }
