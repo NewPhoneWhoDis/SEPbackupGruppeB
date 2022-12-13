@@ -42,8 +42,14 @@ export class LoginComponent implements OnInit {
         this.code = str.substring(str.indexOf("\"")+3,str.length-16)
         console.log(this.code);
       },
+      error: () => {
+        this.loginFailed = true;
+      }
     });
-    this.switchChecker();
+    if(this.loginFailed){
+      this.switchChecker();
+    }
+
     console.log(this.loginRequest.email + " " + this.loginRequest.password);
     console.log("Logged User: " + this.storageService.getLoggedUser());
   }
@@ -53,5 +59,8 @@ export class LoginComponent implements OnInit {
   }
   verifyCode():void{
     this.authService.verify(this.code,this.typedCode);
+  }
+  isVerified():boolean{
+    return this.authService.isVerified();
   }
 }

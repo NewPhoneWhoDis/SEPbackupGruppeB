@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../../Model/User";
 import {FriendslistComponent} from "../friendslist/friendslist.component";
+import {UserService} from "../../Service/user.service";
+import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-profile',
@@ -9,14 +11,45 @@ import {FriendslistComponent} from "../friendslist/friendslist.component";
 })
 export class ProfileComponent implements OnInit {
   clickedFriend : User | undefined;
-  constructor(private friendsListComponent : FriendslistComponent) {
+  constructor(private userService : UserService) {
   }
 
   ngOnInit(): void {
-    if(this.friendsListComponent.clickedFriend){
-      this.clickedFriend = this.friendsListComponent.clickedFriend;
-      console.log(this.clickedFriend)
-    }
   }
 
+  public getFriendFirstname(): any {
+    const user = window.sessionStorage.getItem("clickedFriend");
+    if (user) {
+      let temp = JSON.parse(user);
+      return temp.firstName;
+    }
+    return {};
+  }
+
+  public getFriendLastname(): any {
+    const user = window.sessionStorage.getItem("clickedFriend");
+    if (user) {
+      let temp = JSON.parse(user);
+      return temp.lastName;
+    }
+    return {};
+  }
+
+  public getFriendIcon(): any {
+    const user = window.sessionStorage.getItem("clickedFriend");
+    if (user) {
+      let temp = JSON.parse(user);
+      return temp.imageURL;
+    }
+    return {};
+  }
+
+  public getFriendEmail(): any {
+    const user = window.sessionStorage.getItem("clickedFriend");
+    if (user) {
+      let temp = JSON.parse(user);
+      return temp.email;
+    }
+    return {};
+  }
 }

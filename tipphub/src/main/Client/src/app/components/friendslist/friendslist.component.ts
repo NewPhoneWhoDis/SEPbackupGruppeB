@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, Input, OnInit} from '@angular/core';
 import {User} from "../../Model/User";
 import {FriendslistService} from "../../Service/friendslist.service";
 import {StorageService} from "../../Service/storage.service";
 import {UserService} from "../../Service/user.service";
-
+import {CookieService} from "../../Service/cookie.service";
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-friendslist',
   templateUrl: './friendslist.component.html',
@@ -48,6 +51,9 @@ export class FriendslistComponent implements OnInit {
     });
   }
 
+  setClickedFriend(friend : User){
+    this.storageService.saveClickedUser(friend);
+  }
   /*openOptions(): void{
     this.isOpen = true;
   }*/

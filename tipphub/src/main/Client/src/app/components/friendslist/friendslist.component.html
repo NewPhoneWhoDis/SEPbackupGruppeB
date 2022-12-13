@@ -7,7 +7,7 @@
                 <div class="card-body p-2 ">
                     <!-- Sidebar content here -->
                     <li *ngFor="let friend of friends">
-                            <label title="Profil ansehen" for="profile-modal" class="avatar h-12" (click)="clickedFriend = friend">
+                            <label title="Profil ansehen" for="profile-modal" class="avatar h-12" (click)="setClickedFriend(friend)">
                                 <div *ngIf="friend.imageURL" class="w-10 rounded-full">
                                     <img [src]="friend.imageURL"/>
                                 </div>
