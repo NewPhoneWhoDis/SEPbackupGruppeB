@@ -24,7 +24,8 @@ export class BetsManagementComponent implements OnInit {
 
   navigateToBetroundDetails($event: Event, targetId: number | undefined) {
     $event.preventDefault();
-    this.router.navigateByUrl('/bets-details/' + targetId);
+    console.log(targetId);
+    this.router.navigateByUrl('/betround-details/' + targetId);
   }
 
   navigateToParticipants() {
