@@ -7,6 +7,7 @@ import { BetsRoutingModule } from './bets-routing.module';
 import { BetsCreationComponent } from './bets-creation/bets-creation.component';
 import { BetsOverviewComponent } from './bets-overview/bets-overview.component';
 import { BetsManagementComponent } from './bets-management/bets-management.component';
+import { BetroundParticipantsComponent } from './betround-participants/betround-participants.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { BetsManagementComponent } from './bets-management/bets-management.compo
     BetsCreationComponent,
     BetsOverviewComponent,
     BetsManagementComponent,
-    BetroundFilterPipePipe
+    BetroundFilterPipePipe,
+    BetroundParticipantsComponent
   ],
   imports: [
     CommonModule,
