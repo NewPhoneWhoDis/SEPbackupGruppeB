@@ -65,7 +65,7 @@ import { LeageCreationPageComponent } from './components/pages/leage-creation-pa
     BetsRoutingModule,
     BetsModule
   ],
-  providers: [LeagueService,CookieService,FriendslistComponent],
+  providers: [LeagueService,CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

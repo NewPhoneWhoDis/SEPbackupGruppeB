@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit {
         console.log(this.code);
       },
     });
-    this.switchChecker();
+    if(this.storageService.isLoggedIn()){
+      this.switchChecker();
+    }
     console.log(this.loginRequest.email + " " + this.loginRequest.password);
     console.log("Logged User: " + this.storageService.getLoggedUser());
   }
@@ -53,5 +55,8 @@ export class LoginComponent implements OnInit {
   }
   verifyCode():void{
     this.authService.verify(this.code,this.typedCode);
+  }
+  isVerified():boolean{
+    return this.authService.isVerified();
   }
 }
