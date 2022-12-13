@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit {
         console.log(this.code);
       },
     });
-    this.switchChecker();
+    if(this.storageService.isLoggedIn()){
+      this.switchChecker();
+    }
     console.log(this.loginRequest.email + " " + this.loginRequest.password);
     console.log("Logged User: " + this.storageService.getLoggedUser());
   }
