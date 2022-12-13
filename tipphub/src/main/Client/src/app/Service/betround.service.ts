@@ -46,6 +46,14 @@ export class BetroundService {
     return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround);
   }
 
+  public getBestBetters(leaugeId: number | undefined): Observable<Array<string>>{
+    return this.http.get<Array<string>>(`${this.betroundUrl}/getBest/${leaugeId}`);
+  }
+
+  public getBestTeams(leagueId: number | undefined): Observable<Array<string>>{
+    return this.http.get<Array<string>>(`${this.betroundUrl}/getTopThreeTeams/${leagueId}`);
+  }
+
   /*
   public getBetHelp(gameId: number): Observable<Game>{
     return this.http.get<Game>(`${this.betroundURL}/getBetHelp/${gameId}`);

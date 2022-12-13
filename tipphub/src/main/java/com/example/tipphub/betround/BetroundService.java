@@ -343,6 +343,11 @@ public class BetroundService {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
+        for(int i = 0; i < top3.size(); i++){
+            User user = userRepository.findByEmail(top3.get(i)).get();
+            top3.set(i, user.getFirstName()+ " " + user.getLastName());
+        }
+
         return top3;
 
     }
