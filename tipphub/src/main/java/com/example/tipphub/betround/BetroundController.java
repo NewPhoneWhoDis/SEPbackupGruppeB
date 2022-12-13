@@ -28,6 +28,12 @@ public class BetroundController {
         return betroundService.getAllBetrounds();
     }
 
+
+    @GetMapping("/getAllParticipants")
+    public List<User> getAllParticipants(Long id) {
+        return betroundService.getAllParticipantsService(id);
+    }
+
     @PutMapping("/add/{leagueId}/{ownerId}")
     public void addNewBetround(@PathVariable("leagueId") Long leagueId,
             @PathVariable("ownerId") Long ownerId,

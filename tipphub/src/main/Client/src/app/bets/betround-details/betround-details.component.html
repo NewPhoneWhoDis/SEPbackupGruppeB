@@ -1,1 +1,25 @@
 <p>Details for betround:</p>
+<div class="flex menu bg-base-100 w-56">
+<div *ngIf="betroundToShow.isPublic">
+    <div class="badge badge-primary">The Betround is public</div>
+</div>
+<div *ngIf="!betroundToShow.isPublic">
+    <div class="badge badge-primary">The Betround is private</div>
+</div>
+<ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+
+    <li><a>The bedrounds name is:{{betroundToShow.name}}</a></li>
+</ul>
+
+<ul class="menu bg-base-100 w-56">
+    <li><a class="hover:active">Game Table</a></li>
+    <li><a class="hover:active">Tipp erstellen</a></li>
+    <li><a class="hover:active">Tipps overview</a></li>
+    <li><a class="hover:active">Freunde einladen</a></li>
+    <li><a class="hover:active">Teilnehmer</a></li>
+</ul>
+
+<ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+    <li class="hover:active" *ngFor="let user of participantsBetround"><a>{{user}}</a></li>
+</ul>
+</div>
