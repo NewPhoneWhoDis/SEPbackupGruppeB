@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(path = "/betround")
+    @RequestMapping(path = "/betround")
 public class BetroundController {
 
     private final BetroundService betroundService;
@@ -29,8 +29,8 @@ public class BetroundController {
     }
 
 
-    @GetMapping("/getAllParticipants")
-    public List<User> getAllParticipants(Long id) {
+    @GetMapping("/getAllParticipants/{id}")
+    public List<User> getAllParticipants(@PathVariable Long id) {
         return betroundService.getAllParticipantsService(id);
     }
 

@@ -52,6 +52,10 @@ export class BetroundService {
     return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround);
   }
 
+  public getAllParticipants(userId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`);
+  }
+
   /*
   public getBetHelp(gameId: number): Observable<Game>{
     return this.http.get<Game>(`${this.betroundURL}/getBetHelp/${gameId}`);

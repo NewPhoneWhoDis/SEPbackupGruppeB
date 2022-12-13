@@ -20,6 +20,6 @@
 </ul>
 
 <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-    <li class="hover:active" *ngFor="let user of participantsBetround"><a>{{user}}</a></li>
+    <li class="hover:active" *ngFor="let user of participantsBetround"><a>{{user?.firstName}}</a></li>
 </ul>
 </div>

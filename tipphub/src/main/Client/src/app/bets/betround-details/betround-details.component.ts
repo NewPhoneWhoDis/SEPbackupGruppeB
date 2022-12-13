@@ -24,6 +24,10 @@ export class BetroundDetailsComponent implements OnInit {
       this.betrounds = data
     });
 
+    this.betroundService.getAllParticipants(this.routeNumId).subscribe(data => {
+      this.participantsBetround = data;
+    })
+
     this.routeId = this.route.snapshot.paramMap.get('id');
     if(this.routeId)
     this.routeNumId = +this.routeId;
@@ -37,7 +41,7 @@ export class BetroundDetailsComponent implements OnInit {
         return betround;
       })
     })
-    
+     /*
     this.betroundService.getAllBetrounds().subscribe(data => {
       return data.map(betround  => {
         if(betround.id === this.routeNumId) {
@@ -47,6 +51,7 @@ export class BetroundDetailsComponent implements OnInit {
     })
     
     console.log(this.participantsBetround);
+    */
   }
 
   /*
