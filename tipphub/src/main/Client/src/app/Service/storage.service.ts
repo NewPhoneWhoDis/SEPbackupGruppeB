@@ -35,4 +35,9 @@ export class StorageService {
     }
     return {};
   }
+
+  saveClickedUser(user : User): void{
+    window.sessionStorage.removeItem("clickedFriend");
+    window.sessionStorage.setItem("clickedFriend", JSON.stringify(user));
+  }
 }

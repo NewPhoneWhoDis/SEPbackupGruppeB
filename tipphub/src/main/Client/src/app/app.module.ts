@@ -59,7 +59,7 @@ import { betroundPage } from './components/pages/betroundPage/betroundPage';
     NgxCsvParserModule,
     SharedModule
   ],
-  providers: [LeagueService,CookieService,FriendslistComponent],
+  providers: [LeagueService,CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
