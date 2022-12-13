@@ -348,6 +348,7 @@ public class BetroundService {
             top3.set(i, user.getFirstName()+ " " + user.getLastName());
         }
 
+        System.out.println(top3);
         return top3;
 
     }
