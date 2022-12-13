@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.loginFailed = true;
       }
     });
-    if(this.loginFailed){
+    if(!this.loginFailed){
       this.switchChecker();
     }
 
