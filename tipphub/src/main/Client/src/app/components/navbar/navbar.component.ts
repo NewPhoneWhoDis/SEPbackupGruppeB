@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   systemDate: Date | undefined;
   leagues: League[] | undefined;
   currentUser : User | undefined;
+  showButtons : boolean = false
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -42,6 +43,8 @@ export class NavbarComponent implements OnInit {
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
     this.leagueService.getAllLeagues().subscribe(data => {this.leagues = data});
     if(this.authService.isVerified()){
-    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});}
+      this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+      this.showButtons = true;
+    }
   }
 }

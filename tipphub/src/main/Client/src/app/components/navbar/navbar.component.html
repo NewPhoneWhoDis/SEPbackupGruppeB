@@ -42,7 +42,7 @@
     /></a>
   </div>
   <!--NAVBAR FOR DESKTOP-->
-  <div class="navbar-center hidden lg:flex">
+  <div class="navbar-center hidden lg:flex" *ngIf="showButtons">
     <ul class="menu menu-horizontal p-0">
       <li><a>Statistiken</a></li>
       <li tabindex="0">
@@ -59,7 +59,7 @@
     </ul>
   </div>
 
-  <label for="systemdate-modal" class="btn btn-ghost">{{ systemDate }}</label>
+  <label for="systemdate-modal" class="btn btn-ghost" *ngIf="showButtons">{{ systemDate }}</label>
   <!--LOGIN BUTTON-->
   <div class="navbar-end">
     <div *ngIf="currentUser" class="flex justify-center">
