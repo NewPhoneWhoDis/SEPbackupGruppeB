@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <table class="text-left w-3/4">
+    <table class="text-left w-10/12">
         <thead class="bg-black flex text-white w-full">
         <tr class="flex w-full mb-4">
             <th class="p-4 w-1/4">Round</th>
@@ -65,10 +65,52 @@
             <td class="p-4 w-1/4">{{game.awayTeam}}</td>
             <td class="p-4 w-1/4">{{game.date}}</td>
             <td class="p-4 w-1/4">
-                <button class="btn btn-success">wetten!</button>
+                <!-- The button to open modal -->
+                <label for="betModal" class="btn btn-success">wetten!</label>
+
+                <!-- Put this part before </body> tag -->
+                <input type="checkbox" id="betModal" class="modal-toggle" />
+                <div class="modal">
+                    <div class="modal-box relative">
+                        <label for="betModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                        <h3 class="text-lg font-bold">Gib dein geschätztes Ergebnis ein!</h3>
+                        <label class="inline-block mb-2">{{game.homeTeam}}</label>
+                        <input
+                            type="number"
+                            [(ngModel)]="bet.homeTeamScore"
+                            id="homeTeamScore"
+                            class="input input-bordered w-full"
+                            required
+                            min="0"
+                        />
+                        <label class="inline-block mb-2">{{game.awayTeam}}</label>
+                        <input
+                                type="number"
+                                [(ngModel)]="bet.awayTeamScore"
+                                id="awayTeamScore"
+                                class="input input-bordered w-full"
+                                required
+                                min="0"
+                        />
+                        <button class="btn btn-primary w-full mt-2" (click)="betInRound(game)">
+                            Wetten!
+                        </button>
+                    </div>
+                </div>
             </td>
             <td class="p-4 w-1/4">
-                <button class="btn btn-warning">Tipphilfe erhalten!</button>
+                <!-- The button to open modal -->
+                <label for="betHelpModal" class="btn btn-warning">Tipphilfe erhalten!</label>
+
+                <!-- Put this part before </body> tag -->
+                <input type="checkbox" id="betHelpModal" class="modal-toggle" />
+                <div class="modal">
+                    <div class="modal-box relative">
+                        <label for="betHelpModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                        <h3 class="text-lg font-bold">Geschätztes Ergebnis:</h3>
+                        <p class="py-4">{{game.homeTeam}}</p>
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>

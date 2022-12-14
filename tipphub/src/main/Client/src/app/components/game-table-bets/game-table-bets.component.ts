@@ -4,6 +4,7 @@ import {Game} from "../../Model/Game";
 import {LeagueService} from "../../Service/league.service";
 import {HubSystemService} from "../../Service/hub-system.service";
 import {BetroundService} from "../../Service/betround.service";
+import {Bet} from "../../Model/Bet";
 
 @Component({
   selector: 'app-game-table-bets',
@@ -15,6 +16,7 @@ export class GameTableBetsComponent implements OnInit {
   leagues: League[] | undefined;
   leaguesWithGames = new Map<League, Game[]>();
   systemDate: Date | undefined;
+  bet: Bet = new Bet();
 
   constructor(private leagueService: LeagueService, private hubSystemService: HubSystemService, private betroundService: BetroundService) {}
 
@@ -51,6 +53,11 @@ export class GameTableBetsComponent implements OnInit {
         this.leaguesWithGames.set(this.leagues[m],games);
       }
     });
+  }
+
+  betInRound(game: any): void{
+    console.log(this.bet)
+    console.log(game)
   }
 
 }
