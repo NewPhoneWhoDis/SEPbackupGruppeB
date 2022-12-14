@@ -1,10 +1,10 @@
 <p>Details for betround:</p>
 <div class="flex menu bg-base-100 w-56">
 <div *ngIf="betroundToShow.isPublic">
-    <div class="badge badge-primary">The Betround is public</div>
+    <div class="badge badge-primary">Die Betround ist public</div>
 </div>
 <div *ngIf="!betroundToShow.isPublic">
-    <div class="badge badge-primary">The Betround is private</div>
+    <div class="badge badge-primary">Die Betround ist private</div>
 </div>
 <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
 
@@ -13,13 +13,40 @@
 
 <ul class="menu bg-base-100 w-56">
     <li><a class="hover:active">Game Table</a></li>
-    <li><a class="hover:active">Tipp erstellen</a></li>
     <li><a class="hover:active">Tipps overview</a></li>
-    <li><a class="hover:active">Freunde einladen</a></li>
-    <li><a class="hover:active">Teilnehmer</a></li>
+    <li><label class="hover:active" for="inviteFriendsModal">Freunde einladen</label></li>
+    <li><a class="hover:active">Scoreboard</a></li>
 </ul>
 
 <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
     <li class="hover:active" *ngFor="let user of participantsBetround"><a>{{user?.firstName}}</a></li>
 </ul>
+</div>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="inviteFriendsModal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Congratulations random Internet user!</h3>
+    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
+    <div class="modal-action">
+      <label for="inviteFriendsModal" class="btn">Yay!</label>
+    </div>
+  </div>
+</div>
+
+
+<!-- The button to open modal -->
+<label for="my-modal" class="btn">open modal</label>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="my-modal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Congratulations random Internet user!</h3>
+    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
+    <div class="modal-action">
+      <label for="my-modal" class="btn">Yay!</label>
+    </div>
+  </div>
 </div>
