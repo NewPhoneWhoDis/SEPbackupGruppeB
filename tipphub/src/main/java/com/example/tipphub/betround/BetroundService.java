@@ -162,6 +162,7 @@ public class BetroundService {
     @Transactional
     public Game getBetHelp(Long gameId) {
         Game game = gameRepository.findById(gameId).get();
+
         String homeTeam = game.getHomeTeam();
         String awayTeam = game.getAwayTeam();
         int scoreHomeTeam = 0;
