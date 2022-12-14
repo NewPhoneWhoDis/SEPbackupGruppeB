@@ -33,15 +33,15 @@ export class BetroundService {
   }
 
   public betInRound(ownerId: number, betroundId: number, bet: Bet): Observable<any> {
-    return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, bet);
+    return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, bet, httpHeaders);
   }
 
   public getEvaluationInRound(ownerId: number, betroundId: number) {
-    return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`);
+    return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
   }
 
   public generateInvite(betroundId: number, ownerId: number, targetetUserId: number, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/inviteGeneration/${betroundId}/${ownerId}/${targetetUserId}`, betround);
+    return this.http.put<Betround>(`${this.betroundUrl}/inviteGeneration/${betroundId}/${ownerId}/${targetetUserId}`, betround, httpHeaders);
   }
 
   //
@@ -50,25 +50,28 @@ export class BetroundService {
   }
 
   public saveUserInBetrounds(userId: User, betroundId: Betround, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround);
+    return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround, httpHeaders);
   }
 
   public getBestBetters(leaugeId: number | undefined): Observable<Array<string>>{
-    return this.http.get<Array<string>>(`${this.betroundUrl}/getBest/${leaugeId}`);
+    return this.http.get<Array<string>>(`${this.betroundUrl}/getBest/${leaugeId}`, httpHeaders);
   }
 
   public getBestTeams(leagueId: number | undefined): Observable<Array<string>>{
-    return this.http.get<Array<string>>(`${this.betroundUrl}/getTopThreeTeams/${leagueId}`);
+    return this.http.get<Array<string>>(`${this.betroundUrl}/getTopThreeTeams/${leagueId}`, httpHeaders);
   }
 
 
   public getAllParticipants(userId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`);
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`, httpHeaders);
   }
 
 
   public getBetHelp(gameId: number): Observable<Game>{
-    return this.http.get<Game>(`${this.betroundUrl}/getBetHelp/${gameId}`);
+    return this.http.get<Game>(`${this.betroundUrl}/getBetHelp/${gameId}`, httpHeaders);
   }
 
+  public sendEmailInviteBetround(betroundId: number, targetUserId: number) {
+    return this.http.get(`${this.betroundUrl}/onLinkClick/${betroundId}/${targetUserId}`, httpHeaders);
+  }  
 }

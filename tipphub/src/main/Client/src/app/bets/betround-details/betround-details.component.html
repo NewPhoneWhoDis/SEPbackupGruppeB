@@ -27,10 +27,16 @@
 <input type="checkbox" id="inviteFriendsModal" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box">
-    <h3 class="font-bold text-lg">Congratulations random Internet user!</h3>
-    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
+    <form>
+        <h3 class="text-xl py-10">Gib der email von deine Freund ein!</h3>
+        <input type="text" [(ngModel)]="searchedUserBetInvite" id="searchedUserBetInvite" 
+        placeholder="beispiel@mail.com" class="input input-bordered input-primary w-full max-w-xs" />
+        <div class="py-6">
+            <button class="btn btn-primary" (click)="sendBetroundInvite(searchedUserBetInvite)">Einladung senden</button>
+        </div>
+    </form>
     <div class="modal-action">
-      <label for="inviteFriendsModal" class="btn">Yay!</label>
+      <label for="inviteFriendsModal" class="btn">Schließen</label>
     </div>
   </div>
 </div>
