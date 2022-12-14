@@ -253,6 +253,7 @@ public class BetroundService {
         return userRepository.findById(targetetUserId).get();
     }
 
+    @Transactional
     public void addInvitedUserToBetround(User user, Betround betround) {
         List<User> extendedList = betround.getUsers();
         extendedList.add(user);
@@ -353,4 +354,7 @@ public class BetroundService {
 
     }
 
+    public List<User> getAllParticipantsService(Long id) {
+        return betroundRepository.findById(id).get().getUsers();
+    }
 }

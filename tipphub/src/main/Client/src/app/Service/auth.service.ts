@@ -36,6 +36,8 @@ export class AuthService {
     }else{
       window.sessionStorage.setItem("Status","unverified");
       console.log("unverified");
+      window.alert("Falscher Code!")
+      window.location.reload();
     }
 
   }

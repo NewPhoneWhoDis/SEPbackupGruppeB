@@ -1,12 +1,18 @@
 import { Betround } from './../Model/Betround';
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {League} from "../Model/League";
 import { User } from '../Model/User';
 import { Bet } from '../Model/Bet';
 import {Game} from "../Model/Game";
 
+const httpHeaders = {
+  headers: new HttpHeaders({
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  }),
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +25,11 @@ export class BetroundService {
   }
 
   public getAllBetrounds(): Observable<Betround[]> {
-    return this.http.get<Betround[]>(`${this.betroundUrl}/all`);
+    return this.http.get<Betround[]>(`${this.betroundUrl}/all`, httpHeaders);
   }
 
   public addNewBetround(leagueId: number, ownerId: number, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/add/${leagueId}/${ownerId}`, betround);
+    return this.http.put<Betround>(`${this.betroundUrl}/add/${leagueId}/${ownerId}`, betround, httpHeaders);
   }
 
   public betInRound(ownerId: number, betroundId: number, bet: Bet): Observable<any> {
@@ -53,6 +59,11 @@ export class BetroundService {
 
   public getBestTeams(leagueId: number | undefined): Observable<Array<string>>{
     return this.http.get<Array<string>>(`${this.betroundUrl}/getTopThreeTeams/${leagueId}`);
+  }
+
+
+  public getAllParticipants(userId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`);
   }
 
 

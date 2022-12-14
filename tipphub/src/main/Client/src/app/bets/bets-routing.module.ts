@@ -1,3 +1,5 @@
+import { BetroundDetailsComponent } from './betround-details/betround-details.component';
+import { BetroundParticipantsComponent } from './betround-participants/betround-participants.component';
 import { BetsCreationComponent } from './bets-creation/bets-creation.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -16,6 +18,10 @@ const routes: Routes = [
   {
     path: 'bets-management',
     component: BetsManagementComponent
+  },
+  {
+    path: 'betround-details/:id',
+    component: BetroundDetailsComponent
   }
 ];
 

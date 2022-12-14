@@ -42,10 +42,16 @@ export class LoginComponent implements OnInit {
         this.code = str.substring(str.indexOf("\"")+3,str.length-15)
         console.log(this.code);
       },
+      error: () => {
+        this.loginFailed = true;
+        window.alert("Falsches Passwort oder Email!")
+        window.location.reload()
+      }
     });
-    if(this.storageService.isLoggedIn()){
+    if(!this.loginFailed){
       this.switchChecker();
     }
+
     console.log(this.loginRequest.email + " " + this.loginRequest.password);
     console.log("Logged User: " + this.storageService.getLoggedUser());
   }

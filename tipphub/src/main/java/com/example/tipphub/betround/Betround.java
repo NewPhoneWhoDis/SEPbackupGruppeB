@@ -35,10 +35,9 @@ public class Betround {
     @JoinColumn(name = "league_id", referencedColumnName = "id")
     private League league;
 
-
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
     private List<Bet> bets = new ArrayList<>();
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
