@@ -1,8 +1,8 @@
 <!-- Components used from https://daisyui.com/ -->
 <!--<label for="login-modal" class="btn btn-primary">open modal</label>-->
 <input type="checkbox" id="login-modal" class="modal-toggle" />
-<label for="login-modal" class="modal cursor-pointer ">
-  <label class="modal-box relative " for="login-modal">
+<label class="modal cursor-pointer ">
+  <label class="modal-box relative ">
     <div class="py-6 px-6 lg:px-8 text-white">
       <h3 class="mb-4 text-2xl font-medium">Willst du mit tippen?</h3>
       <form class="space-y-6" (ngSubmit)="onSubmit()" #loginForm="ngForm">
@@ -28,14 +28,6 @@
             required
             pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
           />
-          <div class="alert alert-error shadow-lg" *ngIf="email.touched && email.dirty">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>
-                Feld ist erforderlich!
-                </span>
-            </div>
-          </div>
           <div class="alert alert-error shadow-lg" *ngIf="email.errors?.['pattern']">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

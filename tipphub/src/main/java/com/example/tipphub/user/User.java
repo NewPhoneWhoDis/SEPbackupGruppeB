@@ -64,6 +64,19 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public User(String firstName, String lastName, String email, String password, String imageURL, LocalDate dateOfBirth, boolean isAdmin, List<Betround> betrounds, List<Bet> bets, Set<User> friends) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.imageURL = imageURL;
+        this.dateOfBirth = dateOfBirth;
+        this.isAdmin = isAdmin;
+        this.betrounds = betrounds;
+        this.bets = bets;
+        this.friends = friends;
+    }
+
     public Long getId() {
         return id;
     }

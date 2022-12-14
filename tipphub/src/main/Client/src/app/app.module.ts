@@ -30,6 +30,7 @@ import { BetroundCreationModalComponent } from './components/betround-creation-m
 import { BetHelpComponent } from './components/bet-help/bet-help.component';
 import { betroundPage } from './components/pages/betroundPage/betroundPage';
 import { LeageCreationPageComponent } from './components/pages/leage-creation-page/leage-creation-page.component';
+import { GameTableBetsComponent } from './components/game-table-bets/game-table-bets.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { LeageCreationPageComponent } from './components/pages/leage-creation-pa
     ProfileComponent,
     NotificationComponent,
     LeageCreationPageComponent,
+    GameTableBetsComponent,
   ],
   imports: [
     BrowserModule,

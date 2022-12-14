@@ -24,6 +24,16 @@ public class SignupRequest {
 
     private boolean isAdmin;
 
+    public SignupRequest(String firstName, String lastName, String email, String password, String imageURL, LocalDate dateOfBirth, boolean isAdmin) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.imageURL = imageURL;
+        this.dateOfBirth = dateOfBirth;
+        this.isAdmin = isAdmin;
+    }
+
     public String getFirstName() {
         return firstName;
     }

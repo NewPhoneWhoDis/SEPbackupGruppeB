@@ -5,6 +5,8 @@ export class Bet {
     id: number | undefined;
     homeTeam: string | undefined;
     awayTeam: string | undefined;
+    homeTeamScore: number | undefined;
+    awayTeamScore: number | undefined;
     dateOfGame: Date | undefined;
     dateOfBet: Date | undefined;
     betScore: number | undefined;

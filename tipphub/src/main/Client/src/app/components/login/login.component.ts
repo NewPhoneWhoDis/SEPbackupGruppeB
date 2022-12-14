@@ -39,11 +39,13 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         let str = JSON.stringify(value).toString();
         str = str.substring(str.indexOf("code"));
-        this.code = str.substring(str.indexOf("\"")+3,str.length-16)
+        this.code = str.substring(str.indexOf("\"")+3,str.length-15)
         console.log(this.code);
       },
       error: () => {
         this.loginFailed = true;
+        window.alert("Falsches Passwort oder Email!")
+        window.location.reload()
       }
     });
     if(!this.loginFailed){
