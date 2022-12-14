@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
       },
       error: () => {
         this.loginFailed = true;
+        window.alert("Falsches Passwort oder Email!")
+        window.location.reload()
       }
     });
     if(!this.loginFailed){
