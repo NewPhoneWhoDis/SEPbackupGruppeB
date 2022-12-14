@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {League} from "../Model/League";
 import { User } from '../Model/User';
 import { Bet } from '../Model/Bet';
+import {Game} from "../Model/Game";
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class BetroundService {
     return this.http.put<Betround>(`${this.betroundUrl}/add/${leagueId}/${ownerId}`, betround);
   }
 
-  public betInRound(ownerId: number, betroundId: number, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, betround);
+  public betInRound(ownerId: number, betroundId: number, bet: Bet): Observable<any> {
+    return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, bet);
   }
 
   public getEvaluationInRound(ownerId: number, betroundId: number) {
@@ -54,9 +55,9 @@ export class BetroundService {
     return this.http.get<Array<string>>(`${this.betroundUrl}/getTopThreeTeams/${leagueId}`);
   }
 
-  /*
+
   public getBetHelp(gameId: number): Observable<Game>{
-    return this.http.get<Game>(`${this.betroundURL}/getBetHelp/${gameId}`);
+    return this.http.get<Game>(`${this.betroundUrl}/getBetHelp/${gameId}`);
   }
-  */
+
 }

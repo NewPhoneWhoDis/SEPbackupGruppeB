@@ -5,4 +5,5 @@ export class Game{
     scoreHomeTeam: number | undefined;
     scoreAwayTeam: number | undefined;
     date: Date | undefined;
+    round: number | undefined;
 }

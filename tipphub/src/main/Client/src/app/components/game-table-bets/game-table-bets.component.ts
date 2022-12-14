@@ -5,6 +5,8 @@ import {LeagueService} from "../../Service/league.service";
 import {HubSystemService} from "../../Service/hub-system.service";
 import {BetroundService} from "../../Service/betround.service";
 import {Bet} from "../../Model/Bet";
+import {StorageService} from "../../Service/storage.service";
+import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-game-table-bets',
@@ -17,8 +19,12 @@ export class GameTableBetsComponent implements OnInit {
   leaguesWithGames = new Map<League, Game[]>();
   systemDate: Date | undefined;
   bet: Bet = new Bet();
+  gameBetHelp: Game = new Game();
 
-  constructor(private leagueService: LeagueService, private hubSystemService: HubSystemService, private betroundService: BetroundService) {}
+  constructor(private leagueService: LeagueService,
+              private hubSystemService: HubSystemService,
+              private betroundService: BetroundService,
+              private storageService: StorageService) {}
 
   ngOnInit(): void {
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
@@ -41,7 +47,7 @@ export class GameTableBetsComponent implements OnInit {
         let games = new Array<Game>()
         for(let i = 0; i < this.leagues[m].gameSchedule.gamedayList.length; i++){
           for(let j = 0; j < this.leagues[m].gameSchedule.gamedayList[i].games.length; j++){
-            this.leagues[m].gameSchedule.gamedayList[i].games[j].id = this.leagues[m].gameSchedule.gamedayList[i].round;
+            this.leagues[m].gameSchedule.gamedayList[i].games[j].round = this.leagues[m].gameSchedule.gamedayList[i].round;
             // @ts-ignore
             if(new Date(this.systemDate).getTime() < new Date(this.leagues[m].gameSchedule.gamedayList[i].games[j].date).getTime()){
               this.leagues[m].gameSchedule.gamedayList[i].games[j].scoreAwayTeam = undefined;
@@ -55,9 +61,28 @@ export class GameTableBetsComponent implements OnInit {
     });
   }
 
-  betInRound(game: any): void{
+  showPopUp(game: Game){
+    this.bet.homeTeam = game.homeTeam;
+    this.bet.awayTeam = game.awayTeam;
+    this.bet.dateOfBet = this.systemDate;
+    this.bet.dateOfGame = game.date;
+    console.log(game);
+  }
+
+  betInRound(): void{
     console.log(this.bet)
-    console.log(game)
+    console.log(this.storageService.getLoggedUser())
+    this.betroundService.betInRound(this.storageService.getLoggedUser(),1,this.bet).subscribe();
+    window.alert("Wette wurde erfolgreich platziert!")
+    location.reload()
+  }
+
+  getBetHelp(gameId: number | undefined): void{
+    if (gameId != null) {
+      this.betroundService.getBetHelp(gameId).subscribe((data) => {
+        this.gameBetHelp = data;
+      })
+    }
   }
 
 }
