@@ -231,13 +231,10 @@ public class BetroundService {
         for (Betround betround : betrounds) {
             for (Bet bet : betround.getBets()) {
                 Game game = getGameForBet(bet);
-                LocalDate currentSystemDate = hubSystemRepository.findById(1L).get().getSystemDate();
-                if (game.getDate().isBefore(currentSystemDate)) {
-                    teamsWithScore.put(bet.getHomeTeam(),
-                            teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore() / 2);
-                    teamsWithScore.put(bet.getAwayTeam(),
-                            teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore() / 2);
-                }
+                teamsWithScore.put(bet.getHomeTeam(),
+                        teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore() / 2);
+                teamsWithScore.put(bet.getAwayTeam(),
+                        teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore() / 2);
             }
         }
         String team1 = getTeamWithMaxScore(teamsWithScore);
@@ -313,7 +310,12 @@ public class BetroundService {
                 highestScore = teamsWithScore.get(key);
             }
         }
-        return returnTeam;
+        if(teamsWithScore.get(returnTeam) > 0){
+            return returnTeam;
+        } else{
+            return "";
+        }
+
     }
 
     @Transactional
