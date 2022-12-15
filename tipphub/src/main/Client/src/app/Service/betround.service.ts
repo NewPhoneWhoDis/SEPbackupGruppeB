@@ -48,19 +48,6 @@ export class BetroundService {
     return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
   }
 
-  public generateInvite(betroundId: number, ownerId: number, targetetUserId: number, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/inviteGeneration/${betroundId}/${ownerId}/${targetetUserId}`, betround, httpHeaders);
-  }
-
-  //
-  public getInviteURL(betround: Betround): Observable<Betround> {
-    return this.http.get<Betround>(`${this.betroundUrl}/getInivteURL`);
-  }
-
-  public saveUserInBetrounds(userId: User, betroundId: Betround, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround, httpHeaders);
-  }
-
   public getBestBetters(leaugeId: number | undefined): Observable<Array<string>>{
     return this.http.get<Array<string>>(`${this.betroundUrl}/getBest/${leaugeId}`, httpHeaders);
   }
@@ -82,6 +69,6 @@ export class BetroundService {
   public sendEmailInviteBetround(betroundId: number, targetUserId: number) {
     ///onLinkClick/{userId}/{betroundId}
     console.log(`${this.betroundUrl}/onLinkClick/${targetUserId}/${betroundId}`);
-    return this.http.get(`${this.betroundUrl}/onLinkClick/${targetUserId}/${betroundId}`);
+    return this.http.get(`${this.betroundUrl}/getInivteURL/${betroundId}/${targetUserId}`);
   }  
 }

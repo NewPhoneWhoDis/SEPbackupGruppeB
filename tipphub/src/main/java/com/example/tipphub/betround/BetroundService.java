@@ -256,8 +256,16 @@ public class BetroundService {
     public void saveUserInBetrounds(Long betroundId, Long userId) {
         User user = userRepository.findById(userId).get();
         Betround betround = betroundRepository.findById(betroundId).get();
+        if(betround.getUsers().contains(user)) {
+           return;
+        }
+        user.getBetrounds().add(betround);
         betround.getUsers().add(user);
-        sendBetroundInviteToUser(betroundId, user.getEmail());
+    }
+
+    public void sendEmailBetroundInvite(Long betroundId, Long userId) {
+        User user = userRepository.findById(userId).get();
+        this.emailSenderService.sendEmailInviteBetround(betroundId, user.getEmail(), userId);
     }
 
     public User getUserById(Long userId) {
@@ -354,10 +362,12 @@ public class BetroundService {
     }
 
 
+    /*
     @Transactional
     public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
         this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
     }
+    */
 
     @Transactional
     public List<User> getAllParticipantsService(Long id) {

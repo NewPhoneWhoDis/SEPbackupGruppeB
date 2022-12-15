@@ -58,18 +58,17 @@ public class BetroundController {
     @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
     public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId, @PathVariable Long targetetUserId) {
         betroundService.generateInviteURL(betroundId, userId);
-        emailSenderService.sendEmailInviteBetround(betroundId, betroundService.getUserById(targetetUserId).getEmail());
+        //emailSenderService.sendEmailInviteBetround(betroundId, betroundService.getUserById(targetetUserId).getEmail());
     }
 
-    @GetMapping("/getInivteURL")
-    public String sendInviteURL(@PathVariable("betround") Betround betround) {
-        return betround.getInviteURL();
+        @GetMapping("/getInivteURL/{betroundId}/{userId}")
+    public void sendInviteURL(@PathVariable Long betroundId, @PathVariable Long userId) {
+        this.betroundService.sendEmailBetroundInvite(betroundId, userId);
     }
 
-    @GetMapping("/onLinkClick/{userId}/{betroundId}")
+    @GetMapping("/onLinkClick/{betroundId}/{userId}")
     public void saveUserInBetrounds(@PathVariable Long betroundId, @PathVariable Long userId) {
         this.betroundService.saveUserInBetrounds(betroundId, userId);
-        // invitation id as attribute
     }
 
     @GetMapping("/getBest/{leagueId}")

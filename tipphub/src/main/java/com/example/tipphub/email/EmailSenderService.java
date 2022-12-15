@@ -36,12 +36,12 @@ public class EmailSenderService {
         return email.getCode();
     }
 
-    public void sendEmailInviteBetround(Long betroundId, String userEmail){
-        Betround betround = betroundRepository.findById(betroundId).get();
+    public void sendEmailInviteBetround(Long betroundId, String userEmail, Long userId){
+
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom("noreply.tipphub@gmail.com");
         msg.setTo(userEmail);
-        msg.setText("Du bist in eine Tipprunde eingeladen: http://localhost:4200/");
+        msg.setText("Du bist in eine Tipprunde eingeladen: http://localhost:8080/betround/onLinkClick/" + betroundId + "/" + userId);
         msg.setSubject("Tipphub Einladung");
         mailSender.send(msg);
     }
