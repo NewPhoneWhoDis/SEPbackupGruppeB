@@ -57,10 +57,8 @@ public class BetroundController {
 
     @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
     public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId, @PathVariable Long targetetUserId) {
-        User targetetUser = betroundService.getTargetetUser(targetetUserId);
         betroundService.generateInviteURL(betroundId, userId);
-        targetetUser = betroundService.getUserById(targetetUserId);
-        emailSenderService.sendEmailInviteBetround(betroundId, targetetUser.getEmail());
+        emailSenderService.sendEmailInviteBetround(betroundId, betroundService.getUserById(targetetUserId).getEmail());
     }
 
     @GetMapping("/getInivteURL")
@@ -70,11 +68,7 @@ public class BetroundController {
 
     @GetMapping("/onLinkClick/{userId}/{betroundId}")
     public void saveUserInBetrounds(@PathVariable Long betroundId, @PathVariable Long userId) {
-        User user = betroundService.getUserById(userId);
-        Betround betround = betroundService.getBetroundById(betroundId);
-        betroundService.addInvitedUserToBetround(user, betround);
-        //String userEmail = betroundService.getUserEmail(userId);
-        this.betroundService.sendBetroundInviteToUser(betroundId, user.getEmail());
+        this.betroundService.saveUserInBetrounds(betroundId, userId);
         // invitation id as attribute
     }
 

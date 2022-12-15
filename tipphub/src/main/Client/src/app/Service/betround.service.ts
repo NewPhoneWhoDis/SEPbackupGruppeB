@@ -71,7 +71,7 @@ export class BetroundService {
 
 
   public getAllParticipants(userId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`, httpHeaders);
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants/${userId}`, httpHeaders);
   }
 
 
@@ -80,6 +80,8 @@ export class BetroundService {
   }
 
   public sendEmailInviteBetround(betroundId: number, targetUserId: number) {
-    return this.http.get(`${this.betroundUrl}/onLinkClick/${betroundId}/${targetUserId}`, httpHeaders);
+    ///onLinkClick/{userId}/{betroundId}
+    console.log(`${this.betroundUrl}/onLinkClick/${targetUserId}/${betroundId}`);
+    return this.http.get(`${this.betroundUrl}/onLinkClick/${targetUserId}/${betroundId}`);
   }  
 }

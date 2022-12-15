@@ -252,19 +252,16 @@ public class BetroundService {
         return returnList;
     }
 
-    public User getTargetetUser(Long targetetUserId) {
-        return userRepository.findById(targetetUserId).get();
-    }
-
     @Transactional
-    public void addInvitedUserToBetround(User user, Betround betround) {
-        List<User> extendedList = betround.getUsers();
-        extendedList.add(user);
-        betround.setUsers(extendedList);
-        betroundRepository.save(betround);
+    public void saveUserInBetrounds(Long betroundId, Long userId) {
+        User user = userRepository.findById(userId).get();
+        Betround betround = betroundRepository.findById(betroundId).get();
+        betround.getUsers().add(user);
+        sendBetroundInviteToUser(betroundId, user.getEmail());
     }
 
     public User getUserById(Long userId) {
+        System.out.println("This is the id of the user:"+userId);
         return userRepository.findById(userId).get();
     }
 
@@ -361,13 +358,6 @@ public class BetroundService {
     public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
         this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
     }
-
-    @Transactional
-    public String getUserEmail(Long userId) {
-        User newUser = userRepository.findById(userId).get();
-        return newUser.getEmail();
-    }
-
 
     @Transactional
     public List<User> getAllParticipantsService(Long id) {
