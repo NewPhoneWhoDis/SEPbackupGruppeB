@@ -7,6 +7,7 @@ import { User } from '../Model/User';
 import { Bet } from '../Model/Bet';
 import {Game} from "../Model/Game";
 
+
 const httpHeaders = {
   headers: new HttpHeaders({
     "Content-Type": "application/json",
@@ -14,22 +15,29 @@ const httpHeaders = {
   }),
 };
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BetroundService {
-
   private betroundUrl: string;
 
   constructor(private http: HttpClient) {
-    this.betroundUrl = 'http://localhost:8080/betround';
+    this.betroundUrl = "http://localhost:8080/betround";
   }
 
   public getAllBetrounds(): Observable<Betround[]> {
     return this.http.get<Betround[]>(`${this.betroundUrl}/all`, httpHeaders);
   }
 
-  public addNewBetround(leagueId: number, ownerId: number, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/add/${leagueId}/${ownerId}`, betround, httpHeaders);
+  public addNewBetround(
+    league: League,
+    owner: User,
+    betround: Betround
+  ): Observable<Betround> {
+    return this.http.put<Betround>(
+      `${this.betroundUrl}/add/${league.id}/${owner.id}`,
+      betround,
+      httpHeaders
+    );
   }
 
   public betInRound(ownerId: number, betroundId: number, bet: Bet): Observable<any> {

@@ -23,14 +23,10 @@
         tabindex="0"
         class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
       >
-        <li><a>Statistiken</a></li>
-        <!--SUBMENU-->
         <li tabindex="0">
-          <a class="justify-between" href="ligen-management">
-            Ligen
-          </a>
+          <a class="justify-between" href="ligen-management"> Ligen </a>
         </li>
-        <li><a routerLink="bets-overview">Bets Management</a></li>
+        <li><a routerLink="bets-and-pieces">Bets Management</a></li>
       </ul>
     </div>
     <!--LOGO-BUTTON FUNCTIONS AS GO-HOME-BUTTON-->
@@ -44,11 +40,8 @@
   <!--NAVBAR FOR DESKTOP-->
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal p-0">
-      <li><a>Statistiken</a></li>
-      <li tabindex="0">
-        <a routerLink="ligen-management">
-          Ligen
-        </a>
+      <li>
+        <a routerLink="ligen-management"> Ligen </a>
       </li>
       <li>
         <a routerLink="test">
@@ -63,18 +56,36 @@
   <!--LOGIN BUTTON-->
   <div class="navbar-end">
     <div *ngIf="currentUser" class="flex justify-center">
-      <label title="Benachrichtigungen" for="notification-modal" class="btn btn-circle btn-outline btn-primary mr-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />
+      <label
+        title="Benachrichtigungen"
+        for="notification-modal"
+        class="btn btn-circle btn-outline btn-primary mr-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"
+          />
         </svg>
       </label>
-      <label for="friendslist-drawer"  class="avatar btn gap-5 justify-center text-primary">
-        {{currentUser.firstName}} {{currentUser.lastName}}
+      <label
+        for="friendslist-drawer"
+        class="avatar btn gap-5 justify-center text-primary"
+      >
+        {{ currentUser.firstName }} {{ currentUser.lastName }}
         <div *ngIf="currentUser.imageURL" class="w-12 rounded-full">
-          <img [src]="currentUser.imageURL"/>
+          <img [src]="currentUser.imageURL" />
         </div>
         <div *ngIf="!currentUser.imageURL" class="w-12 rounded-full">
-          <img src="./assets/images/Tipper_Andrii.jpeg"/>
+          <img src="./assets/images/Tipper_Andrii.jpeg" />
         </div>
       </label>
     </div>
@@ -83,8 +94,5 @@
       <label for="registration-modal" class="btn btn">Registrieren</label>
       <label for="login-modal" class="btn btn-primary">Einloggen</label>
     </div>
-
-
-
   </div>
 </div>
