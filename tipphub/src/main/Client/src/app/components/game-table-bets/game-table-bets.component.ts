@@ -7,6 +7,7 @@ import {BetroundService} from "../../Service/betround.service";
 import {Bet} from "../../Model/Bet";
 import {StorageService} from "../../Service/storage.service";
 import {data} from "autoprefixer";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-game-table-bets',
@@ -21,13 +22,18 @@ export class GameTableBetsComponent implements OnInit {
   bet: Bet = new Bet();
   gameBetHelp: Game = new Game();
   leagueWithTops: League = new League();
+  showButtons: boolean = true
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
               private betroundService: BetroundService,
-              private storageService: StorageService) {}
+              private storageService: StorageService,
+              private router: Router) {}
 
   ngOnInit(): void {
+    if(this.router.url === "/ligen-management"){
+      this.showButtons = false;
+    }
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
     this.leagueService.getAllLeagues().subscribe(data => {
       this.leagues = data

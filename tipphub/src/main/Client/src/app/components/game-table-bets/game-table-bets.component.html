@@ -52,8 +52,8 @@
             <th class="p-4 w-1/4">#</th>
             <th class="p-4 w-1/4">Auswärtsmannschaft</th>
             <th class="p-4 w-1/4">Datum</th>
-            <th class="p-4 w-1/4">Wetten</th>
-            <th class="p-4 w-1/4">Tipphilfe</th>
+            <th class="p-4 w-1/4" *ngIf="showButtons">Wetten</th>
+            <th class="p-4 w-1/4" *ngIf="showButtons">Tipphilfe</th>
         </tr>
         </thead>
         <tbody class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full" style="height: 60vh;">
@@ -64,7 +64,7 @@
             <td class="p-4 w-1/4">{{game.scoreAwayTeam}}</td>
             <td class="p-4 w-1/4">{{game.awayTeam}}</td>
             <td class="p-4 w-1/4">{{game.date}}</td>
-            <td class="p-4 w-1/4">
+            <td class="p-4 w-1/4" *ngIf="showButtons">
                 <!-- The button to open modal -->
                 <label for="betModal"
                        class="btn btn-success"
@@ -102,7 +102,7 @@
                     </div>
                 </div>
             </td>
-            <td class="p-4 w-1/4">
+            <td class="p-4 w-1/4" *ngIf="showButtons">
                 <!-- The button to open modal -->
                 <label for="betHelpModal"
                        class="btn btn-warning"

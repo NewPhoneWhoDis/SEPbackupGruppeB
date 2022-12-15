@@ -15,7 +15,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { homePage } from "./components/pages/homePage/homePage";
 import { RegistrationModalComponent } from "./components/registration-modal/registrationModal.component";
-import { GameTableComponent } from "./components/game-table/game-table.component";
 import { SystemdateModalComponent } from "./components/systemdate-modal/systemdate-modal.component";
 import { VerificationModalComponent } from "./components/verification-modal/verification-modal.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -42,7 +41,6 @@ import { GameTableBetsComponent } from './components/game-table-bets/game-table-
     BetroundCreationModalComponent,
     homePage,
     betroundPage,
-    GameTableComponent,
     SystemdateModalComponent,
     VerificationModalComponent,
     LoginComponent,
