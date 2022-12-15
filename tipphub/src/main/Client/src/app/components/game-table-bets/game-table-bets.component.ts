@@ -20,6 +20,7 @@ export class GameTableBetsComponent implements OnInit {
   systemDate: Date | undefined;
   bet: Bet = new Bet();
   gameBetHelp: Game = new Game();
+  leagueWithTops: League = new League();
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
@@ -37,7 +38,7 @@ export class GameTableBetsComponent implements OnInit {
           // @ts-ignore
           if(this.leagues[m].topBetters.length < 3){
             // @ts-ignore
-            this.leagues[m].topBetters.push("","");
+            this.leagues[m].topBetters.push("","","");
           }
         });
         this.betroundService.getBestTeams(this.leagues[m].id).subscribe((data) => {
@@ -83,6 +84,11 @@ export class GameTableBetsComponent implements OnInit {
         this.gameBetHelp = data;
       })
     }
+  }
+
+  showTops(league: League){
+    this.leagueWithTops.topBetters = league.topBetters;
+    this.leagueWithTops.topTeams = league.topTeams;
   }
 
 }
