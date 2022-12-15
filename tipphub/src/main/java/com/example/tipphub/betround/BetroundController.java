@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(path = "/betround")
+@RequestMapping(path = "/betround")
 public class BetroundController {
 
     private final BetroundService betroundService;
@@ -66,10 +66,7 @@ public class BetroundController {
         this.betroundService.sendEmailBetroundInvite(betroundId, userId);
     }
 
-    @GetMapping("/onLinkClick/{betroundId}/{userId}")
-    public void saveUserInBetrounds(@PathVariable Long betroundId, @PathVariable Long userId) {
-        this.betroundService.saveUserInBetrounds(betroundId, userId);
-    }
+
 
     @GetMapping("/getBest/{leagueId}")
     public List<String> getBestUsersOfLeague(@PathVariable("leagueId") Long leagueId) {

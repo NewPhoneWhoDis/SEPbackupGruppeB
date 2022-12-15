@@ -99,6 +99,10 @@
                         <button class="btn btn-primary w-full mt-2" (click)="betInRound()">
                             Wetten!
                         </button>
+                        <button *ngIf="this.showOvertakeButton" class="btn btn-primary w-full mt-2">
+                            Wetten aus andere Tipprunde übernehmen!
+                            ({{ this.tippsResult }})
+                        </button>
                     </div>
                 </div>
             </td>
