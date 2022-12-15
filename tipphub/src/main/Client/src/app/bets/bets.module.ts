@@ -9,6 +9,7 @@ import { BetsOverviewComponent } from './bets-overview/bets-overview.component';
 import { BetsManagementComponent } from './bets-management/bets-management.component';
 import { BetroundParticipantsComponent } from './betround-participants/betround-participants.component';
 import { BetroundDetailsComponent } from './betround-details/betround-details.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BetroundDetailsComponent } from './betround-details/betround-details.co
     BetsManagementComponent,
     BetroundFilterPipePipe,
     BetroundParticipantsComponent,
-    BetroundDetailsComponent
+    BetroundDetailsComponent,
+    ScoreboardComponent
   ],
   imports: [
     CommonModule,
