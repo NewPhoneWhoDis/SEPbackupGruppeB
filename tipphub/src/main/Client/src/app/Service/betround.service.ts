@@ -36,8 +36,8 @@ export class BetroundService {
     return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, bet, httpHeaders);
   }
 
-  public getEvaluationInRound(ownerId: number, betroundId: number) {
-    return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
+  public getEvaluationInRound(ownerId: number, betroundId: number): Observable<number> {
+    return this.http.get<number>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
   }
 
   public generateInvite(betroundId: number, ownerId: number, targetetUserId: number, betround: Betround): Observable<Betround> {
@@ -63,7 +63,7 @@ export class BetroundService {
 
 
   public getAllParticipants(userId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`, httpHeaders);
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants/${userId}`, httpHeaders);
   }
 
 

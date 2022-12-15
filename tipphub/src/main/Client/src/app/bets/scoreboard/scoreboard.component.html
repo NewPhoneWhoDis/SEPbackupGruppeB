@@ -1,1 +1,28 @@
 
+<div>
+    <h1>Scoreboard</h1>
+</div>
+<div>
+    <ul class="menu p-4 w-80 bg-base-100 text-base-content">
+        <div class="card card-bordered border-primary bg-[#303030] w-42 h-5/6 ">
+            <div class="card-body p-2 ">
+                <!-- Sidebar content here -->
+                <li *ngFor="let participant of participants; let i = index">
+                    <label title="Profil ansehen" for="profile-modal" class="avatar h-12" (click)="setClickedUser(participant)">
+                        <div *ngIf="participant.imageURL" class="w-10 rounded-full">
+                            <img [src]="participant.imageURL"/>
+                        </div>
+                        <div *ngIf="!participant.imageURL" class="w-10 rounded-full">
+                            <img src="./assets/images/Tipper_Andrii.jpeg"/>
+                        </div>
+                        {{participant.firstName}} {{participant.lastName}}
+
+                        {{points[i]}}
+                        <!--<span class="text-primary justify-end">{{getPointsOfUser(participant!.id!)}}</span>-->
+
+                    </label>
+                </li>
+            </div>
+        </div>
+    </ul>
+</div>
