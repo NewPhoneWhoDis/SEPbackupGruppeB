@@ -2,7 +2,7 @@
 <input type="checkbox" id="profile-modal" class="modal-toggle" />
 <div class="modal">
     <div class="modal-box w-96 bg-base-100 shadow-xl">
-        <label for="profile-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+        <label for="profile-modal" class="btn btn-sm btn-circle absolute right-2 top-2 text-primary">✕</label>
         <div class="flex avatar justify-center">
             <div *ngIf="getFriendIcon()" class="w-36 rounded-full">
                 <img [src]="getFriendIcon()"/>

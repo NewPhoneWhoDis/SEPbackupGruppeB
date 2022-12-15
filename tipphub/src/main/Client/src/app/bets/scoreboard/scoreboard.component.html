@@ -1,28 +1,29 @@
 
 <div>
-    <h1>Scoreboard</h1>
-</div>
-<div>
-    <ul class="menu p-4 w-80 bg-base-100 text-base-content">
-        <div class="card card-bordered border-primary bg-[#303030] w-42 h-5/6 ">
-            <div class="card-body p-2 ">
-                <!-- Sidebar content here -->
-                <li *ngFor="let participant of participants; let i = index">
-                    <label title="Profil ansehen" for="profile-modal" class="avatar h-12" (click)="setClickedUser(participant)">
-                        <div *ngIf="participant.imageURL" class="w-10 rounded-full">
-                            <img [src]="participant.imageURL"/>
-                        </div>
-                        <div *ngIf="!participant.imageURL" class="w-10 rounded-full">
-                            <img src="./assets/images/Tipper_Andrii.jpeg"/>
-                        </div>
-                        {{participant.firstName}} {{participant.lastName}}
+    <div class="card p-4">
+        <h1 class="card-title m-auto">Scoreboard</h1>
+    </div>
+    <div class="flex justify-center">
+        <ul class="menu p-4 w-1/2 bg-base-100 text-base-content">
+            <div class="card card-bordered border-primary bg-[#303030] w-auto h-auto ">
+                <div class="card-body p-2">
+                    <!-- Sidebar content here -->
+                    <div class=""><p class="flex justify-center underline"><span class="m-auto">Spieler</span> <span class="m-auto">Punkte</span></p></div>
+                    <li *ngFor="let participant of participants; let i = index">
+                        <label title="Profil ansehen" for="profile-modal" class="avatar h-16" (click)="setClickedUser(participant)">
+                            <div *ngIf="participant.imageURL" class="w-14 rounded-full">
+                                <img [src]="participant.imageURL"/>
+                            </div>
+                            <div *ngIf="!participant.imageURL" class="w-14 rounded-full">
+                                <img src="./assets/images/Tipper_Andrii.jpeg"/>
+                            </div>
+                            <span class="text-lg ml-3">{{participant.firstName}} {{participant.lastName}}</span>
+                            <span class="text-lg text-primary ml-auto mr-36">{{points[i]}}</span>
 
-                        {{points[i]}}
-                        <!--<span class="text-primary justify-end">{{getPointsOfUser(participant!.id!)}}</span>-->
-
-                    </label>
-                </li>
+                        </label>
+                    </li>
+                </div>
             </div>
-        </div>
-    </ul>
+        </ul>
+    </div>
 </div>
