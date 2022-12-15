@@ -22,6 +22,7 @@ public class Betround {
     private int scoreRightResult;
     private String inviteURL;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private User owner;

@@ -11,14 +11,5 @@ public class TipphubApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TipphubApplication.class, args);
 	}
-
-
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-
-
-
 }
 

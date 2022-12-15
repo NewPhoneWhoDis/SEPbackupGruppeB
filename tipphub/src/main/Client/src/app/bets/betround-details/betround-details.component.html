@@ -1,10 +1,10 @@
 <p>Details for betround:</p>
 <div class="flex menu bg-base-100 w-56">
 <div *ngIf="betroundToShow.isPublic">
-    <div class="badge badge-primary">The Betround is public</div>
+    <div class="badge badge-primary">Die Betround ist public</div>
 </div>
 <div *ngIf="!betroundToShow.isPublic">
-    <div class="badge badge-primary">The Betround is private</div>
+    <div class="badge badge-primary">Die Betround ist private</div>
 </div>
 <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
 
@@ -12,14 +12,49 @@
 </ul>
 
 <ul class="menu bg-base-100 w-56">
+    <li><label class="hover:active" for="nicknameModal">Spitzname festlegen</label></li>
     <li><a class="hover:active">Game Table</a></li>
-    <li><a class="hover:active">Tipp erstellen</a></li>
     <li><a class="hover:active">Tipps overview</a></li>
-    <li><a class="hover:active">Freunde einladen</a></li>
-    <li><a class="hover:active">Teilnehmer</a></li>
+    <li><label class="hover:active" for="inviteFriendsModal">Freunde einladen</label></li>
+    <li><a class="hover:active">Scoreboard</a></li>
 </ul>
 
 <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
     <li class="hover:active" *ngFor="let user of participantsBetround"><a>{{user?.firstName}}</a></li>
 </ul>
 </div>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="inviteFriendsModal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
+    <form>
+        <h3 class="text-xl py-10">Gib der email von deiner Freund an!</h3>
+        <input type="text" [(ngModel)]="searchedUserBetInvite" id="searchedUserBetInvite" 
+        placeholder="beispiel@mail.com" class="input input-bordered input-primary w-full max-w-xs" />
+        <div class="py-6">
+            <button class="btn btn-primary" (click)="sendBetroundInvite(searchedUserBetInvite)">Einladung senden</button>
+        </div>
+    </form>
+    <div class="modal-action">
+      <label for="inviteFriendsModal" class="btn">Schließen</label>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="nicknameModal" class="modal-toggle" />
+<label for="my-modal-4" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
+    <form>
+        <h3 class="text-xl py-10">Gib deine gewünschten Spitznamen an!</h3>
+        <input type="text" 
+        placeholder="Beispielname" class="input input-bordered input-primary w-full max-w-xs" />
+        <div class="py-6">
+            <button class="btn btn-primary">Spitzname ändern</button>
+        </div>
+    </form>
+    <div class="modal-action">
+      <label for="nicknameModal" class="btn">Schließen</label>
+    </div>
+  </label>
+</label>
