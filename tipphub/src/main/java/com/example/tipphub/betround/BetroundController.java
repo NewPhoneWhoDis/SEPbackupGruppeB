@@ -68,11 +68,13 @@ public class BetroundController {
         return betround.getInviteURL();
     }
 
-    @PostMapping("/onLinkClick/{userId}/{betroundId}")
-    public void saveUserInBetrounds(@PathVariable Long userId, @PathVariable Long betroundId) {
+    @GetMapping("/onLinkClick/{userId}/{betroundId}")
+    public void saveUserInBetrounds(@PathVariable Long betroundId, @PathVariable Long userId) {
         User user = betroundService.getUserById(userId);
         Betround betround = betroundService.getBetroundById(betroundId);
         betroundService.addInvitedUserToBetround(user, betround);
+        //String userEmail = betroundService.getUserEmail(userId);
+        this.betroundService.sendBetroundInviteToUser(betroundId, user.getEmail());
         // invitation id as attribute
     }
 

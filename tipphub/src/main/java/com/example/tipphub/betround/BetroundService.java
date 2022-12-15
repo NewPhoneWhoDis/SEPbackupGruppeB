@@ -1,9 +1,11 @@
 package com.example.tipphub.betround;
 
+import com.example.tipphub.email.EmailSenderService;
 import com.example.tipphub.hubSystem.HubSystemRepository;
 import com.example.tipphub.league.*;
 import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
+import com.example.tipphub.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,17 +25,19 @@ public class BetroundService {
     private final LeagueRepository leagueRepository;
     private final GameRepository gameRepository;
     private final HubSystemRepository hubSystemRepository;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
-            UserRepository userRepository,
-            LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository, GameRepository gameRepository) {
+                           UserRepository userRepository,
+                           LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository, GameRepository gameRepository, EmailSenderService emailSenderService, UserService userService) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
         this.userRepository = userRepository;
         this.leagueRepository = leagueRepository;
         this.hubSystemRepository = hubSystemRepository;
         this.gameRepository = gameRepository;
+        this.emailSenderService = emailSenderService;
     }
 
     @Transactional
@@ -351,9 +354,22 @@ public class BetroundService {
 
         System.out.println(top3);
         return top3;
-
     }
 
+
+    @Transactional
+    public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
+        this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
+    }
+
+    @Transactional
+    public String getUserEmail(Long userId) {
+        User newUser = userRepository.findById(userId).get();
+        return newUser.getEmail();
+    }
+
+
+    @Transactional
     public List<User> getAllParticipantsService(Long id) {
         return betroundRepository.findById(id).get().getUsers();
     }

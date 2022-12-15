@@ -41,7 +41,7 @@ public class EmailSenderService {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom("noreply.tipphub@gmail.com");
         msg.setTo(userEmail);
-        msg.setText("http://localhost:4200/betround/" + betround.getInviteURL());
+        msg.setText("Du bist in eine Tipprunde eingeladen: http://localhost:4200/betround/" + betround.getInviteURL());
         msg.setSubject("Tipphub Einladung");
         mailSender.send(msg);
     }

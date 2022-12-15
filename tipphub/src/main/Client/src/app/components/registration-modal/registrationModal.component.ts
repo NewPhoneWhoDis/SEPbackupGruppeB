@@ -17,8 +17,14 @@ export class RegistrationModalComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.rs.addNewUser(this.registrationRequest).subscribe((data: RegistrationRequest) => {
-      this.registrationRequest = data;
+    this.rs.addNewUser(this.registrationRequest).subscribe({
+     next: (data: RegistrationRequest) => {
+       this.registrationRequest = data;
+       window.alert("Registrierung erfolgreich!")
+     },
+      error: () => {
+       window.alert("Email ist schon besetzt!")
+      }
     });
   }
 

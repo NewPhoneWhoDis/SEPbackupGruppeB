@@ -1,3 +1,4 @@
+import { UserService } from './../../Service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Betround } from 'src/app/Model/Betround';
@@ -11,13 +12,18 @@ import { BetroundService } from 'src/app/Service/betround.service';
 })
 export class BetroundDetailsComponent implements OnInit {
 
+  searchedUserBetInvite : string = "";
+  matchedUser : User | undefined;
+  currentUser : User | undefined;
   routeId: string | null = '';
   routeNumId: number = 0;
   betrounds: Betround[] | undefined;
   participantsBetround: Array<User | undefined> | undefined;
   betroundToShow: Betround = new Betround();
 
-  constructor(private route: ActivatedRoute, private betroundService: BetroundService) { }
+  constructor(private route: ActivatedRoute, 
+    private betroundService: BetroundService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.betroundService.getAllBetrounds().subscribe(data => {
@@ -41,34 +47,17 @@ export class BetroundDetailsComponent implements OnInit {
         return betround;
       })
     })
-     /*
-    this.betroundService.getAllBetrounds().subscribe(data => {
-      return data.map(betround  => {
-        if(betround.id === this.routeNumId) {
-          this.participantsBetround = betround.users;
-        }
-      })
-    })
-    
-    console.log(this.participantsBetround);
-    */
   }
 
-  /*
-  getCorrectId(routeId: number) {
-    let correctId;
-    if(this.betrounds) {
-      this.betrounds.map((betround) => {
-        if(betround.id === routeId) {
-          correctId = betround.id;
-          //return betround.id;
-        }
-        //else return null;
-      })
-
+  sendBetroundInvite(email: string): void {
+    this.userService.getUserByEmail(email).subscribe(data =>{
+      this.matchedUser = data
+      console.log(this.currentUser?.id,this.matchedUser?.id )
+      if (this.userService.getUserById(this.matchedUser?.id)){
+        this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number)
+      }else return;
       
-    }
+    });
   }
-  */
 
 }
