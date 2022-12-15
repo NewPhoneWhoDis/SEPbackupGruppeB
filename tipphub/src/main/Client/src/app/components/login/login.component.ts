@@ -37,9 +37,7 @@ export class LoginComponent implements OnInit {
       next: (value) => {
         this.storageService.saveUser(value);
         this.isLoggedIn = true;
-        let str = JSON.stringify(value).toString();
-        str = str.substring(str.indexOf("code"));
-        this.code = str.substring(str.indexOf("\"")+3,str.length-15)
+        this.code = this.storageService.getCode();
         console.log(this.code);
       },
       error: () => {
