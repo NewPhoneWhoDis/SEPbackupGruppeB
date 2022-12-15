@@ -1,68 +1,84 @@
-<div class="container grid h-screen place-items-center" *ngFor="let league of leaguesWithGames | keyvalue">
-    <div class="flex">
-        <button class="btn gap-8 btn-lg h-20">
-            {{league.key.name}}
-            <div class="avatar">
-                <div class="w-12 mask mask-squircle">
-                    <img [src]="league.key.logoURL" />
-                </div>
-            </div>
-        </button>
-        <div class="px-8">
-            <!-- The button to open modal -->
-            <label for="topBetter" class="btn text-l h-20">Top 3 Tipper</label>
-
-            <!-- Put this part before </body> tag -->
-            <input type="checkbox" id="topBetter" class="modal-toggle" />
-            <div class="modal">
-                <div class="modal-box relative">
-                    <label for="topBetter" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <ol class="list-decimal">
-                        <li>{{league.key.topBetters[0]}}</li>
-                        <li>{{league.key.topBetters[1]}}</li>
-                        <li>{{league.key.topBetters[2]}}</li>
-                    </ol>
-                </div>
-            </div>
+<div
+  class="container grid h-screen place-items-center"
+  *ngFor="let league of leaguesWithGames | keyvalue"
+>
+  <div class="flex">
+    <button class="btn gap-8 btn-lg h-20">
+      {{ league.key.name }}
+      <div class="avatar">
+        <div class="w-12 mask mask-squircle">
+          <img [src]="league.key.logoURL" />
         </div>
-        <div>
-            <!-- The button to open modal -->
-            <label for="topTeams" class="btn text-l h-20">Top 3 der profitabelsten Mannschaften</label>
+      </div>
+    </button>
+    <div class="px-8">
+      <!-- The button to open modal -->
+      <label for="topBetter" class="btn text-l h-20">Top 3 Tipper</label>
 
-            <!-- Put this part before </body> tag -->
-            <input type="checkbox" id="topTeams" class="modal-toggle" />
-            <div class="modal">
-                <div class="modal-box relative">
-                    <label for="topTeams" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <ol class="list-decimal">
-                        <li>{{league.key.topTeams[0]}}</li>
-                        <li>{{league.key.topTeams[1]}}</li>
-                        <li>{{league.key.topTeams[2]}}</li>
-                    </ol>
-                </div>
-            </div>
+      <!-- Put this part before </body> tag -->
+      <input type="checkbox" id="topBetter" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box relative">
+          <label
+            for="topBetter"
+            class="btn btn-sm btn-circle absolute right-2 top-2"
+            >✕</label
+          >
+          <ol class="list-decimal">
+            <li>{{ league.key.topBetters[0] }}</li>
+            <li>{{ league.key.topBetters[1] }}</li>
+            <li>{{ league.key.topBetters[2] }}</li>
+          </ol>
         </div>
+      </div>
     </div>
-    <table class="text-left w-3/4">
-        <thead class="bg-black flex text-white w-full">
-        <tr class="flex w-full mb-4">
-            <th class="p-4 w-1/4">Round</th>
-            <th class="p-4 w-1/4">Heimmannschaft</th>
-            <th class="p-4 w-1/4">#</th>
-            <th class="p-4 w-1/4">#</th>
-            <th class="p-4 w-1/4">Auswärtsmannschaft</th>
-            <th class="p-4 w-1/4">Datum</th>
-        </tr>
-        </thead>
-        <tbody class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full" style="height: 60vh;">
-        <tr class="flex w-full mb-4" *ngFor="let game of league.value">
-            <td class="p-4 w-1/4">{{game.id}}</td>
-            <td class="p-4 w-1/4">{{game.homeTeam}}</td>
-            <td class="p-4 w-1/4">{{game.scoreHomeTeam}}</td>
-            <td class="p-4 w-1/4">{{game.scoreAwayTeam}}</td>
-            <td class="p-4 w-1/4">{{game.awayTeam}}</td>
-            <td class="p-4 w-1/4">{{game.date}}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div>
+      <!-- The button to open modal -->
+      <label for="topTeams" class="btn text-l h-20"
+        >Top 3 der profitabelsten Mannschaften</label
+      >
+
+      <!-- Put this part before </body> tag -->
+      <input type="checkbox" id="topTeams" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box relative">
+          <label
+            for="topTeams"
+            class="btn btn-sm btn-circle absolute right-2 top-2"
+            >✕</label
+          >
+          <ol class="list-decimal">
+            <li>{{ league.key.topTeams[0] }}</li>
+            <li>{{ league.key.topTeams[1] }}</li>
+            <li>{{ league.key.topTeams[2] }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-zebra w-full">
+    <thead class="flex text-white w-full">
+      <tr class="flex w-full mb-4">
+        <th class="p-4 w-1/4">Round</th>
+        <th class="p-4 w-1/4">Heimmannschaft</th>
+        <th class="p-4 w-1/4">#</th>
+        <th class="p-4 w-1/4">#</th>
+        <th class="p-4 w-1/4">Auswärtsmannschaft</th>
+        <th class="p-4 w-1/4">Datum</th>
+      </tr>
+    </thead>
+    <tbody
+      class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full"
+      style="height: 60vh"
+    >
+      <tr class="flex w-full mb-4" *ngFor="let game of league.value">
+        <td class="p-4 w-1/4">{{ game.id }}</td>
+        <td class="p-4 w-1/4">{{ game.homeTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.scoreHomeTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.scoreAwayTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.awayTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.date }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
