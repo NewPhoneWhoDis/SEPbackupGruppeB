@@ -369,6 +369,7 @@ public class BetroundService {
     }
 
 
+    @Transactional
     public List<User> getAllParticipantsService(Long id) {
         return betroundRepository.findById(id).get().getUsers();
     }
