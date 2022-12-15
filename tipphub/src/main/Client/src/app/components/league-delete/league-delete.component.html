@@ -4,23 +4,26 @@
     <div class="py-6 px-6 lg:px-8">
       <app-tabs-container>
         <!-- Liga erstellung Form -->
-          <form (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label class="inline-block mb-2">Geben Sie den Namen der Liga an, die Gelöscht werden muss</label>
-              <input
-                type="text"
-                [(ngModel)]="league.name"
-                id="leagueName"
-                name="leagueName"
-                class="input input-bordered w-full"
-                placeholder="Name eingeben"
-              />
-            </div>
-            <label for="creation-of-league"></label>
-            <button type="submit" class="btn btn-primary w-full mt-2">
-              Löschen
-            </button>
-          </form>
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="inline-block mb-2"
+              >Geben Sie den Namen der Liga an, die Gelöscht werden muss</label
+            >
+            <select
+              type="text"
+              [(ngModel)]="league.name"
+              id="leagueName"
+              name="leagueName"
+              class="select select-bordered w-full"
+            >
+              <option *ngFor="let league of leagues">{{ league.name }}</option>
+            </select>
+          </div>
+          <label for="creation-of-league"></label>
+          <button type="submit" class="btn btn-primary w-full mt-2">
+            Löschen
+          </button>
+        </form>
       </app-tabs-container>
     </div>
   </label>
