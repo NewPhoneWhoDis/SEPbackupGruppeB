@@ -7,7 +7,6 @@ import {BetroundService} from "../../Service/betround.service";
 import {Bet} from "../../Model/Bet";
 import {StorageService} from "../../Service/storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Router} from "@angular/router";
 import { User } from 'src/app/Model/User';
 
 @Component({
