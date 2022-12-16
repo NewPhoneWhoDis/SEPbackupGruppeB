@@ -24,15 +24,25 @@ export class betroundPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userService
+        .getUserById(this.storageService.getLoggedUser())
+        .subscribe((data) => {
+          this.currentUser = data;
+        });
     this.betroundService.getAllBetrounds().subscribe((data) => {
       this.betrounds = data;
+      for(let i = 0; i < this.betrounds.length; i++){
+        this.betroundService.getAllParticipants(this.betrounds[i].id).subscribe((users) => {
+          for(let j = 0; j < users.length; j++){
+            if(users[j].id == this.currentUser.id){
+              // @ts-ignore
+              this.betrounds[i].containsCurrentUser = true;
+            }
+          }
+        })
+      }
       console.log(data);
     });
-    this.userService
-      .getUserById(this.storageService.getLoggedUser())
-      .subscribe((data) => {
-        this.currentUser = data;
-      });
   }
 
   joinBetround(targetId: number | undefined) {

@@ -14,4 +14,5 @@ export class Betround {
   league: League = new League();
   bets: Array<Bet | undefined> | undefined;
   users: Array<User | undefined> | undefined;
+  containsCurrentUser: boolean = false;
 }

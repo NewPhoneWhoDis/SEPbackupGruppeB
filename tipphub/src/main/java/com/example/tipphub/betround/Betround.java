@@ -38,7 +38,7 @@ public class Betround {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
     private List<Bet> bets = new ArrayList<>();
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE

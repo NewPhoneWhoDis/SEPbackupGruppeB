@@ -57,8 +57,8 @@ export class BetroundService {
   }
 
 
-  public getAllParticipants(userId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants/${userId}`, httpHeaders);
+  public getAllParticipants(betroundId: number | undefined): Observable<User[]> {
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants/${betroundId}`, httpHeaders);
   }
 
 
