@@ -36,8 +36,9 @@ export class BetroundDetailsComponent implements OnInit {
     })
 
     this.routeId = this.route.snapshot.paramMap.get('id');
-    if(this.routeId)
-    this.routeNumId = +this.routeId;
+    if(this.routeId){
+      this.routeNumId = +this.routeId;
+    }
     console.log('this is the route id inside betround details' + this.routeId)
     console.log('this is the number' + this.routeNumId);
 

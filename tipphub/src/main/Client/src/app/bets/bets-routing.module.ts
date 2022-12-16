@@ -13,6 +13,10 @@ const routes: Routes = [
     component: BetsOverviewComponent
   },
   {
+    path: 'betround-details/:id/bets-overview',
+    component: BetsOverviewComponent
+  },
+  {
     path:'bets-creation', 
     component: BetsCreationComponent
   },

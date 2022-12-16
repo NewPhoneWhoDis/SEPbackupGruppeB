@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from "../Model/User";
+import {Bet} from "../Model/Bet";
 
 const httpHeaders = {
   headers: new HttpHeaders({

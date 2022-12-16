@@ -1,5 +1,6 @@
 package com.example.tipphub.user;
 
+import com.example.tipphub.betround.Bet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
