@@ -115,11 +115,11 @@
         <h3 class="text-xl py-10">Gib deine gewünschten Spitznamen an!</h3>
         <input
           type="text"
-          placeholder="Beispielname"
+          placeholder="Beispielname" [(ngModel)]="nameToChange" name="nameToChange"
           class="input input-bordered input-primary w-full max-w-xs"
         />
         <div class="py-6">
-          <button class="btn btn-primary">Spitzname ändern</button>
+          <button class="btn btn-primary" (click)="changeName($event, nameToChange)">Spitzname ändern</button>
         </div>
       </form>
       <div class="modal-action">
