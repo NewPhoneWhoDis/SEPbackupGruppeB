@@ -73,4 +73,9 @@ public class UserService{
                 .orElseThrow(() -> new UsernameNotFoundException
                         (String.format("User with the ID: %s was not found", userId)));
     }
+
+    @Transactional
+    public boolean isFriend(Long userId, Long friendId){
+        return this.getUserById(userId).hasFriend(this.getUserById(friendId));
+    }
 }

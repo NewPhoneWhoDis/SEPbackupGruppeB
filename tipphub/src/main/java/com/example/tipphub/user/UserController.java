@@ -1,5 +1,6 @@
 package com.example.tipphub.user;
 
+import com.example.tipphub.betround.Bet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -73,5 +74,10 @@ public class UserController {
     @GetMapping("/getUserByEmail/{email}")
     public User getUserByEmail(@PathVariable String email){
         return userService.getByEmail(email);
+    }
+
+    @GetMapping("/isFriends/{userId}/{friendId}")
+    public boolean isFriends(@PathVariable Long userId, @PathVariable Long friendId){
+        return userService.isFriend(userId,friendId);
     }
 }

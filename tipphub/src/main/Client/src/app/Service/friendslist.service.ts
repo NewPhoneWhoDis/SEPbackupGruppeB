@@ -35,4 +35,9 @@ export class FriendslistService {
   public processFriendRequest(userId: number | undefined, friendRequestId: number, add: boolean): Observable<any>{
     return this.http.put<any>(`${this.userURL}notification/processFriendRequest/${userId}/${friendRequestId}?add=${add}`,null);
   }
+
+  public isFriends(userId : number | undefined, friendId : number | undefined) : Observable<boolean>{
+    console.log("isFriends wird ausgeführt...")
+    return this.http.get<boolean>(`http://localhost:8080/user/isFriends/${userId}/${friendId}`)
+  }
 }

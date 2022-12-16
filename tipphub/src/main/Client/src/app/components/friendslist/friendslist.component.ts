@@ -57,6 +57,10 @@ export class FriendslistComponent implements OnInit {
   setClickedFriend(friend : User){
     this.storageService.saveClickedUser(friend);
   }
+
+  logout(){
+    this.storageService.logout();
+  }
   /*openOptions(): void{
     this.isOpen = true;
   }*/
