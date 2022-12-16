@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(path = "/betround")
+@RequestMapping(path = "/betround")
 public class BetroundController {
 
     private final BetroundService betroundService;
@@ -57,26 +57,16 @@ public class BetroundController {
 
     @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
     public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId, @PathVariable Long targetetUserId) {
-        User targetetUser = betroundService.getTargetetUser(targetetUserId);
         betroundService.generateInviteURL(betroundId, userId);
-        targetetUser = betroundService.getUserById(targetetUserId);
-        emailSenderService.sendEmailInviteBetround(betroundId, targetetUser.getEmail());
+        //emailSenderService.sendEmailInviteBetround(betroundId, betroundService.getUserById(targetetUserId).getEmail());
     }
 
-    @GetMapping("/getInivteURL")
-    public String sendInviteURL(@PathVariable("betround") Betround betround) {
-        return betround.getInviteURL();
+        @GetMapping("/getInivteURL/{betroundId}/{userId}")
+    public void sendInviteURL(@PathVariable Long betroundId, @PathVariable Long userId) {
+        this.betroundService.sendEmailBetroundInvite(betroundId, userId);
     }
 
-    @GetMapping("/onLinkClick/{userId}/{betroundId}")
-    public void saveUserInBetrounds(@PathVariable Long betroundId, @PathVariable Long userId) {
-        User user = betroundService.getUserById(userId);
-        Betround betround = betroundService.getBetroundById(betroundId);
-        betroundService.addInvitedUserToBetround(user, betround);
-        //String userEmail = betroundService.getUserEmail(userId);
-        this.betroundService.sendBetroundInviteToUser(betroundId, user.getEmail());
-        // invitation id as attribute
-    }
+
 
     @GetMapping("/getBest/{leagueId}")
     public List<String> getBestUsersOfLeague(@PathVariable("leagueId") Long leagueId) {
@@ -96,5 +86,10 @@ public class BetroundController {
     @PutMapping("/setNickname/{userId}/{betroundId}")
     public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname){
         betroundService.setNickname(userId,betroundId,nickname);
+    }
+
+    @GetMapping("/getLeagueId/{betroundId}")
+    public Long getLeaugeId(@PathVariable Long betroundId){
+        return betroundService.getLeagueId(betroundId);
     }
 }

@@ -3,6 +3,7 @@ import {User} from "../../Model/User";
 import {FriendslistComponent} from "../friendslist/friendslist.component";
 import {UserService} from "../../Service/user.service";
 import {data} from "autoprefixer";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -10,11 +11,17 @@ import {data} from "autoprefixer";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  //idOfroute: string;
+  routeId: string | null = '';
+  routeNumId: number = 0;
   clickedFriend : User | undefined;
-  constructor(private userService : UserService) {
+  constructor(private userService : UserService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.routeId = this.route.snapshot.paramMap.get('id');
+    if(this.routeId)
+    this.routeNumId = +this.routeId;
   }
 
   public getFriendFirstname(): any {
@@ -51,5 +58,9 @@ export class ProfileComponent implements OnInit {
       return temp.email;
     }
     return {};
+  }
+
+  public sendInviteForBetround() {
+    console.log(this.routeNumId)
   }
 }

@@ -48,19 +48,6 @@ export class BetroundService {
     return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
   }
 
-  public generateInvite(betroundId: number, ownerId: number, targetetUserId: number, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/inviteGeneration/${betroundId}/${ownerId}/${targetetUserId}`, betround, httpHeaders);
-  }
-
-  //
-  public getInviteURL(betround: Betround): Observable<Betround> {
-    return this.http.get<Betround>(`${this.betroundUrl}/getInivteURL`);
-  }
-
-  public saveUserInBetrounds(userId: User, betroundId: Betround, betround: Betround): Observable<Betround> {
-    return this.http.put<Betround>(`${this.betroundUrl}/getInivteURL/${userId}/${betroundId}`, betround, httpHeaders);
-  }
-
   public getBestBetters(leaugeId: number | undefined): Observable<Array<string>>{
     return this.http.get<Array<string>>(`${this.betroundUrl}/getBest/${leaugeId}`, httpHeaders);
   }
@@ -71,7 +58,7 @@ export class BetroundService {
 
 
   public getAllParticipants(userId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants${userId}`, httpHeaders);
+    return this.http.get<User[]>(`${this.betroundUrl}/getAllParticipants/${userId}`, httpHeaders);
   }
 
 
@@ -80,9 +67,9 @@ export class BetroundService {
   }
 
   public sendEmailInviteBetround(betroundId: number, targetUserId: number) {
-    return this.http.get(`${this.betroundUrl}/onLinkClick/${betroundId}/${targetUserId}`, httpHeaders);
-  }
-
+    ///onLinkClick/{userId}/{betroundId}
+    return this.http.get(`${this.betroundUrl}/getInivteURL/${betroundId}/${targetUserId}`);
+  }  
   public setNickname(userId: number, betroundId: number, nickname: string): Observable<any> {
     return this.http.put<any>(`${this.betroundUrl}/setNickname/${userId}/${betroundId}?nickname=${nickname}`, httpHeaders);
   }
@@ -90,5 +77,9 @@ export class BetroundService {
   public shareBet(friendId: number, betId: number): Observable<any>{
     let shareBetUrl = this.betroundUrl.replace("betround","notification/shareBet");
     return this.http.put<any>(`${shareBetUrl}/${friendId}/${betId}`,null,httpHeaders);
+  }
+
+  public getLeagueId(betroundId: number) {
+    return this.http.get<number>(`${this.betroundUrl}/getLeagueId/${betroundId}`, httpHeaders);
   }
 }

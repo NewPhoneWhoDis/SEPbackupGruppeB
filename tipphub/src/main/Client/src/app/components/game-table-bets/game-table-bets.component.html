@@ -2,7 +2,7 @@
   class="container grid h-screen place-items-center"
   *ngFor="let league of leaguesWithGames | keyvalue"
 >
-  <div class="flex">
+  <div class="flex" *ngIf="league.key.id === leaugeId || leagueTable">
     <button class="btn gap-8 btn-lg h-20">
       {{ league.key.name }}
       <div class="avatar">
@@ -64,7 +64,7 @@
       </div>
     </div>
   </div>
-  <table class="table table-zebra w-10/12">
+  <table class="table table-zebra w-10/12" *ngIf="league.key.id === leaugeId || leagueTable">
     <thead class="flex text-white w-full">
       <tr class="flex w-full mb-4">
         <th class="p-4 w-1/4">Round</th>
@@ -156,6 +156,10 @@
       />
       <button class="btn btn-primary w-full mt-2" (click)="betInRound()">
         Wetten!
+      </button>
+      <button *ngIf="this.showOvertakeButton" class="btn btn-primary w-full mt-2">
+        Wetten aus andere Tipprunde übernehmen!
+        ({{ this.tippsResult }})
       </button>
     </div>
   </div>

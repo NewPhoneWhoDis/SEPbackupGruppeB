@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BetsOverviewComponent } from './bets-overview/bets-overview.component';
 import { BetsManagementComponent } from './bets-management/bets-management.component';
+import {GameTableBetsComponent} from "../components/game-table-bets/game-table-bets.component";
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
   {
     path: 'betround-details/:id',
     component: BetroundDetailsComponent
-  }
+  },
+  { path: "betround-details/:id/betTable", component: GameTableBetsComponent }
 ];
 
 @NgModule({

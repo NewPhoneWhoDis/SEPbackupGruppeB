@@ -256,19 +256,24 @@ public class BetroundService {
         return returnList;
     }
 
-    public User getTargetetUser(Long targetetUserId) {
-        return userRepository.findById(targetetUserId).get();
+    @Transactional
+    public void saveUserInBetrounds(Long betroundId, Long userId) {
+        User user = userRepository.findById(userId).get();
+        Betround betround = betroundRepository.findById(betroundId).get();
+        if(betround.getUsers().contains(user)) {
+           return;
+        }
+        user.getBetrounds().add(betround);
+        betround.getUsers().add(user);
     }
 
-    @Transactional
-    public void addInvitedUserToBetround(User user, Betround betround) {
-        List<User> extendedList = betround.getUsers();
-        extendedList.add(user);
-        betround.setUsers(extendedList);
-        betroundRepository.save(betround);
+    public void sendEmailBetroundInvite(Long betroundId, Long userId) {
+        User user = userRepository.findById(userId).get();
+        this.emailSenderService.sendEmailInviteBetround(betroundId, user.getEmail(), userId);
     }
 
     public User getUserById(Long userId) {
+        System.out.println("This is the id of the user:"+userId);
         return userRepository.findById(userId).get();
     }
 
@@ -366,17 +371,12 @@ public class BetroundService {
     }
 
 
+    /*
     @Transactional
     public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
         this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
     }
-
-    @Transactional
-    public String getUserEmail(Long userId) {
-        User newUser = userRepository.findById(userId).get();
-        return newUser.getEmail();
-    }
-
+    */
 
     @Transactional
     public List<User> getAllParticipantsService(Long id) {
@@ -392,5 +392,11 @@ public class BetroundService {
         betroundNickname.setUser(user);
         betroundNickname.setBetround(betround);
         betroundNicknameRepository.save(betroundNickname);
+    }
+
+    @Transactional
+    public Long getLeagueId(Long betroundId){
+        Betround betround = betroundRepository.findById(betroundId).get();
+        return betround.getLeague().getId();
     }
 }

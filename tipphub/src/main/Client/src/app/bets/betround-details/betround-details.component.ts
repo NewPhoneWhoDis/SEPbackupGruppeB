@@ -1,6 +1,6 @@
 import { UserService } from './../../Service/user.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { Betround } from 'src/app/Model/Betround';
 import { User } from 'src/app/Model/User';
 import { BetroundService } from 'src/app/Service/betround.service';
@@ -23,7 +23,8 @@ export class BetroundDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, 
     private betroundService: BetroundService,
-    private userService: UserService) { }
+    private userService: UserService,
+    public router: Router) { }
 
   ngOnInit(): void {
     this.betroundService.getAllBetrounds().subscribe(data => {
@@ -50,13 +51,13 @@ export class BetroundDetailsComponent implements OnInit {
   }
 
   sendBetroundInvite(email: string): void {
+    console.log(email);
     this.userService.getUserByEmail(email).subscribe(data =>{
       this.matchedUser = data
-      console.log(this.currentUser?.id,this.matchedUser?.id )
       if (this.userService.getUserById(this.matchedUser?.id)){
-        this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number)
-      }else return;
-      
+        console.log(this.routeNumId, this.matchedUser?.id);
+        this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number).subscribe();
+      }
     });
   }
 

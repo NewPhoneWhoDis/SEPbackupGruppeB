@@ -13,7 +13,7 @@
 
 <ul class="menu bg-base-100 w-56">
     <li><label class="hover:active" for="nicknameModal">Spitzname festlegen</label></li>
-    <li><a class="hover:active">Game Table</a></li>
+    <li><a routerLink="{{this.router.url}}/betTable" class="hover:active">Game Table</a></li>
     <li><a class="hover:active">Tipps overview</a></li>
     <li><label class="hover:active" for="inviteFriendsModal">Freunde einladen</label></li>
     <li><a class="hover:active">Scoreboard</a></li>
@@ -31,7 +31,7 @@
     <form>
         <h3 class="text-xl py-10">Gib der email von deiner Freund an!</h3>
         <input type="text" [(ngModel)]="searchedUserBetInvite" id="searchedUserBetInvite" 
-        placeholder="beispiel@mail.com" class="input input-bordered input-primary w-full max-w-xs" />
+        placeholder="beispiel@mail.com" name="inviteFriendsModal" class="input input-bordered input-primary w-full max-w-xs" />
         <div class="py-6">
             <button class="btn btn-primary" (click)="sendBetroundInvite(searchedUserBetInvite)">Einladung senden</button>
         </div>

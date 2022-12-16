@@ -6,8 +6,8 @@ import {HubSystemService} from "../../Service/hub-system.service";
 import {BetroundService} from "../../Service/betround.service";
 import {Bet} from "../../Model/Bet";
 import {StorageService} from "../../Service/storage.service";
-import {data} from "autoprefixer";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import { User } from 'src/app/Model/User';
 
 @Component({
   selector: 'app-game-table-bets',
@@ -22,17 +22,35 @@ export class GameTableBetsComponent implements OnInit {
   bet: Bet = new Bet();
   gameBetHelp: Game = new Game();
   leagueWithTops: League = new League();
+  currentUser: User = new User();
+  tippsResult: string = "";
+  showOvertakeButton: boolean = false;
   showButtons: boolean = true
+  routeId: string | null = '';
+  routeNumId: number = 0;
+  leaugeId: number = 0;
+  leagueTable: boolean = false;
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
               private betroundService: BetroundService,
               private storageService: StorageService,
-              private router: Router) {}
+              private router: Router,
+              private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.routeId = this.route.snapshot.paramMap.get('id');
+    if(this.routeId){
+      this.routeNumId = + this.routeId;
+    }
     if(this.router.url === "/ligen-management"){
       this.showButtons = false;
+      this.leagueTable = true;
+    }
+    if(this.router.url.includes("betTable")){
+      this.betroundService.getLeagueId(this.routeNumId).subscribe((data)=> {
+        this.leaugeId = data;
+      })
     }
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
     this.leagueService.getAllLeagues().subscribe(data => {
@@ -73,13 +91,28 @@ export class GameTableBetsComponent implements OnInit {
     this.bet.awayTeam = game.awayTeam;
     this.bet.dateOfBet = this.systemDate;
     this.bet.dateOfGame = game.date;
+    // show popup tipp übernehmen
+    this.currentUser = this.storageService.getLoggedUser();
+    if(this.currentUser.betrounds) {
+      for(let betround of this.currentUser.betrounds) {
+        for(let betToSearch of betround.bets as Array<Bet>) {
+          if(betToSearch.homeTeam == this.bet.homeTeam &&
+             betToSearch.awayTeam == this.bet.awayTeam &&
+             betToSearch.dateOfGame == this.bet.dateOfGame) {
+
+            this.showOvertakeButton = true;
+            this.tippsResult = betToSearch.homeTeamScore?.toString() as string + "-" + betToSearch.awayTeamScore?.toString();
+          }
+        }
+      }
+    }
     console.log(game);
   }
 
   betInRound(): void{
     console.log(this.bet)
     console.log(this.storageService.getLoggedUser())
-    this.betroundService.betInRound(this.storageService.getLoggedUser(),1,this.bet).subscribe();
+    this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe();
     window.alert("Wette wurde erfolgreich platziert!")
     location.reload()
   }
