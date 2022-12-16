@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { LeagueService } from '../../Service/league.service';
 import { Component, OnInit } from '@angular/core';
+import {StorageService} from "../../Service/storage.service";
 
 @Component({
   selector: 'app-league-table',
@@ -9,22 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeagueTableComponent implements OnInit {
 
-  appObservable = new Observable((observer) => {
-    console.log('test')
-    observer.next('1')
-    observer.next('2')
-    observer.next('3')
-    observer.next('4')
-  })
+  showPopUp: boolean = false;
 
 
-  constructor(public leagueService: LeagueService) {
+  constructor(public leagueService: LeagueService,
+              private storageService: StorageService) {
   }
 
   ngOnInit(): void {
-      this.appObservable.subscribe((val) => {
-        console.log(val)
-      })
+    this.showPopUp = this.storageService.isCurrentUserAdmin();
   }
 
 }

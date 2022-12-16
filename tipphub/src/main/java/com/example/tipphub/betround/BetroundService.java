@@ -26,11 +26,17 @@ public class BetroundService {
     private final GameRepository gameRepository;
     private final HubSystemRepository hubSystemRepository;
     private final EmailSenderService emailSenderService;
+    private final BetroundNicknameRepository betroundNicknameRepository;
 
     @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
                            UserRepository userRepository,
-                           LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository, GameRepository gameRepository, EmailSenderService emailSenderService, UserService userService) {
+                           LeagueRepository leagueRepository,
+                           HubSystemRepository hubSystemRepository,
+                           GameRepository gameRepository,
+                           EmailSenderService emailSenderService,
+                           UserService userService,
+                           BetroundNicknameRepository betroundNicknameRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
         this.userRepository = userRepository;
@@ -38,6 +44,7 @@ public class BetroundService {
         this.hubSystemRepository = hubSystemRepository;
         this.gameRepository = gameRepository;
         this.emailSenderService = emailSenderService;
+        this.betroundNicknameRepository = betroundNicknameRepository;
     }
 
     @Transactional
@@ -231,13 +238,10 @@ public class BetroundService {
         for (Betround betround : betrounds) {
             for (Bet bet : betround.getBets()) {
                 Game game = getGameForBet(bet);
-                LocalDate currentSystemDate = hubSystemRepository.findById(1L).get().getSystemDate();
-                if (game.getDate().isBefore(currentSystemDate)) {
-                    teamsWithScore.put(bet.getHomeTeam(),
-                            teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore() / 2);
-                    teamsWithScore.put(bet.getAwayTeam(),
-                            teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore() / 2);
-                }
+                teamsWithScore.put(bet.getHomeTeam(),
+                        teamsWithScore.get(bet.getHomeTeam()) + bet.getBetScore() / 2);
+                teamsWithScore.put(bet.getAwayTeam(),
+                        teamsWithScore.get(bet.getAwayTeam()) + bet.getBetScore() / 2);
             }
         }
         String team1 = getTeamWithMaxScore(teamsWithScore);
@@ -252,19 +256,24 @@ public class BetroundService {
         return returnList;
     }
 
-    public User getTargetetUser(Long targetetUserId) {
-        return userRepository.findById(targetetUserId).get();
+    @Transactional
+    public void saveUserInBetrounds(Long betroundId, Long userId) {
+        User user = userRepository.findById(userId).get();
+        Betround betround = betroundRepository.findById(betroundId).get();
+        if(betround.getUsers().contains(user)) {
+           return;
+        }
+        user.getBetrounds().add(betround);
+        betround.getUsers().add(user);
     }
 
-    @Transactional
-    public void addInvitedUserToBetround(User user, Betround betround) {
-        List<User> extendedList = betround.getUsers();
-        extendedList.add(user);
-        betround.setUsers(extendedList);
-        betroundRepository.save(betround);
+    public void sendEmailBetroundInvite(Long betroundId, Long userId) {
+        User user = userRepository.findById(userId).get();
+        this.emailSenderService.sendEmailInviteBetround(betroundId, user.getEmail(), userId);
     }
 
     public User getUserById(Long userId) {
+        System.out.println("This is the id of the user:"+userId);
         return userRepository.findById(userId).get();
     }
 
@@ -313,7 +322,12 @@ public class BetroundService {
                 highestScore = teamsWithScore.get(key);
             }
         }
-        return returnTeam;
+        if(teamsWithScore.get(returnTeam) > 0){
+            return returnTeam;
+        } else{
+            return "";
+        }
+
     }
 
     @Transactional
@@ -357,19 +371,26 @@ public class BetroundService {
     }
 
 
+    /*
     @Transactional
     public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
         this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
     }
+    */
 
     @Transactional
-    public String getUserEmail(Long userId) {
-        User newUser = userRepository.findById(userId).get();
-        return newUser.getEmail();
-    }
-
-
     public List<User> getAllParticipantsService(Long id) {
         return betroundRepository.findById(id).get().getUsers();
+    }
+
+    @Transactional
+    public void setNickname(Long userId, Long betroundId, String nickname){
+        User user = userRepository.findById(userId).get();
+        Betround betround = betroundRepository.findById(betroundId).get();
+        BetroundNickname betroundNickname = new BetroundNickname();
+        betroundNickname.setNickname(nickname);
+        betroundNickname.setUser(user);
+        betroundNickname.setBetround(betround);
+        betroundNicknameRepository.save(betroundNickname);
     }
 }

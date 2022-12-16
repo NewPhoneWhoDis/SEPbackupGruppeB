@@ -3,6 +3,10 @@ import { BetroundService } from "../../Service/betround.service";
 import { Betround } from "../../Model/Betround";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { LeagueService } from "src/app/Service/league.service";
+import { League } from "src/app/Model/League";
+import { UserService } from "src/app/Service/user.service";
+import { StorageService } from "src/app/Service/storage.service";
+import { User } from "src/app/Model/User";
 
 @Component({
   selector: "betround-creation-modal",
@@ -11,36 +15,50 @@ import { LeagueService } from "src/app/Service/league.service";
 })
 export class BetroundCreationModalComponent implements OnInit {
   betround: Betround;
-  header: boolean = false;
-
-  betroundNameValidator = new FormControl("", [
-    Validators.required,
-    Validators.minLength(3),
-  ]);
-
-  betroundCreationValidationForm = new FormGroup({
-    betroundName: this.betroundNameValidator,
-  });
+  leagues: League[] | undefined;
+  league: League = new League();
+  currentUser: User = new User();
 
   constructor(
     private betroundService: BetroundService,
-    private leagueService: LeagueService
+    private userService: UserService,
+    private leagueService: LeagueService,
+    private storageService: StorageService
   ) {
     this.betround = new Betround();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.leagueService.getAllLeagues().subscribe((data) => {
+      this.leagues = data;
+    });
 
-  onSubmit() {
-    this.betroundService
-      .addNewBetround(1, 1, this.betround)
-      .subscribe((data: any) => {
-        this.betround = data;
-        window.location.reload();
+    this.userService
+      .getUserById(this.storageService.getLoggedUser())
+      .subscribe((data) => {
+        this.currentUser = data;
       });
   }
 
-  getLeagues() {
-    console.table(this.leagueService.getAllLeagues);
+  onSubmit() {
+    if (this.leagues) {
+      for (let league of this.leagues) {
+        if (league.name === this.league.name) {
+          if (league.id) {
+            // @ts-ignore
+            if (!this.betround.password) {
+              this.betround.isPublic = true;
+            }
+            this.betroundService
+              .addNewBetround(league, this.currentUser, this.betround)
+              .subscribe((data: any) => {
+                this.betround = data;
+                console.log(league);
+                window.location.reload();
+              });
+          }
+        }
+      }
+    }
   }
 }

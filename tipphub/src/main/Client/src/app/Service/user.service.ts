@@ -19,10 +19,10 @@ export class UserService {
     this.userURL = "http://localhost:8080/user";
   }
 
-  // Might be necessary for a User-Management-Page later on
-  // public getAllUsers(): Observable<User[]> {
-  //   return this.http.get<User[]>(`${this.userURL}/all`);
-  // }
+
+   public getAllUsers(): Observable<User[]> {
+     return this.http.get<User[]>(`${this.userURL}/all`);
+   }
 
   // Adds new user and sends him to /add Endpoint
   public addNewUser(user: User): Observable<User> {
