@@ -1,6 +1,6 @@
 import { UserService } from './../../Service/user.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { Betround } from 'src/app/Model/Betround';
 import { User } from 'src/app/Model/User';
 import { BetroundService } from 'src/app/Service/betround.service';
@@ -23,7 +23,8 @@ export class BetroundDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, 
     private betroundService: BetroundService,
-    private userService: UserService) { }
+    private userService: UserService,
+    public router: Router) { }
 
   ngOnInit(): void {
     this.betroundService.getAllBetrounds().subscribe(data => {

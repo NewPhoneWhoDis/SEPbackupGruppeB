@@ -393,4 +393,10 @@ public class BetroundService {
         betroundNickname.setBetround(betround);
         betroundNicknameRepository.save(betroundNickname);
     }
+
+    @Transactional
+    public Long getLeagueId(Long betroundId){
+        Betround betround = betroundRepository.findById(betroundId).get();
+        return betround.getLeague().getId();
+    }
 }

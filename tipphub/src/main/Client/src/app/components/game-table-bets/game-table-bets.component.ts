@@ -6,8 +6,8 @@ import {HubSystemService} from "../../Service/hub-system.service";
 import {BetroundService} from "../../Service/betround.service";
 import {Bet} from "../../Model/Bet";
 import {StorageService} from "../../Service/storage.service";
-import {data} from "autoprefixer";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Betround} from "../../Model/Betround";
 
 @Component({
   selector: 'app-game-table-bets',
@@ -23,16 +23,31 @@ export class GameTableBetsComponent implements OnInit {
   gameBetHelp: Game = new Game();
   leagueWithTops: League = new League();
   showButtons: boolean = true
+  routeId: string | null = '';
+  routeNumId: number = 0;
+  leaugeId: number = 0;
+  leagueTable: boolean = false;
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
               private betroundService: BetroundService,
               private storageService: StorageService,
-              private router: Router) {}
+              private router: Router,
+              private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.routeId = this.route.snapshot.paramMap.get('id');
+    if(this.routeId){
+      this.routeNumId = + this.routeId;
+    }
     if(this.router.url === "/ligen-management"){
       this.showButtons = false;
+      this.leagueTable = true;
+    }
+    if(this.router.url.includes("betTable")){
+      this.betroundService.getLeagueId(this.routeNumId).subscribe((data)=> {
+        this.leaugeId = data;
+      })
     }
     this.hubSystemService.getSystemDate().subscribe((data) =>{this.systemDate = data});
     this.leagueService.getAllLeagues().subscribe(data => {
@@ -79,7 +94,7 @@ export class GameTableBetsComponent implements OnInit {
   betInRound(): void{
     console.log(this.bet)
     console.log(this.storageService.getLoggedUser())
-    this.betroundService.betInRound(this.storageService.getLoggedUser(),1,this.bet).subscribe();
+    this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe();
     window.alert("Wette wurde erfolgreich platziert!")
     location.reload()
   }

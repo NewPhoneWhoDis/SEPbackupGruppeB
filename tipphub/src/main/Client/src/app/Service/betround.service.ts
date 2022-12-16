@@ -91,4 +91,8 @@ export class BetroundService {
     let shareBetUrl = this.betroundUrl.replace("betround","notification/shareBet");
     return this.http.put<any>(`${shareBetUrl}/${friendId}/${betId}`,null,httpHeaders);
   }
+
+  public getLeagueId(betroundId: number) {
+    return this.http.get<number>(`${this.betroundUrl}/getLeagueId/${betroundId}`, httpHeaders);
+  }
 }
