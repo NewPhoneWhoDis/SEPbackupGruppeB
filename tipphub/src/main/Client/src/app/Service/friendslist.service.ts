@@ -29,4 +29,9 @@ export class FriendslistService {
   public deleteFriend(userID : number | undefined, friendID : number | undefined) : Observable<void>{
     return this.http.delete<void>(`${this.userURL}remove/${userID}/${friendID}`);
   }
+
+  public isFriends(userId : number | undefined, friendId : number | undefined) : Observable<boolean>{
+    console.log("isFriends wird ausgeführt...")
+    return this.http.get<boolean>(`http://localhost:8080/user/isFriends/${userId}/${friendId}`)
+  }
 }

@@ -3,6 +3,8 @@ import {User} from "../../Model/User";
 import {FriendslistComponent} from "../friendslist/friendslist.component";
 import {UserService} from "../../Service/user.service";
 import {data} from "autoprefixer";
+import {FriendslistService} from "../../Service/friendslist.service";
+import {StorageService} from "../../Service/storage.service";
 
 @Component({
   selector: 'app-profile',
@@ -11,10 +13,20 @@ import {data} from "autoprefixer";
 })
 export class ProfileComponent implements OnInit {
   clickedFriend : User | undefined;
-  constructor(private userService : UserService) {
+  clickedFriendId : number | undefined;
+  isFriend : boolean | undefined;
+  currentUser : User | undefined;
+  constructor(private userService : UserService, private friendslistService : FriendslistService, private storageService : StorageService) {
   }
 
   ngOnInit(): void {
+
+    const user = window.sessionStorage.getItem("clickedFriend");
+    if (user) {
+      this.clickedFriend= JSON.parse(user);
+    }
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+    //this.friendslistService.isFriends(this.storageService.getLoggedUser(),this.storageService.getClickedUser()).subscribe((data) => {this.isFriend = data});
   }
 
   public getFriendFirstname(): any {
