@@ -51,13 +51,13 @@ export class BetroundDetailsComponent implements OnInit {
   }
 
   sendBetroundInvite(email: string): void {
+    console.log(email);
     this.userService.getUserByEmail(email).subscribe(data =>{
       this.matchedUser = data
-      console.log(this.currentUser?.id,this.matchedUser?.id )
       if (this.userService.getUserById(this.matchedUser?.id)){
-        this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number)
-      }else return;
-      
+        console.log(this.routeNumId, this.matchedUser?.id);
+        this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number).subscribe();
+      }
     });
   }
 
