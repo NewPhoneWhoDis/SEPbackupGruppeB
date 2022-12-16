@@ -55,6 +55,13 @@ public class BetroundController {
         return betroundService.getEvaluationInRound(ownerId, betroundId);
     }
 
+    @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
+    public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId,
+            @PathVariable Long targetetUserId) {
+        betroundService.generateInviteURL(betroundId, userId);
+        // emailSenderService.sendEmailInviteBetround(betroundId,
+        // betroundService.getUserById(targetetUserId).getEmail());
+    }
 
     @GetMapping("/getInivteURL/{betroundId}/{userId}")
     public void sendInviteURL(@PathVariable Long betroundId, @PathVariable Long userId) {
@@ -79,12 +86,17 @@ public class BetroundController {
     }
 
     @PutMapping("/setNickname/{userId}/{betroundId}")
-    public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname){
-        betroundService.setNickname(userId,betroundId,nickname);
+    public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname) {
+        betroundService.setNickname(userId, betroundId, nickname);
+    }
+
+    @GetMapping("/getNickname/{userId}/{betroundId}")
+    public String getNickname(@PathVariable Long userId, @PathVariable Long betroundId) {
+        return betroundService.getNickname(userId, betroundId);
     }
 
     @GetMapping("/getLeagueId/{betroundId}")
-    public Long getLeaugeId(@PathVariable Long betroundId){
+    public Long getLeaugeId(@PathVariable Long betroundId) {
         return betroundService.getLeagueId(betroundId);
     }
 }

@@ -26,7 +26,7 @@ public class NotificationController {
     }
 
     @PutMapping("shareBet/{friendId}/{betId}")
-    public void shareBet(@PathVariable Long userId, @PathVariable Long friendId, @PathVariable Long betId){
+    public void shareBet(@PathVariable Long friendId, @PathVariable Long betId){
         this.notificationService.shareBet(friendId, betId);
     }
 }

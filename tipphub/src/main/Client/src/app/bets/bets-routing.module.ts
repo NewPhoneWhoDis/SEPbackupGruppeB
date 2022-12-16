@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BetsOverviewComponent } from './bets-overview/bets-overview.component';
 import { BetsManagementComponent } from './bets-management/bets-management.component';
 import {GameTableBetsComponent} from "../components/game-table-bets/game-table-bets.component";
+import {ScoreboardComponent} from "./scoreboard/scoreboard.component";
 
 const routes: Routes = [
   {
@@ -13,7 +14,11 @@ const routes: Routes = [
     component: BetsOverviewComponent
   },
   {
-    path:'bets-creation', 
+    path: 'betround-details/:id/bets-overview',
+    component: BetsOverviewComponent
+  },
+  {
+    path:'bets-creation',
     component: BetsCreationComponent
   },
   {
@@ -24,7 +29,12 @@ const routes: Routes = [
     path: 'betround-details/:id',
     component: BetroundDetailsComponent
   },
-  { path: "betround-details/:id/betTable", component: GameTableBetsComponent }
+  { path: "betround-details/:id/betTable", component: GameTableBetsComponent },
+  {
+    path: 'betround-details/:id/scoreboard',
+    component: ScoreboardComponent
+  }
+
 ];
 
 @NgModule({

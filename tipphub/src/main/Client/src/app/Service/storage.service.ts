@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from "../Model/User";
+import {Bet} from "../Model/Bet";
 
 const USER_KEY = 'user-authentication';
 
@@ -31,7 +32,7 @@ export class StorageService {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
       let temp = JSON.parse(user);
-      return JSON.stringify(temp.id);
+      return temp.id;
     }
     return {};
   }
@@ -39,6 +40,13 @@ export class StorageService {
   saveClickedUser(user : User): void{
     window.sessionStorage.removeItem("clickedFriend");
     window.sessionStorage.setItem("clickedFriend", JSON.stringify(user));
+  }
+
+  logout(){
+    window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.removeItem("Status");
+    window.sessionStorage.removeItem("clickedFriend");
+    window.location.reload();
   }
 
   public isCurrentUserAdmin() : boolean{
@@ -57,5 +65,10 @@ export class StorageService {
       return temp.code;
     }
     return "";
+  }
+
+  public saveClickedBet(bet : Bet ) : void{
+    window.sessionStorage.removeItem("clickedBet");
+    window.sessionStorage.setItem("clickedBet", JSON.stringify(bet));
   }
 }

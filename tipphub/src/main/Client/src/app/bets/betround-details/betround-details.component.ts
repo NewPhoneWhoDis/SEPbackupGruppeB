@@ -1,3 +1,4 @@
+import { StorageService } from 'src/app/Service/storage.service';
 import { UserService } from './../../Service/user.service';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -20,11 +21,16 @@ export class BetroundDetailsComponent implements OnInit {
   betrounds: Betround[] | undefined;
   participantsBetround: Array<User | undefined> | undefined;
   betroundToShow: Betround = new Betround();
+  nameToChange: string = '';
+  userLogged: User | undefined = new User();
+  nicknameInBetround: string = '';
 
   constructor(private route: ActivatedRoute, 
     private betroundService: BetroundService,
     private userService: UserService,
-    public router: Router) { }
+    private storage: StorageService,
+    public router : Router) { }
+              
 
   ngOnInit(): void {
     this.betroundService.getAllBetrounds().subscribe(data => {
@@ -36,8 +42,9 @@ export class BetroundDetailsComponent implements OnInit {
     })
 
     this.routeId = this.route.snapshot.paramMap.get('id');
-    if(this.routeId)
-    this.routeNumId = +this.routeId;
+    if(this.routeId){
+      this.routeNumId = +this.routeId;
+    }
     console.log('this is the route id inside betround details' + this.routeId)
     console.log('this is the number' + this.routeNumId);
 
@@ -48,6 +55,16 @@ export class BetroundDetailsComponent implements OnInit {
         return betround;
       })
     })
+
+    this.userService.getUserById(this.storage.getLoggedUser()).subscribe((data) => {
+      this.currentUser = data;
+    })
+
+    this.betroundService.getNickname(this.storage.getLoggedUser(), this.routeNumId).subscribe((data) => {
+      this.nicknameInBetround = data;
+      console.log(data)
+    })
+    console.log("Value is:" + this.nicknameInBetround)
   }
 
   sendBetroundInvite(email: string): void {
@@ -61,4 +78,18 @@ export class BetroundDetailsComponent implements OnInit {
     });
   }
 
+  changeName($event: Event, nameChange: string) {
+    $event.preventDefault();
+    console.log(this.currentUser?.id as number, this.routeNumId, nameChange);
+
+    this.betroundService.setNickname(this.currentUser?.id as number, this.routeNumId, nameChange).subscribe();
+  }
+
+  getNickname(userId: number, betroundId: number): string {
+    let nickname = ''
+    this.betroundService.getNickname(this.storage.getLoggedUser(), this.routeNumId).subscribe((data) => {
+      nickname = data;
+    })
+    return nickname;
+  }
 }
