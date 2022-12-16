@@ -26,7 +26,6 @@ export class BetroundCreationModalComponent implements OnInit {
     private storageService: StorageService
   ) {
     this.betround = new Betround();
-    //this.league = new League();
   }
 
   ngOnInit(): void {
