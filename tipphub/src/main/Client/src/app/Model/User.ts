@@ -12,7 +12,7 @@ export class User {
   imageURL: String | undefined;
   dateOfBirth: Date | undefined;
   isAdmin: boolean | undefined;
-  bets : Array<Bet> = new Array();
+  bets : Array<Bet> = new Array<Bet>();
   betrounds: Array<Betround> = new Array<Betround>();
   notification: Notification | undefined;
 }

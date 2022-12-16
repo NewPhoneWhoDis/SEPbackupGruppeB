@@ -22,7 +22,6 @@ public class Notification {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "notification")
     private List<FriendRequest> friendRequests =new ArrayList<>();
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,

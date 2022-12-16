@@ -3,6 +3,7 @@ import {User} from "../../Model/User";
 import {StorageService} from "../../Service/storage.service";
 import {UserService} from "../../Service/user.service";
 import {FriendslistService} from "../../Service/friendslist.service";
+import {Bet} from "../../Model/Bet";
 
 @Component({
   selector: 'app-notification',
@@ -12,12 +13,14 @@ import {FriendslistService} from "../../Service/friendslist.service";
 export class NotificationComponent implements OnInit {
 
   currentUser : User | undefined;
+  bets : Array<Bet> | undefined;
   constructor(private storageService: StorageService, private userService: UserService, private friendslistService : FriendslistService) { }
 
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data
       console.log(this.currentUser);
       console.log("test")
+      this.bets = this.currentUser.notification?.sharedBets;
     });
   }
 

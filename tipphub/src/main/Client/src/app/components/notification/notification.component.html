@@ -28,21 +28,20 @@
                             </div>
                         </div>
                     </li>
-                    <li class="p-2">
+                    <li class="p-2" *ngFor="let bet of bets">
                         <div class="flex flex-col p-2">
                             <div class="w-full">
-                                <a title="Profil ansehen" class="link-primary">Andrii Svenson</a> will dir seinen Tipp zeigen :
+                                <a title="Profil ansehen" class="link-primary">Jemand</a> will dir seinen Tipp zeigen :
                             </div>
                             <div class="w-full flex flex-row justify-between mt-2">
                                 <span class="ml-5">
-                                    <b>Hometeam</b>
-
+                                    <b>{{bet.homeTeam}}</b>
                                 </span>
                                 <span class="text-primary">
-                                    1 : 2
+                                    {{bet.homeTeamScore}} : {{bet.awayTeamScore}}
                                 </span>
                                 <span class="mr-5">
-                                    <b>Awayteam</b>
+                                    <b>{{bet.awayTeam}}</b>
                                 </span>
                             </div>
                         </div>
