@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { filter } from "rxjs";
 import { Betround } from "src/app/Model/Betround";
 import { User } from "src/app/Model/User";
 import { BetroundService } from "src/app/Service/betround.service";
@@ -13,8 +14,10 @@ import { UserService } from "src/app/Service/user.service";
 export class betroundPage implements OnInit {
   searchText = "";
   betrounds: Betround[] | undefined;
+  privateBetrounds: Betround[] | undefined = new Array<Betround>;
   currentUser: User = new User();
   passwordInput: String = "";
+  showPrivateRounds: boolean = true;
 
   constructor(
     private betroundService: BetroundService,
@@ -32,7 +35,9 @@ export class betroundPage implements OnInit {
       .getUserById(this.storageService.getLoggedUser())
       .subscribe((data) => {
         this.currentUser = data;
-      });
+    });
+    this.privateBetrounds = this.betrounds?.filter((betround) => betround.isPublic === false)
+    console.log(this.privateBetrounds);
   }
 
   joinBetround(targetId: number | undefined) {
@@ -52,5 +57,13 @@ export class betroundPage implements OnInit {
     } else {
       window.alert("Falsches Password.");
     }
+  }
+
+  showPrivateRoundsFunction() {
+    this.showPrivateRounds = !this.showPrivateRounds
+  }
+
+  private getPrivateRounds() {
+    return this.privateBetrounds = this.betrounds?.filter((betround) => betround.isPublic === false);
   }
 }
