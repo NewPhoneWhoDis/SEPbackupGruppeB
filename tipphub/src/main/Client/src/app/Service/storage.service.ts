@@ -41,6 +41,13 @@ export class StorageService {
     window.sessionStorage.setItem("clickedFriend", JSON.stringify(user));
   }
 
+  logout(){
+    window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.removeItem("Status");
+    window.sessionStorage.removeItem("clickedFriend");
+    window.location.reload();
+  }
+
   public isCurrentUserAdmin() : boolean{
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {

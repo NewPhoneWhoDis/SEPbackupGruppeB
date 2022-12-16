@@ -24,6 +24,7 @@ public class LeagueService {
         this.gameRepository = gameRepository;
     }
 
+    @Transactional
     public List<League> getAllLeagues(){
         return leagueRepository.findAll();
     }

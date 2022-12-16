@@ -44,8 +44,8 @@ export class BetroundService {
     return this.http.put<Betround>(`${this.betroundUrl}/bet/${ownerId}/${betroundId}`, bet, httpHeaders);
   }
 
-  public getEvaluationInRound(ownerId: number, betroundId: number) {
-    return this.http.get<Betround>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
+  public getEvaluationInRound(ownerId: number, betroundId: number): Observable<number> {
+    return this.http.get<number>(`${this.betroundUrl}/evaluation/${ownerId}/${betroundId}`, httpHeaders);
   }
 
   public getBestBetters(leaugeId: number | undefined): Observable<Array<string>>{
@@ -77,5 +77,9 @@ export class BetroundService {
   public shareBet(friendId: number, betId: number): Observable<any>{
     let shareBetUrl = this.betroundUrl.replace("betround","notification/shareBet");
     return this.http.put<any>(`${shareBetUrl}/${friendId}/${betId}`,null,httpHeaders);
+  }
+
+  public getLeagueId(betroundId: number) {
+    return this.http.get<number>(`${this.betroundUrl}/getLeagueId/${betroundId}`, httpHeaders);
   }
 }
