@@ -11,6 +11,7 @@ import com.example.tipphub.user.UserRepository;
 import com.example.tipphub.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,9 +35,29 @@ public class BetroundServiceTest {
     @Autowired
     BetroundService betroundService;
 
+    @Mock
+    LeagueRepository mockLeagueRepository;
 
+    @Mock
+    BetroundRepository mockBetroundRepository;
 
+    @Mock
+    UserRepository mockUserRepository;
 
+    @Mock
+    BetRepository mockBetRepository;
+
+    @Mock
+    GameRepository mockGameRepository;
+
+    @Mock
+    HubSystemRepository mockHubSystemRepo;
+
+    @Mock
+    EmailSenderService mockSender;
+
+  @Mock
+    UserService mockUser;
 
     @Test
     void contextLoads() {
@@ -46,15 +67,6 @@ public class BetroundServiceTest {
     @Test
     @DisplayName("Test Should Pass When New Betround is added")
     public void testAddNewBetround() {
-        // Create mock objects
-        LeagueRepository mockLeagueRepository = Mockito.mock(LeagueRepository.class);
-        UserRepository mockUserRepository = Mockito.mock(UserRepository.class);
-        BetroundRepository mockBetroundRepository = Mockito.mock(BetroundRepository.class);
-        BetRepository mockBetRepository = Mockito.mock(BetRepository.class);
-        GameRepository mockGameRepository = Mockito.mock(GameRepository.class);
-        HubSystemRepository mockHubSystemRepo = Mockito.mock(HubSystemRepository.class);
-        EmailSenderService mockSender = Mockito.mock(EmailSenderService.class);
-        UserService mockUser = Mockito.mock(UserService.class);
 
 
         // Set up mock behavior
