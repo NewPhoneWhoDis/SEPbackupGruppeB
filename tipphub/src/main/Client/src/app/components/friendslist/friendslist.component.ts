@@ -4,6 +4,8 @@ import {FriendslistService} from "../../Service/friendslist.service";
 import {StorageService} from "../../Service/storage.service";
 import {UserService} from "../../Service/user.service";
 import {CookieService} from "../../Service/cookie.service";
+import {FriendRequest} from "../../Model/FriendRequest";
+import {data} from "autoprefixer";
 @Injectable({
   providedIn: 'root'
 })
@@ -27,21 +29,22 @@ export class FriendslistComponent implements OnInit {
   }
 
   addFriend(email : String): void {
-    this.userService.getUserByEmail(email).subscribe(data =>{
-      this.foundUser = data
-      console.log(this.currentUser?.id,this.foundUser?.id )
-      if (this.userService.getUserById(this.foundUser?.id)){
-        this.friendslistService.addFriend(this.currentUser?.id,this.foundUser?.id).subscribe((data) => {
-          window.location.reload();
-          console.log(data)
-        });
-        console.log("Added Friend: " + email + " " + this.foundUser?.id)
-      }else {
-        //todo validation
-      }
-    });
-
-
+    let friendRequest: FriendRequest = new FriendRequest();
+    friendRequest.email = this.currentUser?.email;
+    friendRequest.firstName = this.currentUser?.firstName;
+    friendRequest.lastName = this.currentUser?.lastName;
+    this.friendslistService.sendFriendRequest(friendRequest,email).subscribe(
+        {
+          next: () => {
+            window.alert("Die Freundschaftsanfrage wurde erfolgreich versendet!")
+            window.location.reload();
+          },
+          error: () => {
+            window.alert("Du hast schon eine Freundschaftsanfrage diesem Nutzer geschickt!")
+            window.location.reload();
+          }
+        }
+    );
   }
 
   deleteFriend(friendId : number | undefined): void{

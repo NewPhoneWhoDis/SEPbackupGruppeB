@@ -1,11 +1,17 @@
 <div class="flex menu bg-base-100 w-56">
-    
-    <div class="flex-initial w-56 justify-end">
-        <input type="search" placeholder="Tipprunde suchen" class="input input-bordered input-primary w-full max-w-xs" 
-        [(ngModel)]="searchText"/>
-    </div>
-    <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-        <li class="hover:active" *ngFor="let betround of betrounds | betroundFilterPipe: searchText"><a (click)="navigateToBetroundDetails($event, betround.id)">{{betround.name}}</a></li>
-    </ul>
+  <div class="flex-initial w-56 justify-end">
+    <input
+      type="search"
+      placeholder="Tipprunde suchen"
+      class="input input-bordered input-primary w-full max-w-xs"
+      [(ngModel)]="searchText"
+    />
+  </div>
+  <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+    <li class="hover:active" *ngFor="let betround of betrounds">
+      <a (click)="navigateToBetroundDetails($event, betround.id)">
+        {{ betround.name }}
+      </a>
+    </li>
+  </ul>
 </div>
-

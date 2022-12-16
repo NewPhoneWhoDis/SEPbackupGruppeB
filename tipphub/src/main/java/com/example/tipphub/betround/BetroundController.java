@@ -83,4 +83,8 @@ public class BetroundController {
         return betroundService.getTopThreeTeams(leagueId);
     }
 
+    @PutMapping("/setNickname/{userId}/{betroundId}")
+    public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname){
+        betroundService.setNickname(userId,betroundId,nickname);
+    }
 }

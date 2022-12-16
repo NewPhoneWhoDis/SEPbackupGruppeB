@@ -1,10 +1,13 @@
 package com.example.tipphub.betround;
 
+import com.example.tipphub.notification.Notification;
 import com.example.tipphub.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -31,6 +34,15 @@ public class Bet {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User betOwner;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "sharedBets")
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+
     public Bet() {
     }
 
@@ -46,6 +58,19 @@ public class Bet {
         this.dateOfBet = dateOfBet;
         this.betround = betround;
         this.betOwner = betOwner;
+    }
+
+    public Bet(String homeTeam, String awayTeam, int homeTeamScore, int awayTeamScore, LocalDate dateOfGame, LocalDate dateOfBet, int betScore, Betround betround, User betOwner, List<Notification> notifications) {
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.homeTeamScore = homeTeamScore;
+        this.awayTeamScore = awayTeamScore;
+        this.dateOfGame = dateOfGame;
+        this.dateOfBet = dateOfBet;
+        this.betScore = betScore;
+        this.betround = betround;
+        this.betOwner = betOwner;
+        this.notifications = notifications;
     }
 
     public Long getId() {
@@ -126,5 +151,13 @@ public class Bet {
 
     public void setBetScore(int betScore) {
         this.betScore = betScore;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

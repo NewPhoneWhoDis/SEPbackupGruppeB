@@ -3,6 +3,8 @@ package com.example.tipphub.user;
 
 import com.example.tipphub.betround.Bet;
 import com.example.tipphub.betround.Betround;
+import com.example.tipphub.betround.BetroundNickname;
+import com.example.tipphub.notification.Notification;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -50,6 +52,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
 
     private Set<User> friends = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "notification_id")
+    private Notification notification = new Notification();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<BetroundNickname> betroundNicknames = new ArrayList<>();
+
 
     public User() {
     }
@@ -175,5 +186,21 @@ public class User {
 
     public void setBetrounds(List<Betround> betrounds) {
         this.betrounds = betrounds;
+    }
+
+    public Notification getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Notification notification) {
+        this.notification = notification;
+    }
+
+    public List<BetroundNickname> getBetroundNicknames() {
+        return betroundNicknames;
+    }
+
+    public void setBetroundNicknames(List<BetroundNickname> betroundNicknames) {
+        this.betroundNicknames = betroundNicknames;
     }
 }

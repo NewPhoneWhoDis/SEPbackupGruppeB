@@ -68,7 +68,14 @@ export class BetroundService {
 
   public sendEmailInviteBetround(betroundId: number, targetUserId: number) {
     ///onLinkClick/{userId}/{betroundId}
-    console.log(`${this.betroundUrl}/onLinkClick/${targetUserId}/${betroundId}`);
     return this.http.get(`${this.betroundUrl}/getInivteURL/${betroundId}/${targetUserId}`);
   }  
+  public setNickname(userId: number, betroundId: number, nickname: string): Observable<any> {
+    return this.http.put<any>(`${this.betroundUrl}/setNickname/${userId}/${betroundId}?nickname=${nickname}`, httpHeaders);
+  }
+
+  public shareBet(friendId: number, betId: number): Observable<any>{
+    let shareBetUrl = this.betroundUrl.replace("betround","notification/shareBet");
+    return this.http.put<any>(`${shareBetUrl}/${friendId}/${betId}`,null,httpHeaders);
+  }
 }

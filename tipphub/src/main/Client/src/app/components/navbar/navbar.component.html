@@ -44,15 +44,15 @@
         <a routerLink="ligen-management"> Ligen </a>
       </li>
       <li>
-        <a routerLink="test">
-          test
-        </a>
+        <a routerLink="test"> test </a>
       </li>
-      <li><a routerLink="bets-overview">Bets Management</a></li>
+      <li><a routerLink="bets-and-pieces">Bets Management</a></li>
     </ul>
   </div>
 
-  <label for="systemdate-modal" class="btn btn-ghost" *ngIf="showButtons">{{ systemDate }}</label>
+  <label for="systemdate-modal" class="btn btn-ghost" *ngIf="showButtons">{{
+    systemDate
+  }}</label>
   <!--LOGIN BUTTON-->
   <div class="navbar-end">
     <div *ngIf="currentUser" class="flex justify-center">
