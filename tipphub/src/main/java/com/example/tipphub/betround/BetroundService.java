@@ -30,13 +30,13 @@ public class BetroundService {
 
     @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
-                           UserRepository userRepository,
-                           LeagueRepository leagueRepository,
-                           HubSystemRepository hubSystemRepository,
-                           GameRepository gameRepository,
-                           EmailSenderService emailSenderService,
-                           UserService userService,
-                           BetroundNicknameRepository betroundNicknameRepository) {
+            UserRepository userRepository,
+            LeagueRepository leagueRepository,
+            HubSystemRepository hubSystemRepository,
+            GameRepository gameRepository,
+            EmailSenderService emailSenderService,
+            UserService userService,
+            BetroundNicknameRepository betroundNicknameRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
         this.userRepository = userRepository;
@@ -260,8 +260,8 @@ public class BetroundService {
     public void saveUserInBetrounds(Long betroundId, Long userId) {
         User user = userRepository.findById(userId).get();
         Betround betround = betroundRepository.findById(betroundId).get();
-        if(betround.getUsers().contains(user)) {
-           return;
+        if (betround.getUsers().contains(user)) {
+            return;
         }
         user.getBetrounds().add(betround);
         betround.getUsers().add(user);
@@ -273,7 +273,7 @@ public class BetroundService {
     }
 
     public User getUserById(Long userId) {
-        System.out.println("This is the id of the user:"+userId);
+        System.out.println("This is the id of the user:" + userId);
         return userRepository.findById(userId).get();
     }
 
@@ -322,9 +322,9 @@ public class BetroundService {
                 highestScore = teamsWithScore.get(key);
             }
         }
-        if(teamsWithScore.get(returnTeam) > 0){
+        if (teamsWithScore.get(returnTeam) > 0) {
             return returnTeam;
-        } else{
+        } else {
             return "";
         }
 
@@ -361,22 +361,21 @@ public class BetroundService {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        for(int i = 0; i < top3.size(); i++){
+        for (int i = 0; i < top3.size(); i++) {
             User user = userRepository.findByEmail(top3.get(i)).get();
-            top3.set(i, user.getFirstName()+ " " + user.getLastName());
+            top3.set(i, user.getFirstName() + " " + user.getLastName());
         }
 
         System.out.println(top3);
         return top3;
     }
 
-
     /*
-    @Transactional
-    public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
-        this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
-    }
-    */
+     * @Transactional
+     * public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
+     * this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
+     * }
+     */
 
     @Transactional
     public List<User> getAllParticipantsService(Long id) {
@@ -384,7 +383,7 @@ public class BetroundService {
     }
 
     @Transactional
-    public void setNickname(Long userId, Long betroundId, String nickname){
+    public void setNickname(Long userId, Long betroundId, String nickname) {
         User user = userRepository.findById(userId).get();
         Betround betround = betroundRepository.findById(betroundId).get();
         BetroundNickname betroundNickname = new BetroundNickname();
@@ -395,7 +394,16 @@ public class BetroundService {
     }
 
     @Transactional
-    public Long getLeagueId(Long betroundId){
+    public String getNickname(Long userId, Long betroundId) {
+        List<BetroundNickname> betroundNicknames = betroundNicknameRepository.findAll();
+        for (BetroundNickname nickname : betroundNicknames) {
+            if (nickname.getUser().getId() == userId && nickname.getBetround().getId() == betroundId)
+                return nickname.getNickname();
+        }
+        return null;
+    }
+
+    public Long getLeagueId(Long betroundId) {
         Betround betround = betroundRepository.findById(betroundId).get();
         return betround.getLeague().getId();
     }
