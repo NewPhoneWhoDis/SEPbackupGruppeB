@@ -69,7 +69,8 @@ export class BetroundService {
   public sendEmailInviteBetround(betroundId: number, targetUserId: number) {
     ///onLinkClick/{userId}/{betroundId}
     return this.http.get(`${this.betroundUrl}/getInivteURL/${betroundId}/${targetUserId}`);
-  }  
+  } 
+
   public setNickname(userId: number, betroundId: number, nickname: string): Observable<any> {
     return this.http.put<any>(`${this.betroundUrl}/setNickname/${userId}/${betroundId}?nickname=${nickname}`, httpHeaders);
   }

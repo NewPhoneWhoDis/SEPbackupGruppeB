@@ -23,6 +23,7 @@ export class BetroundDetailsComponent implements OnInit {
   betroundToShow: Betround = new Betround();
   nameToChange: string = '';
   userLogged: User | undefined = new User();
+  nicknameInBetround: string = '';
 
   constructor(private route: ActivatedRoute, 
     private betroundService: BetroundService,
@@ -72,7 +73,7 @@ export class BetroundDetailsComponent implements OnInit {
     $event.preventDefault();
     console.log(this.currentUser?.id as number, this.routeNumId, nameChange);
 
-    this.betroundService.setNickname(this.currentUser?.id as number, this.routeNumId, nameChange);
+    this.betroundService.setNickname(this.currentUser?.id as number, this.routeNumId, nameChange).subscribe();
   }
 
 }

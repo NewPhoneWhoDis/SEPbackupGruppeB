@@ -87,4 +87,6 @@ public class BetroundController {
     public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname){
         betroundService.setNickname(userId,betroundId,nickname);
     }
+
+    
 }
