@@ -1,3 +1,4 @@
+import { StorageService } from 'src/app/Service/storage.service';
 import { UserService } from './../../Service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -20,10 +21,13 @@ export class BetroundDetailsComponent implements OnInit {
   betrounds: Betround[] | undefined;
   participantsBetround: Array<User | undefined> | undefined;
   betroundToShow: Betround = new Betround();
+  nameToChange: string = '';
+  userLogged: User | undefined = new User();
 
   constructor(private route: ActivatedRoute, 
     private betroundService: BetroundService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private storage: StorageService) { }
 
   ngOnInit(): void {
     this.betroundService.getAllBetrounds().subscribe(data => {
@@ -47,6 +51,10 @@ export class BetroundDetailsComponent implements OnInit {
         return betround;
       })
     })
+
+    this.userService.getUserById(this.storage.getLoggedUser()).subscribe((data) => {
+      this.currentUser = data;
+    })
   }
 
   sendBetroundInvite(email: string): void {
@@ -58,6 +66,13 @@ export class BetroundDetailsComponent implements OnInit {
         this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number).subscribe();
       }
     });
+  }
+
+  changeName($event: Event, nameChange: string) {
+    $event.preventDefault();
+    console.log(this.currentUser?.id as number, this.routeNumId, nameChange);
+
+    this.betroundService.setNickname(this.currentUser?.id as number, this.routeNumId, nameChange);
   }
 
 }
