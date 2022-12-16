@@ -49,4 +49,13 @@ export class StorageService {
     }
     return false;
   }
+
+  public getCode() : string{
+    const user = window.sessionStorage.getItem(USER_KEY);
+    if (user) {
+      let temp = JSON.parse(user);
+      return temp.code;
+    }
+    return "";
+  }
 }

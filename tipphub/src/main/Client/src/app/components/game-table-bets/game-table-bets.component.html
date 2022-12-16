@@ -1,126 +1,170 @@
-<div class="container grid h-screen place-items-center" *ngFor="let league of leaguesWithGames | keyvalue">
-    <div class="flex">
-        <button class="btn gap-8 btn-lg h-20">
-            {{league.key.name}}
-            <div class="avatar">
-                <div class="w-12 mask mask-squircle">
-                    <img [src]="league.key.logoURL" />
-                </div>
-            </div>
-        </button>
-        <div class="px-8">
-            <!-- The button to open modal -->
-            <label for="topBetter" class="btn text-l h-20" (click)="showTops(league.key)">Top 3 Tipper</label>
-
-            <!-- Put this part before </body> tag -->
-            <input type="checkbox" id="topBetter" class="modal-toggle" />
-            <div class="modal">
-                <div class="modal-box relative">
-                    <label for="topBetter" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <ol class="list-decimal">
-                        <li>{{leagueWithTops.topBetters[0]}}</li>
-                        <li>{{leagueWithTops.topBetters[1]}}</li>
-                        <li>{{leagueWithTops.topBetters[2]}}</li>
-                    </ol>
-                </div>
-            </div>
+<div
+  class="container grid h-screen place-items-center"
+  *ngFor="let league of leaguesWithGames | keyvalue"
+>
+  <div class="flex">
+    <button class="btn gap-8 btn-lg h-20">
+      {{ league.key.name }}
+      <div class="avatar">
+        <div class="w-12 mask mask-squircle">
+          <img [src]="league.key.logoURL" />
         </div>
-        <div>
-            <!-- The button to open modal -->
-            <label for="topTeams" class="btn text-l h-20" (click)="showTops(league.key)">Top 3 der profitabelsten Mannschaften</label>
+      </div>
+    </button>
+    <div class="px-8">
+      <!-- The button to open modal -->
+      <label
+        for="topBetter"
+        class="btn text-l h-20"
+        (click)="showTops(league.key)"
+        >Top 3 Tipper</label
+      >
 
-            <!-- Put this part before </body> tag -->
-            <input type="checkbox" id="topTeams" class="modal-toggle" />
-            <div class="modal">
-                <div class="modal-box relative">
-                    <label for="topTeams" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <ol class="list-decimal">
-                        <li>{{leagueWithTops.topTeams[0]}}</li>
-                        <li>{{leagueWithTops.topTeams[1]}}</li>
-                        <li>{{leagueWithTops.topTeams[2]}}</li>
-                    </ol>
-                </div>
-            </div>
+      <!-- Put this part before </body> tag -->
+      <input type="checkbox" id="topBetter" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box relative">
+          <label
+            for="topBetter"
+            class="btn btn-sm btn-circle absolute right-2 top-2"
+            >✕</label
+          >
+          <ol class="list-decimal">
+            <li>{{ leagueWithTops.topBetters[0] }}</li>
+            <li>{{ leagueWithTops.topBetters[1] }}</li>
+            <li>{{ leagueWithTops.topBetters[2] }}</li>
+          </ol>
         </div>
+      </div>
     </div>
-    <table class="text-left w-10/12">
-        <thead class="bg-black flex text-white w-full">
-        <tr class="flex w-full mb-4">
-            <th class="p-4 w-1/4">Round</th>
-            <th class="p-4 w-1/4">Heimmannschaft</th>
-            <th class="p-4 w-1/4">#</th>
-            <th class="p-4 w-1/4">#</th>
-            <th class="p-4 w-1/4">Auswärtsmannschaft</th>
-            <th class="p-4 w-1/4">Datum</th>
-            <th class="p-4 w-1/4" *ngIf="showButtons">Wetten</th>
-            <th class="p-4 w-1/4" *ngIf="showButtons">Tipphilfe</th>
-        </tr>
-        </thead>
-        <tbody class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full" style="height: 60vh;">
-        <tr class="flex w-full mb-4" *ngFor="let game of league.value">
-            <td class="p-4 w-1/4">{{game.round}}</td>
-            <td class="p-4 w-1/4">{{game.homeTeam}}</td>
-            <td class="p-4 w-1/4">{{game.scoreHomeTeam}}</td>
-            <td class="p-4 w-1/4">{{game.scoreAwayTeam}}</td>
-            <td class="p-4 w-1/4">{{game.awayTeam}}</td>
-            <td class="p-4 w-1/4">{{game.date}}</td>
-            <td class="p-4 w-1/4" *ngIf="showButtons">
-                <!-- The button to open modal -->
-                <label for="betModal"
-                       class="btn btn-success"
-                       *ngIf="game.scoreAwayTeam === undefined"
-                        (click)="showPopUp(game)"
-                >Wetten!</label>
+    <div>
+      <!-- The button to open modal -->
+      <label
+        for="topTeams"
+        class="btn text-l h-20"
+        (click)="showTops(league.key)"
+        >Top 3 der profitabelsten Mannschaften</label
+      >
 
-                <!-- Put this part before </body> tag -->
-                <input type="checkbox" id="betModal" class="modal-toggle" />
-                <div class="modal">
-                    <div class="modal-box relative">
-                        <label for="betModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                        <h3 class="text-lg font-bold">Gib dein geschätztes Ergebnis ein!</h3>
-                        <label class="inline-block mb-2">{{bet.homeTeam}}</label>
-                        <input
-                            type="number"
-                            [(ngModel)]="bet.homeTeamScore"
-                            id="homeTeamScore"
-                            class="input input-bordered w-full"
-                            required
-                            min="0"
-                        />
-                        <label class="inline-block mb-2">{{bet.awayTeam}}</label>
-                        <input
-                                type="number"
-                                [(ngModel)]="bet.awayTeamScore"
-                                id="awayTeamScore"
-                                class="input input-bordered w-full"
-                                required
-                                min="0"
-                        />
-                        <button class="btn btn-primary w-full mt-2" (click)="betInRound()">
-                            Wetten!
-                        </button>
-                    </div>
-                </div>
-            </td>
-            <td class="p-4 w-1/4" *ngIf="showButtons">
-                <!-- The button to open modal -->
-                <label for="betHelpModal"
-                       class="btn btn-warning"
-                       *ngIf="game.scoreAwayTeam === undefined"
-                       (click)="getBetHelp(game.id)"
-                >Tipphilfe erhalten!</label>
+      <!-- Put this part before </body> tag -->
+      <input type="checkbox" id="topTeams" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box relative">
+          <label
+            for="topTeams"
+            class="btn btn-sm btn-circle absolute right-2 top-2"
+            >✕</label
+          >
+          <ol class="list-decimal">
+            <li>{{ leagueWithTops.topTeams[0] }}</li>
+            <li>{{ leagueWithTops.topTeams[1] }}</li>
+            <li>{{ leagueWithTops.topTeams[2] }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-zebra w-full">
+    <thead class="flex text-white w-full">
+      <tr class="flex w-full mb-4">
+        <th class="p-4 w-1/4">Round</th>
+        <th class="p-4 w-1/4">Heimmannschaft</th>
+        <th class="p-4 w-1/4">#</th>
+        <th class="p-4 w-1/4">#</th>
+        <th class="p-4 w-1/4">Auswärtsmannschaft</th>
+        <th class="p-4 w-1/4">Datum</th>
+        <th class="p-4 w-1/4" *ngIf="showButtons">Wetten</th>
+        <th class="p-4 w-1/4" *ngIf="showButtons">Tipphilfe</th>
+      </tr>
+    </thead>
+    <tbody
+      class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full"
+      style="height: 60vh"
+    >
+      <tr class="flex w-full mb-4" *ngFor="let game of league.value">
+        <td class="p-4 w-1/4">{{ game.round }}</td>
+        <td class="p-4 w-1/4">{{ game.homeTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.scoreHomeTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.scoreAwayTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.awayTeam }}</td>
+        <td class="p-4 w-1/4">{{ game.date }}</td>
+        <td class="p-4 w-1/4" *ngIf="showButtons">
+          <!-- The button to open modal -->
+          <label
+            for="betModal"
+            class="btn btn-success"
+            *ngIf="game.scoreAwayTeam === undefined"
+            (click)="showPopUp(game)"
+            >Wetten!</label
+          >
 
-                <!-- Put this part before </body> tag -->
-                <input type="checkbox" id="betHelpModal" class="modal-toggle" />
-                <div class="modal">
-                    <div class="modal-box relative">
-                        <label for="betHelpModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                        <h3 class="text-lg font-bold">Geschätztes Ergebnis:</h3>
-                        <p class="py-4">{{gameBetHelp.scoreHomeTeam}} - {{gameBetHelp.scoreAwayTeam}}</p>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+          <!-- Put this part before </body> tag -->
+          <input type="checkbox" id="betModal" class="modal-toggle" />
+          <div class="modal">
+            <div class="modal-box relative">
+              <label
+                for="betModal"
+                class="btn btn-sm btn-circle absolute right-2 top-2"
+                >✕</label
+              >
+              <h3 class="text-lg font-bold">
+                Gib dein geschätztes Ergebnis ein!
+              </h3>
+              <label class="inline-block mb-2">{{ bet.homeTeam }}</label>
+              <input
+                type="number"
+                [(ngModel)]="bet.homeTeamScore"
+                id="homeTeamScore"
+                class="input input-bordered w-full"
+                required
+                min="0"
+              />
+              <label class="inline-block mb-2">{{ bet.awayTeam }}</label>
+              <input
+                type="number"
+                [(ngModel)]="bet.awayTeamScore"
+                id="awayTeamScore"
+                class="input input-bordered w-full"
+                required
+                min="0"
+              />
+              <button
+                class="btn btn-primary w-full mt-2"
+                (click)="betInRound()"
+              >
+                Wetten!
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="p-4 w-1/4" *ngIf="showButtons">
+          <!-- The button to open modal -->
+          <label
+            for="betHelpModal"
+            class="btn btn-warning"
+            *ngIf="game.scoreAwayTeam === undefined"
+            (click)="getBetHelp(game.id)"
+            >Tipphilfe erhalten!</label
+          >
+
+          <!-- Put this part before </body> tag -->
+          <input type="checkbox" id="betHelpModal" class="modal-toggle" />
+          <div class="modal">
+            <div class="modal-box relative">
+              <label
+                for="betHelpModal"
+                class="btn btn-sm btn-circle absolute right-2 top-2"
+                >✕</label
+              >
+              <h3 class="text-lg font-bold">Geschätztes Ergebnis:</h3>
+              <p class="py-4">
+                {{ gameBetHelp.scoreHomeTeam }} -
+                {{ gameBetHelp.scoreAwayTeam }}
+              </p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
