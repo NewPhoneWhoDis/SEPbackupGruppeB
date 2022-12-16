@@ -47,6 +47,10 @@ public class Betround {
     @JsonIgnore
     private List<User> users = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
+    private List<BetroundNickname> betroundNicknames = new ArrayList<>();
+
     public Betround() {
     }
 

@@ -7,6 +7,7 @@ import {BetroundService} from "../../Service/betround.service";
 import {Bet} from "../../Model/Bet";
 import {StorageService} from "../../Service/storage.service";
 import {data} from "autoprefixer";
+import { User } from 'src/app/Model/User';
 import {Router} from "@angular/router";
 
 @Component({
@@ -22,6 +23,9 @@ export class GameTableBetsComponent implements OnInit {
   bet: Bet = new Bet();
   gameBetHelp: Game = new Game();
   leagueWithTops: League = new League();
+  currentUser: User = new User();
+  tippsResult: string = "";
+  showOvertakeButton: boolean = false;
   showButtons: boolean = true
 
   constructor(private leagueService: LeagueService,
@@ -73,6 +77,21 @@ export class GameTableBetsComponent implements OnInit {
     this.bet.awayTeam = game.awayTeam;
     this.bet.dateOfBet = this.systemDate;
     this.bet.dateOfGame = game.date;
+    // show popup tipp übernehmen 
+    this.currentUser = this.storageService.getLoggedUser();
+    if(this.currentUser.betrounds) {
+      for(let betround of this.currentUser.betrounds) {
+        for(let betToSearch of betround.bets as Array<Bet>) {
+          if(betToSearch.homeTeam == this.bet.homeTeam &&
+             betToSearch.awayTeam == this.bet.awayTeam &&
+             betToSearch.dateOfGame == this.bet.dateOfGame) {
+            
+            this.showOvertakeButton = true;
+            this.tippsResult = betToSearch.homeTeamScore?.toString() as string + "-" + betToSearch.awayTeamScore?.toString();
+          }
+        }
+      }
+    }
     console.log(game);
   }
 

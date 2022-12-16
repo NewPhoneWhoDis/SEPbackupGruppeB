@@ -64,7 +64,7 @@
       </div>
     </div>
   </div>
-  <table class="table table-zebra w-full">
+  <table class="table table-zebra w-10/12">
     <thead class="flex text-white w-full">
       <tr class="flex w-full mb-4">
         <th class="p-4 w-1/4">Round</th>
@@ -134,6 +134,10 @@
               >
                 Wetten!
               </button>
+                        <button *ngIf="this.showOvertakeButton" class="btn btn-primary w-full mt-2">
+                            Wetten aus andere Tipprunde übernehmen!
+                            ({{ this.tippsResult }})
+                        </button>
             </div>
           </div>
         </td>
