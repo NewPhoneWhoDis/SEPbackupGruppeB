@@ -82,4 +82,8 @@ export class BetroundService {
   public getLeagueId(betroundId: number) {
     return this.http.get<number>(`${this.betroundUrl}/getLeagueId/${betroundId}`, httpHeaders);
   }
+
+  public addUserToBetround(betroundId: number | undefined, userId: number){
+    return this.http.get<string>(`${this.betroundUrl}/onLinkClick/${betroundId}/${userId}`,httpHeaders);
+  }
 }

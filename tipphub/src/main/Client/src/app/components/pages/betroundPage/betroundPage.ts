@@ -36,6 +36,7 @@ export class betroundPage implements OnInit {
   }
 
   joinBetround(targetId: number | undefined) {
+    this.betroundService.addUserToBetround(targetId,this.storageService.getLoggedUser()).subscribe();
     this.router.navigateByUrl("/betround-details/" + targetId);
   }
 

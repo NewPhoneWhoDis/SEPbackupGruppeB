@@ -371,12 +371,6 @@ public class BetroundService {
     }
 
 
-    /*
-    @Transactional
-    public void sendBetroundInviteToUser(Long betroundId, String userEmail) {
-        this.emailSenderService.sendEmailInviteBetround(betroundId, userEmail);
-    }
-    */
 
     @Transactional
     public List<User> getAllParticipantsService(Long id) {
