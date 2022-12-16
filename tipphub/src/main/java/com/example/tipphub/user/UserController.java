@@ -74,4 +74,9 @@ public class UserController {
     public User getUserByEmail(@PathVariable String email){
         return userService.getByEmail(email);
     }
+
+    @GetMapping("/isFriends/{userId}/{friendId}")
+    public boolean isFriends(@PathVariable Long userId, @PathVariable Long friendId){
+        return userService.isFriend(userId,friendId);
+    }
 }
