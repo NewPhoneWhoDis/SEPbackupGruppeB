@@ -74,7 +74,7 @@ export class BetroundService {
     return this.http.put<any>(`${this.betroundUrl}/setNickname/${userId}/${betroundId}?nickname=${nickname}`, httpHeaders);
   }
 
-  public shareBet(friendId: number, betId: number): Observable<any>{
+  public shareBet(friendId: number | undefined, betId: number | undefined): Observable<any>{
     let shareBetUrl = this.betroundUrl.replace("betround","notification/shareBet");
     return this.http.put<any>(`${shareBetUrl}/${friendId}/${betId}`,null,httpHeaders);
   }

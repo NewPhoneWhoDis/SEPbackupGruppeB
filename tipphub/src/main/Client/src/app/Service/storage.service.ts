@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from "../Model/User";
+import {Bet} from "../Model/Bet";
 
 const USER_KEY = 'user-authentication';
 
@@ -64,5 +65,10 @@ export class StorageService {
       return temp.code;
     }
     return "";
+  }
+
+  public saveClickedBet(bet : Bet ) : void{
+    window.sessionStorage.removeItem("clickedBet");
+    window.sessionStorage.setItem("clickedBet", JSON.stringify(bet));
   }
 }

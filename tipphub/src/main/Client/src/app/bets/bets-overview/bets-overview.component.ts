@@ -5,6 +5,8 @@ import {UserService} from "../../Service/user.service";
 import {StorageService} from "../../Service/storage.service";
 import {User} from "../../Model/User";
 import {Bet} from "../../Model/Bet";
+import {FriendslistService} from "../../Service/friendslist.service";
+import {BetroundService} from "../../Service/betround.service";
 @Component({
   selector: 'app-bets-overview',
   templateUrl: './bets-overview.component.html',
@@ -16,8 +18,9 @@ export class BetsOverviewComponent implements OnInit {
   allBets : Array<Bet> | undefined;
   routeId: string | null = '';
   routeNumId: number = 0;
+  friends : User[] | undefined;
 
-  constructor(private router: Router, private userService : UserService, private storageService : StorageService,private route: ActivatedRoute) {
+  constructor(private router: Router, private userService : UserService, private storageService : StorageService,private route: ActivatedRoute,private friendslistService : FriendslistService,private betroundService : BetroundService) {
     
   }
 
@@ -29,6 +32,8 @@ export class BetsOverviewComponent implements OnInit {
     this.routeId = this.route.snapshot.paramMap.get('id');
     if(this.routeId){
       this.routeNumId = +this.routeId;}
+    this.friendslistService.getAllFriends(this.storageService.getLoggedUser()).subscribe(data =>{this.friends = data})
+
 
   }
 
@@ -40,5 +45,21 @@ export class BetsOverviewComponent implements OnInit {
   betsManagementClick($event: Event) {
     $event.preventDefault();
     this.router.navigateByUrl('/bets-management');
+  }
+
+  setClickedFriend(friend : User){
+    this.storageService.saveClickedUser(friend);
+  }
+
+  setClickedBet(bet : Bet){
+    this.storageService.saveClickedBet(bet);
+  }
+
+  shareBet(friendId : number | undefined){
+    const bet = window.sessionStorage.getItem("clickedBet");
+    if (bet) {
+      let temp = JSON.parse(bet);
+      this.betroundService.shareBet(friendId,temp.id).subscribe();
+    }
   }
 }
