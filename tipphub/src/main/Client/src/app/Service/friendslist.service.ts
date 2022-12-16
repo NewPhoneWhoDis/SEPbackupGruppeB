@@ -3,6 +3,7 @@ import {Observable, ObservedValueOf} from "rxjs";
 import {User} from "../Model/User";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {StorageService} from "./storage.service";
+import {FriendRequest} from "../Model/FriendRequest";
 
 const httpHeaders = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json',
@@ -15,18 +16,23 @@ export class FriendslistService {
   userURL : String;
 
   constructor(private http: HttpClient) {
-    this.userURL = "http://localhost:8080/user/friends/";
+    this.userURL = "http://localhost:8080/";
   }
 
-  public addFriend(userID : number | undefined, friendID : number | undefined) : Observable<void>{
-    return this.http.put<void>(`${this.userURL}add/${userID}/${friendID}`,null);
-  }
 
   public getAllFriends(userID : number | undefined) : Observable<User[]>{
-      return this.http.get<User[]>(`${this.userURL}${userID}`);
+      return this.http.get<User[]>(`${this.userURL}user/friends/${userID}`);
   }
 
   public deleteFriend(userID : number | undefined, friendID : number | undefined) : Observable<void>{
-    return this.http.delete<void>(`${this.userURL}remove/${userID}/${friendID}`);
+    return this.http.delete<void>(`${this.userURL}user/friends/remove/${userID}/${friendID}`);
+  }
+
+  public sendFriendRequest(friendRequest: FriendRequest, friendEmail: String): Observable<any>{
+    return this.http.put<any>(`${this.userURL}notification/friendRequest?friendEmail=${friendEmail}`,friendRequest);
+  }
+
+  public processFriendRequest(userId: number | undefined, friendRequestId: number, add: boolean): Observable<any>{
+    return this.http.put<any>(`${this.userURL}notification/processFriendRequest/${userId}/${friendRequestId}?add=${add}`,null);
   }
 }

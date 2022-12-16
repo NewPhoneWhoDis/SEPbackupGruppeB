@@ -26,11 +26,17 @@ public class BetroundService {
     private final GameRepository gameRepository;
     private final HubSystemRepository hubSystemRepository;
     private final EmailSenderService emailSenderService;
+    private final BetroundNicknameRepository betroundNicknameRepository;
 
     @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
                            UserRepository userRepository,
-                           LeagueRepository leagueRepository, HubSystemRepository hubSystemRepository, GameRepository gameRepository, EmailSenderService emailSenderService, UserService userService) {
+                           LeagueRepository leagueRepository,
+                           HubSystemRepository hubSystemRepository,
+                           GameRepository gameRepository,
+                           EmailSenderService emailSenderService,
+                           UserService userService,
+                           BetroundNicknameRepository betroundNicknameRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
         this.userRepository = userRepository;
@@ -38,6 +44,7 @@ public class BetroundService {
         this.hubSystemRepository = hubSystemRepository;
         this.gameRepository = gameRepository;
         this.emailSenderService = emailSenderService;
+        this.betroundNicknameRepository = betroundNicknameRepository;
     }
 
     @Transactional
@@ -374,5 +381,16 @@ public class BetroundService {
     @Transactional
     public List<User> getAllParticipantsService(Long id) {
         return betroundRepository.findById(id).get().getUsers();
+    }
+
+    @Transactional
+    public void setNickname(Long userId, Long betroundId, String nickname){
+        User user = userRepository.findById(userId).get();
+        Betround betround = betroundRepository.findById(betroundId).get();
+        BetroundNickname betroundNickname = new BetroundNickname();
+        betroundNickname.setNickname(nickname);
+        betroundNickname.setUser(user);
+        betroundNickname.setBetround(betround);
+        betroundNicknameRepository.save(betroundNickname);
     }
 }

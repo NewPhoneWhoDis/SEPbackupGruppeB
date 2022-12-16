@@ -1,3 +1,5 @@
+import {Notification} from "./Notification";
+
 export class User {
   id: number | undefined;
   firstName: String | undefined;
@@ -7,4 +9,5 @@ export class User {
   imageURL: String | undefined;
   dateOfBirth: Date | undefined;
   isAdmin: boolean | undefined;
+  notification: Notification | undefined;
 }
