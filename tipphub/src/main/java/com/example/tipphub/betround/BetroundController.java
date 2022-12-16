@@ -88,5 +88,8 @@ public class BetroundController {
         betroundService.setNickname(userId,betroundId,nickname);
     }
 
-    
+    @GetMapping("/getNickname/{userId}/{betroundId}")
+    public String getNickname(@PathVariable Long userId, @PathVariable Long betroundId) {
+        return betroundService.getNickname(userId, betroundId);
+    }
 }
