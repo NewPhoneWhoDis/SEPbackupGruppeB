@@ -1,61 +1,130 @@
-<p>Übersicht der Tipprunde:</p>
-<div class="flex menu bg-base-100 w-56">
-<div *ngIf="betroundToShow.isPublic">
-    <div class="badge badge-primary">Die Tipprunde ist public</div>
+<div class="card bg-base-100 shadow-xl m-2">
+  <div class="card-body">
+    <h2 class="card-title">
+      {{ betroundToShow.name }}
+      <div *ngIf="!betroundToShow.isPublic">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+          />
+        </svg>
+      </div>
+      <div *ngIf="!betroundToShow.isPublic" class="badge badge-primary">
+        Public
+      </div>
+      <div *ngIf="betroundToShow.isPublic">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+          />
+        </svg>
+      </div>
+      <div *ngIf="betroundToShow.isPublic" class="badge badge-primary">
+        Öffentlich
+      </div>
+    </h2>
+  </div>
+  <ul class="menu menu-horizontal bg-base-100 rounded-box mb-5">
+    <li>
+      <label class="hover:active" for="nicknameModal"
+        >Spitzname festlegen</label
+      >
+    </li>
+    <li>
+      <a routerLink="{{ this.router.url }}/betTable" class="hover:active"
+        >Spieltabelle</a
+      >
+    </li>
+    <li>
+      <a routerLink="{{ this.router.url }}/bets-overview" class="hover:active"
+        >Deine Tipps</a
+      >
+    </li>
+    <li>
+      <label class="hover:active" for="inviteFriendsModal"
+        >Freund einladen</label
+      >
+    </li>
+    <li>
+      <a routerLink="{{ this.router.url }}/scoreboard" class="hover:active"
+        >Scoreboard</a
+      >
+    </li>
+  </ul>
 </div>
-<div *ngIf="!betroundToShow.isPublic">
-    <div class="badge badge-primary">Die Tipprunde ist privat</div>
-</div>
-<ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+<div>
+  <div class="flex menu bg-base-100 w-56">
+    <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+      <li class="hover:active" *ngFor="let user of participantsBetround">
+        <a>{{ user?.firstName }}</a>
+      </li>
+    </ul>
+  </div>
 
-    <li><a>Name der Tipprunde ist: {{betroundToShow.name}}</a></li>
-    <li><a>Deine Name in der Tipprunde ist: {{this.nicknameInBetround}}</a></li>
-</ul>
-
-<ul class="menu bg-base-100 w-56">
-    <li><label class="hover:active" for="nicknameModal">Spitzname festlegen</label></li>
-    <li><a class="hover:active">Game Table</a></li>
-    <li><a class="hover:active">Tipps overview</a></li>
-    <li><label class="hover:active" for="inviteFriendsModal">Freunde einladen</label></li>
-    <li><a class="hover:active">Scoreboard</a></li>
-</ul>
-
-<ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-    <li class="hover:active" *ngFor="let user of participantsBetround"><a>{{user?.firstName}}</a></li>
-</ul>
-</div>
-
-<!-- Put this part before </body> tag -->
-<input type="checkbox" id="inviteFriendsModal" class="modal-toggle" />
-<div class="modal">
-  <div class="modal-box">
-    <form>
-        <h3 class="text-xl py-10">Gib der email von deiner Freund an!</h3>
-        <input type="text" [(ngModel)]="searchedUserBetInvite" id="searchedUserBetInvite" 
-        placeholder="beispiel@mail.com" name="inviteFriendsModal" class="input input-bordered input-primary w-full max-w-xs" />
+  <!-- Put this part before </body> tag -->
+  <input type="checkbox" id="inviteFriendsModal" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <form>
+        <h3 class="text-xl py-10">Gib die Email von deinem Freund ein!</h3>
+        <input
+          type="text"
+          [(ngModel)]="searchedUserBetInvite"
+          id="searchedUserBetInvite"
+          placeholder="beispiel@mail.com"
+          name="inviteFriendsModal"
+          class="input input-bordered input-primary w-full max-w-xs"
+        />
         <div class="py-6">
-            <button class="btn btn-primary" (click)="sendBetroundInvite(searchedUserBetInvite)">Einladung senden</button>
+          <button
+            class="btn btn-primary"
+            (click)="sendBetroundInvite(searchedUserBetInvite)"
+          >
+            Einladung senden
+          </button>
         </div>
-    </form>
-    <div class="modal-action">
-      <label for="inviteFriendsModal" class="btn">Schließen</label>
+      </form>
+      <div class="modal-action">
+        <label for="inviteFriendsModal" class="btn">Schließen</label>
+      </div>
     </div>
   </div>
-</div>
 
-<input type="checkbox" id="nicknameModal" class="modal-toggle" />
-<label for="my-modal-4" class="modal cursor-pointer">
-  <label class="modal-box relative" for="">
-    <form>
+  <input type="checkbox" id="nicknameModal" class="modal-toggle" />
+  <label for="my-modal-4" class="modal cursor-pointer">
+    <label class="modal-box relative" for="">
+      <form>
         <h3 class="text-xl py-10">Gib deine gewünschten Spitznamen an!</h3>
-        <input type="text" [(ngModel)]="nameToChange" name="nameToChange"
-        placeholder="Beispielname" class="input input-bordered input-primary w-full max-w-xs" />
+        <input
+          type="text"
+          placeholder="Beispielname" [(ngModel)]="nameToChange" name="nameToChange"
+          class="input input-bordered input-primary w-full max-w-xs"
+        />
         <div class="py-6">
-            <button class="btn btn-primary" (click)="changeName($event, nameToChange)">Spitzname ändern</button>
+          <button class="btn btn-primary" (click)="changeName($event, nameToChange)">Spitzname ändern</button>
         </div>
-    </form>
-    <div class="modal-action">
-      <label for="nicknameModal" class="btn">Schließen</label>
-    </div>
+      </form>
+      <div class="modal-action">
+        <label for="nicknameModal" class="btn">Schließen</label>
+      </div>
+    </label>
   </label>
-</label>
+</div>

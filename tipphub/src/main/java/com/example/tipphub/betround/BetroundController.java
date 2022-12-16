@@ -28,7 +28,6 @@ public class BetroundController {
         return betroundService.getAllBetrounds();
     }
 
-
     @GetMapping("/getAllParticipants/{id}")
     public List<User> getAllParticipants(@PathVariable Long id) {
         return betroundService.getAllParticipantsService(id);
@@ -56,17 +55,17 @@ public class BetroundController {
     }
 
     @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
-    public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId, @PathVariable Long targetetUserId) {
+    public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId,
+            @PathVariable Long targetetUserId) {
         betroundService.generateInviteURL(betroundId, userId);
-        //emailSenderService.sendEmailInviteBetround(betroundId, betroundService.getUserById(targetetUserId).getEmail());
+        // emailSenderService.sendEmailInviteBetround(betroundId,
+        // betroundService.getUserById(targetetUserId).getEmail());
     }
 
-        @GetMapping("/getInivteURL/{betroundId}/{userId}")
+    @GetMapping("/getInivteURL/{betroundId}/{userId}")
     public void sendInviteURL(@PathVariable Long betroundId, @PathVariable Long userId) {
         this.betroundService.sendEmailBetroundInvite(betroundId, userId);
     }
-
-
 
     @GetMapping("/getBest/{leagueId}")
     public List<String> getBestUsersOfLeague(@PathVariable("leagueId") Long leagueId) {
@@ -84,12 +83,17 @@ public class BetroundController {
     }
 
     @PutMapping("/setNickname/{userId}/{betroundId}")
-    public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname){
-        betroundService.setNickname(userId,betroundId,nickname);
+    public void setNickname(@PathVariable Long userId, @PathVariable Long betroundId, @RequestParam String nickname) {
+        betroundService.setNickname(userId, betroundId, nickname);
     }
 
     @GetMapping("/getNickname/{userId}/{betroundId}")
     public String getNickname(@PathVariable Long userId, @PathVariable Long betroundId) {
         return betroundService.getNickname(userId, betroundId);
+    }
+
+    @GetMapping("/getLeagueId/{betroundId}")
+    public Long getLeaugeId(@PathVariable Long betroundId) {
+        return betroundService.getLeagueId(betroundId);
     }
 }
