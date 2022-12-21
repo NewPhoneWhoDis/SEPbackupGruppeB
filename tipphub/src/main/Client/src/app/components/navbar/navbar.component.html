@@ -27,7 +27,7 @@
           <a class="justify-between" href="ligen-management"> Ligen </a>
         </li>
         <li><a routerLink="bets-and-pieces">Bets Management</a></li>
-        <li><a href="#chat-modal" class="btn">Chat</a></li>
+        <li><a *ngIf="currentUser" href="#chat-modal" class="btn">Chat</a></li>
       </ul>
     </div>
     <!--LOGO-BUTTON FUNCTIONS AS GO-HOME-BUTTON-->
@@ -45,7 +45,7 @@
         <a routerLink="ligen-management"> Ligen </a>
       </li>
       <li><a routerLink="bets-and-pieces">Bets Management</a></li>
-      <li><a href="#chat-modal" class="btn">Chat</a></li>
+      <li><a *ngIf="currentUser" href="#chat-modal" class="btn">Chat</a></li>
     </ul>
   </div>
 
@@ -97,33 +97,5 @@
 </div>
 
 
+<app-chat-modal></app-chat-modal>
 
-<div class="modal" id="chat-modal">
-  <div class="modal-box">
-     <a href="#" class="btn">Yay!</a>
-     <div class="chat chat-start">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img src="https://placeimg.com/192/192/people" />
-        </div>
-      </div>
-      <div class="chat-bubble">It was said that you would, destroy the Sith, not join them.</div>
-    </div>
-    <div class="chat chat-start">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img src="https://placeimg.com/192/192/people" />
-        </div>
-      </div>
-      <div class="chat-bubble">It was you who would bring balance to the Force</div>
-    </div>
-    <div class="chat chat-start">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img src="https://placeimg.com/192/192/people" />
-        </div>
-      </div>
-      <div class="chat-bubble">Not leave it in Darkness</div>
-    </div>
-  </div>
-</div>
