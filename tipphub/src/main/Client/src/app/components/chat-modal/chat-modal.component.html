@@ -6,7 +6,8 @@
         <div class="chat-image avatar">
           <div class="w-10 rounded-full">
             <!--!Insert Profile pic url here-->
-            <img src="https://placeimg.com/192/192/people" />
+            <img *ngIf="currentUser?.imageURL" [src]="currentUser?.imageURL"/>
+            <img *ngIf="!currentUser?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
           </div>
         </div>
         <div class="chat-bubble" *ngFor="let message of currentUserMessages">{{message}} test from currentUser </div>
@@ -15,7 +16,8 @@
       <div class="chat chat-start">
         <div class="chat-image avatar">
           <div class="w-10 rounded-full">
-            <img src="https://placeimg.com/192/192/people" />
+            <img *ngIf="friendUser?.imageURL" [src]="friendUser?.imageURL"/>
+            <img *ngIf="!friendUser?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
           </div>
         </div>
         <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage}} test from friendMessage</div>
