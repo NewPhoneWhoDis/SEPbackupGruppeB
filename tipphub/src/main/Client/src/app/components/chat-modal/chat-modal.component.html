@@ -25,8 +25,8 @@
         </div>
         <div class="chat-bubble">Not leave it in Darkness</div>
       </div>
-      <form class="py-3">
-          <input type="text" placeholder="Gib deine Nachricht hier an" class="input input-bordered input-primary w-full max-w-xs right-0
+      <form (ngSubmit)="sendMessage(messageInput.value)" class="py-3">
+          <input #messageInput type="text" placeholder="Gib deine Nachricht hier an" class="input input-bordered input-primary w-full max-w-xs right-0
           transform absolute focus:outline-none" />
       </form>
          
