@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/Model/User';
 
 @Component({
   selector: 'app-chat-modal',
@@ -8,6 +9,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ChatModalComponent implements OnInit {
   currentUserMessages: Array<String> = [];
   friendMessages: Array<String> = [];
+  currentUser : User | undefined;
+  friendUser: User | undefined;
 
   constructor() {
   }
