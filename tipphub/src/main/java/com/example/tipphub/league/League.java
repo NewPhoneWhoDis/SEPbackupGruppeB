@@ -24,6 +24,11 @@ public class League {
     @OneToMany(fetch= FetchType.LAZY, mappedBy = "league")
     private List<Betround> betrounds = new ArrayList<>();
 
+    @Column
+    int numberOfBetrounds;
+    @Column
+    int numberOfBettors;
+
     public League() {
     }
 
@@ -71,5 +76,21 @@ public class League {
 
     public void setBetrounds(List<Betround> betrounds) {
         this.betrounds = betrounds;
+    }
+
+    public int getNumberOfBetrounds() {
+        return numberOfBetrounds;
+    }
+
+    public void setNumberOfBetrounds(int numberOfBetrounds) {
+        this.numberOfBetrounds = numberOfBetrounds;
+    }
+
+    public int getNumberOfBettors() {
+        return numberOfBettors;
+    }
+
+    public void setNumberOfBettors(int numberOfBettors) {
+        this.numberOfBettors = numberOfBettors;
     }
 }

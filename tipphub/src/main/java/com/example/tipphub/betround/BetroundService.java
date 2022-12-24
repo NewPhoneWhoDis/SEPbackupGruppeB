@@ -409,4 +409,6 @@ public class BetroundService {
         Betround betround = betroundRepository.findById(betroundId).get();
         return betround.getLeague().getId();
     }
+
+
 }

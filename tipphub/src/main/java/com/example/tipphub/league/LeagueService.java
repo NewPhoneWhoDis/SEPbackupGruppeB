@@ -1,8 +1,9 @@
 package com.example.tipphub.league;
 
+import com.example.tipphub.betround.Betround;
+import com.example.tipphub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -89,5 +90,54 @@ public class LeagueService {
         if(!leagueNew.getLogoURL().equals("")){
             league.setLogoURL(leagueNew.getLogoURL());
         }
+    }
+
+    @Transactional
+    public int getNumberOfBetrounds(long leagueId){
+        int sum= 0;
+        League wantedLeague= leagueRepository.findById(leagueId).get();
+        if(wantedLeague.getBetrounds().isEmpty()){
+            return 0;
+        }
+        for(Betround roundIterator:  wantedLeague.getBetrounds()){
+            sum++;
+        }
+        wantedLeague.setNumberOfBetrounds(sum);
+        return sum;
+    }
+
+    @Transactional
+    public void resetNumberOfBetrounds(long leagueId){
+        leagueRepository.findById(leagueId).get().setNumberOfBetrounds(0);
+    }
+
+
+
+    @Transactional
+    public int getNumberOfBettors(long leagueId){
+        int sum= 0;
+        League wantedLeague= leagueRepository.findById(leagueId).get();
+        if(wantedLeague.getBetrounds().isEmpty()){
+            return 0;
+        }
+
+        for(Betround roundIterator:  wantedLeague.getBetrounds()){
+            for(User userIterator: roundIterator.getUsers()){
+               if(roundIterator.getUsers().isEmpty()){
+                   return 0;
+               }
+               else{
+                   if(!(userIterator.getBets().isEmpty()))
+                   sum++;
+               }
+            }
+        }
+        wantedLeague.setNumberOfBettors(sum);
+        return sum;
+    }
+
+    @Transactional
+    public void resetNumberOfBettors(long leagueId){
+        leagueRepository.findById(leagueId).get().setNumberOfBettors(0);
     }
 }
