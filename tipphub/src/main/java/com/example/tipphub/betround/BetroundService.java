@@ -99,23 +99,24 @@ public class BetroundService {
                     if (betOfUser.getHomeTeam().equals(actualGame.getHomeTeam()) &&
                             betOfUser.getAwayTeam().equals(actualGame.getAwayTeam()) &&
                             betOfUser.getDateOfGame().isEqual(actualGame.getDate())) {
+
                         if (actualGame.getScoreHomeTeam() == betOfUser.getHomeTeamScore() &&
                                 actualGame.getScoreAwayTeam() == betOfUser.getAwayTeamScore()) {
                             betOfUser.setBetScore(betOfUser.getBetround().getScoreRightResult());
-                            evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
+                            evaluationOfRound += betOfUser.getBetScore();
                         } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam())
                                 * -1) == ((betOfUser.getHomeTeamScore() - betOfUser.getAwayTeamScore()) * -1)) {
                             betOfUser.setBetScore(betOfUser.getBetround().getScoreRightDiff());
-                            evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
+                            evaluationOfRound += betOfUser.getBetScore();
                         } else if ((actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() &&
                                 betOfUser.getHomeTeamScore() > betOfUser.getAwayTeamScore()) ||
                                 (actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
                                         betOfUser.getHomeTeamScore() < betOfUser.getAwayTeamScore())) {
                             betOfUser.setBetScore(betOfUser.getBetround().getScoreRightWin());
-                            evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
+                            evaluationOfRound += betOfUser.getBetScore();
                         } else {
                             betOfUser.setBetScore(0);
-                            evaluationOfRound = evaluationOfRound + betOfUser.getBetScore();
+                            evaluationOfRound += betOfUser.getBetScore();
                         }
 
                     }

@@ -34,6 +34,9 @@ public class SignupRequest {
         this.isAdmin = isAdmin;
     }
 
+    public SignupRequest() {
+    }
+
     public String getFirstName() {
         return firstName;
     }

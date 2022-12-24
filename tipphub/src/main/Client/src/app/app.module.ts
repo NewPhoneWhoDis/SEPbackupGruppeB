@@ -31,6 +31,7 @@ import { betroundPage } from "./components/pages/betroundPage/betroundPage";
 import { LeageCreationPageComponent } from "./components/pages/leage-creation-page/leage-creation-page.component";
 import { GameTableBetsComponent } from "./components/game-table-bets/game-table-bets.component";
 import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
+import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
     LeageCreationPageComponent,
     GameTableBetsComponent,
     BetroundFilterPipePipe,
+    ChatModalComponent,
   ],
   imports: [
     BrowserModule,

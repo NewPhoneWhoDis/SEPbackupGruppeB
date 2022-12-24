@@ -28,16 +28,8 @@ export class BetroundService {
     return this.http.get<Betround[]>(`${this.betroundUrl}/all`, httpHeaders);
   }
 
-  public addNewBetround(
-    league: League,
-    owner: User,
-    betround: Betround
-  ): Observable<Betround> {
-    return this.http.put<Betround>(
-      `${this.betroundUrl}/add/${league.id}/${owner.id}`,
-      betround,
-      httpHeaders
-    );
+  public addNewBetround(league: League,owner: User, betround: Betround): Observable<Betround> {
+    return this.http.put<Betround>(`${this.betroundUrl}/add/${league.id}/${owner.id}`,betround,httpHeaders);
   }
 
   public betInRound(ownerId: number, betroundId: number, bet: Bet): Observable<any> {
