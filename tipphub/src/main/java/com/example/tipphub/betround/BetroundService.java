@@ -388,6 +388,14 @@ public class BetroundService {
     public void setNickname(Long userId, Long betroundId, String nickname) {
         User user = userRepository.findById(userId).get();
         Betround betround = betroundRepository.findById(betroundId).get();
+
+        for(BetroundNickname betroundNickname: betroundNicknameRepository.findAll()){
+            if(betroundNickname.getUser().equals(user) && betroundNickname.getBetround().equals(betround)){
+                betroundNickname.setNickname(nickname);
+                return;
+            }
+        }
+
         BetroundNickname betroundNickname = new BetroundNickname();
         betroundNickname.setNickname(nickname);
         betroundNickname.setUser(user);

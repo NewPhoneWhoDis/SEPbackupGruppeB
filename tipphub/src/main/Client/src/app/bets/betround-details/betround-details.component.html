@@ -19,7 +19,11 @@
         </svg>
       </div>
       <div *ngIf="!betroundToShow.isPublic" class="badge badge-primary">
-        Public
+        Privat
+      </div>
+      <div *ngIf="!betroundToShow.isPublic && nicknameInBetround.length > 1">
+        <label>Dein Spitzname: </label>
+        <div class="badge badge-accent">{{nicknameInBetround}}</div>
       </div>
       <div *ngIf="betroundToShow.isPublic">
         <svg
@@ -39,6 +43,10 @@
       </div>
       <div *ngIf="betroundToShow.isPublic" class="badge badge-primary">
         Öffentlich
+      </div>
+      <div *ngIf="betroundToShow.isPublic && nicknameInBetround.length > 1 ">
+        <label>Dein Spitzname: </label>
+        <div class="badge badge-accent">{{nicknameInBetround}}</div>
       </div>
     </h2>
   </div>

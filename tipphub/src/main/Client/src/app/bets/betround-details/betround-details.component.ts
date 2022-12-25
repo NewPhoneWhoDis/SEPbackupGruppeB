@@ -62,9 +62,7 @@ export class BetroundDetailsComponent implements OnInit {
 
     this.betroundService.getNickname(this.storage.getLoggedUser(), this.routeNumId).subscribe((data) => {
       this.nicknameInBetround = data;
-      console.log(data)
     })
-    console.log("Value is:" + this.nicknameInBetround)
   }
 
   sendBetroundInvite(email: string): void {
@@ -83,13 +81,7 @@ export class BetroundDetailsComponent implements OnInit {
     console.log(this.currentUser?.id as number, this.routeNumId, nameChange);
 
     this.betroundService.setNickname(this.currentUser?.id as number, this.routeNumId, nameChange).subscribe();
+    window.location.reload();
   }
 
-  getNickname(userId: number, betroundId: number): string {
-    let nickname = ''
-    this.betroundService.getNickname(this.storage.getLoggedUser(), this.routeNumId).subscribe((data) => {
-      nickname = data;
-    })
-    return nickname;
-  }
 }
