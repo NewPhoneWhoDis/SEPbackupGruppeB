@@ -72,6 +72,7 @@ export class BetroundDetailsComponent implements OnInit {
       if (this.userService.getUserById(this.matchedUser?.id)){
         console.log(this.routeNumId, this.matchedUser?.id);
         this.betroundService.sendEmailInviteBetround(this.routeNumId, this.matchedUser.id as number).subscribe();
+        window.location.reload();
       }
     });
   }

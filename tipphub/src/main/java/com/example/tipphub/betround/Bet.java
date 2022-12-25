@@ -25,7 +25,7 @@ public class Bet {
     private LocalDate dateOfBet;
     private int betScore;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "betround_id", referencedColumnName = "id")
     private Betround betround;

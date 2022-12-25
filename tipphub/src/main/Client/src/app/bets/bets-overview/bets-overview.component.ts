@@ -15,7 +15,7 @@ import {BetroundService} from "../../Service/betround.service";
 export class BetsOverviewComponent implements OnInit {
 
   currentUser : User | undefined;
-  allBets : Array<Bet> | undefined;
+  allBets : Array<Bet> = new Array<Bet>();
   routeId: string | null = '';
   routeNumId: number = 0;
   friends : User[] | undefined;
@@ -27,7 +27,12 @@ export class BetsOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data
       console.log(this.currentUser);
-      this.allBets = this.currentUser.bets;
+      let bets = this.currentUser.bets;
+      for(let i = 0; i < bets.length; i++){
+        if(bets[i].betround?.id === this.routeNumId){
+          this.allBets?.push(bets[i]);
+        }
+      }
     });
     this.routeId = this.route.snapshot.paramMap.get('id');
     if(this.routeId){
@@ -60,6 +65,7 @@ export class BetsOverviewComponent implements OnInit {
     if (bet) {
       let temp = JSON.parse(bet);
       this.betroundService.shareBet(friendId,temp.id).subscribe();
+      window.location.reload();
     }
   }
 }
