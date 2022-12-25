@@ -56,8 +56,7 @@ public class BetroundController {
     }
 
     @PutMapping("/inviteGeneration/{betroundId}/{userId}/{targetetUserId}")
-    public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId,
-            @PathVariable Long targetetUserId) {
+    public void generateInvite(@PathVariable Long betroundId, @PathVariable Long userId, @PathVariable Long targetetUserId) {
         betroundService.generateInviteURL(betroundId, userId);
         // emailSenderService.sendEmailInviteBetround(betroundId,
         // betroundService.getUserById(targetetUserId).getEmail());
