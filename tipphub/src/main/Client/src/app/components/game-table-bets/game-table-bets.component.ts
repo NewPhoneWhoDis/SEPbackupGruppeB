@@ -8,6 +8,8 @@ import {Bet} from "../../Model/Bet";
 import {StorageService} from "../../Service/storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import { User } from 'src/app/Model/User';
+import {UserService} from "../../Service/user.service";
+import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-game-table-bets',
@@ -36,7 +38,8 @@ export class GameTableBetsComponent implements OnInit {
               private betroundService: BetroundService,
               private storageService: StorageService,
               private router: Router,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private userService: UserService) {}
 
   ngOnInit(): void {
     this.routeId = this.route.snapshot.paramMap.get('id');
@@ -87,23 +90,21 @@ export class GameTableBetsComponent implements OnInit {
   }
 
   showPopUp(game: Game){
+    this.showOvertakeButton = false;
+    this.tippsResult = "";
     this.bet.homeTeam = game.homeTeam;
     this.bet.awayTeam = game.awayTeam;
     this.bet.dateOfBet = this.systemDate;
     this.bet.dateOfGame = game.date;
     // show popup tipp übernehmen
-    this.currentUser = this.storageService.getLoggedUser();
-    if(this.currentUser.betrounds) {
-      for(let betround of this.currentUser.betrounds) {
-        for(let betToSearch of betround.bets as Array<Bet>) {
-          if(betToSearch.homeTeam == this.bet.homeTeam &&
-             betToSearch.awayTeam == this.bet.awayTeam &&
-             betToSearch.dateOfGame == this.bet.dateOfGame) {
-
-            this.showOvertakeButton = true;
-            this.tippsResult = betToSearch.homeTeamScore?.toString() as string + "-" + betToSearch.awayTeamScore?.toString();
-          }
-        }
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe((data)=> {this.currentUser = data;})
+    for(let bet of this.currentUser.bets) {
+      if(bet.homeTeam === this.bet.homeTeam &&
+          bet.awayTeam === this.bet.awayTeam &&
+          bet.dateOfGame === this.bet.dateOfGame &&
+          bet.betround?.id != this.routeNumId) {
+        this.showOvertakeButton = true;
+        this.tippsResult = bet.homeTeamScore?.toString() as string + "-" + bet.awayTeamScore?.toString();
       }
     }
     console.log(game);
@@ -128,6 +129,12 @@ export class GameTableBetsComponent implements OnInit {
   showTops(league: League){
     this.leagueWithTops.topBetters = league.topBetters;
     this.leagueWithTops.topTeams = league.topTeams;
+  }
+
+  overtakeBet(result: string){
+    let results = result.split('-')
+    this.bet.homeTeamScore = Number(results[0]);
+    this.bet.awayTeamScore = Number(results[1])
   }
 
 }
