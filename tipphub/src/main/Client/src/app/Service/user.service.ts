@@ -36,4 +36,8 @@ export class UserService {
   public getUserById(userId : number | undefined) : Observable<User>{
     return this.http.get<User>(`${this.userURL}/getUserById/${userId}`, httpHeaders);
   }
+
+  public getBalance(userId : number | undefined) : Observable<number>{
+    return this.http.get<number>(`${this.userURL}/getUserById/${userId}`, httpHeaders);
+  }
 }

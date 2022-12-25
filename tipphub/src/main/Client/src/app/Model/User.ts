@@ -14,4 +14,5 @@ export class User {
   bets: Array<Bet> = new Array<Bet>();
   betrounds: Array<Betround> = new Array<Betround>();
   notification: Notification | undefined;
+  balance : number | undefined ;
 }

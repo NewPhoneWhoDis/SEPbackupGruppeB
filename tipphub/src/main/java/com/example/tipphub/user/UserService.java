@@ -78,4 +78,5 @@ public class UserService{
     public boolean isFriend(Long userId, Long friendId){
         return this.getUserById(userId).hasFriend(this.getUserById(friendId));
     }
+
 }
