@@ -23,7 +23,8 @@
         <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage}} test from friendMessage</div>
       </div>
       <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
-          <input #messageInput type="text" placeholder="Gib deine Nachricht hier an" class="input input-bordered input-primary w-full max-w-xs right-0
+          <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"
+          class="input input-bordered input-primary w-full max-w-xs right-0
           transform absolute focus:outline-none" />
       </form>
          
