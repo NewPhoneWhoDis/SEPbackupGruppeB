@@ -125,6 +125,16 @@ public class NotificationService {
 
     @Transactional
     public void processBetPermission(Long betPermissionId, boolean permit){
-
+        BetPermission betPermission = betPermissionRepository.findById(betPermissionId).get();
+        User user = userRepository.findById(betPermission.getUserId()).get();
+        List<BetPermission> betPermissions = betPermissionRepository.findAll();
+        for (BetPermission betPermissionIterator: betPermissions){
+            if(Objects.equals(betPermissionIterator.getUserId(), betPermission.getUserId())){
+                betPermissionRepository.deleteById(betPermissionIterator.getId());
+            }
+        }
+        if(permit){
+            user.setHasBetPermission(true);
+        }
     }
 }
