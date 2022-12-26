@@ -68,6 +68,8 @@ export class ProfileComponent implements OnInit {
   }
 
   public closeProfileComponet() {
-
+    const profileModal = document.getElementById('profile-modal')
+    // @ts-ignore
+    profileModal.close()
   }
 }
