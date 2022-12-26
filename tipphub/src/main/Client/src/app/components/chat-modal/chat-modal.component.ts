@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/Model/User';
-import { MessageService } from 'src/app/Service/message.service';
+import { MessageService } from 'src/app/Service/chat.service';
 import { StorageService } from 'src/app/Service/storage.service';
 import { UserService } from 'src/app/Service/user.service';
 
@@ -13,6 +12,8 @@ import { UserService } from 'src/app/Service/user.service';
 export class ChatModalComponent implements OnInit {
   @ViewChild('messageInput')
   messageInput!: { nativeElement: { value: string; }; };
+  @Input() currUserId: number | undefined = 0;
+  @Input() friendOfCurrUserId: number | undefined = 0;
   currentUserMessages: Array<String> = [];
   friendMessages: Array<String> = [];
   currentUser : User | undefined;
@@ -25,6 +26,7 @@ export class ChatModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+    this.userService.getUserById(this.friendOfCurrUserId).subscribe(data => {this.friendUser = data});
   }
 
   sendMessage(message: string, currentUserId: number | undefined) {
