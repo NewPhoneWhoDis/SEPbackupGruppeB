@@ -12,4 +12,10 @@ export class Bet {
     betScore: number | undefined;
     betround: Betround | undefined;
     betOwner: User | undefined;
+    moneyBet: boolean | undefined;
+    homeTeamWinner: boolean | undefined;
+    awayTeamWinner: boolean | undefined;
+    draw: boolean | undefined;
+    amountOfMoney: number | undefined;
+    profit: number | undefined;
 }

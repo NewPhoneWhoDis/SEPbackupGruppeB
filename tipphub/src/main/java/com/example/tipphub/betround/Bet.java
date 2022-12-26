@@ -43,6 +43,13 @@ public class Bet {
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    private boolean moneyBet;
+    private boolean homeTeamWinner;
+    private boolean awayTeamWinner;
+    private boolean draw;
+    private double amountOfMoney;
+    private double profit;
+
     public Bet() {
     }
 
@@ -60,7 +67,7 @@ public class Bet {
         this.betOwner = betOwner;
     }
 
-    public Bet(String homeTeam, String awayTeam, int homeTeamScore, int awayTeamScore, LocalDate dateOfGame, LocalDate dateOfBet, int betScore, Betround betround, User betOwner, List<Notification> notifications) {
+    public Bet(String homeTeam, String awayTeam, int homeTeamScore, int awayTeamScore, LocalDate dateOfGame, LocalDate dateOfBet, int betScore, Betround betround, User betOwner, List<Notification> notifications, boolean moneyBet, boolean homeTeamWinner, boolean awayTeamWinner, boolean draw, double amountOfMoney, double profit) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeTeamScore = homeTeamScore;
@@ -71,6 +78,12 @@ public class Bet {
         this.betround = betround;
         this.betOwner = betOwner;
         this.notifications = notifications;
+        this.moneyBet = moneyBet;
+        this.homeTeamWinner = homeTeamWinner;
+        this.awayTeamWinner = awayTeamWinner;
+        this.draw = draw;
+        this.amountOfMoney = amountOfMoney;
+        this.profit = profit;
     }
 
     public Long getId() {
@@ -159,5 +172,53 @@ public class Bet {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public boolean isMoneyBet() {
+        return moneyBet;
+    }
+
+    public void setMoneyBet(boolean moneyBet) {
+        this.moneyBet = moneyBet;
+    }
+
+    public boolean isHomeTeamWinner() {
+        return homeTeamWinner;
+    }
+
+    public void setHomeTeamWinner(boolean homeTeamWinner) {
+        this.homeTeamWinner = homeTeamWinner;
+    }
+
+    public boolean isAwayTeamWinner() {
+        return awayTeamWinner;
+    }
+
+    public void setAwayTeamWinner(boolean awayTeamWinner) {
+        this.awayTeamWinner = awayTeamWinner;
+    }
+
+    public boolean isDraw() {
+        return draw;
+    }
+
+    public void setDraw(boolean draw) {
+        this.draw = draw;
+    }
+
+    public double getAmountOfMoney() {
+        return amountOfMoney;
+    }
+
+    public void setAmountOfMoney(double amountOfMoney) {
+        this.amountOfMoney = amountOfMoney;
+    }
+
+    public double getProfit() {
+        return profit;
+    }
+
+    public void setProfit(double profit) {
+        this.profit = profit;
     }
 }

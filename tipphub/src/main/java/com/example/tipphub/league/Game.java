@@ -20,16 +20,23 @@ public class Game {
     @JoinColumn(name = "gameday_id", referencedColumnName = "id")
     private Gameday gameday;
 
+    private double homeTeamOdd;
+    private double awayTeamOdd;
+    private double drawOdd;
+
     public Game() {
     }
 
-    public Game(String homeTeam, String awayTeam, int scoreHomeTeam, int scoreAwayTeam, Gameday gameday, LocalDate date) {
+    public Game(String homeTeam, String awayTeam, int scoreHomeTeam, int scoreAwayTeam, LocalDate date, Gameday gameday, double homeTeamOdd, double awayTeamOdd, double drawOdd) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.scoreHomeTeam = scoreHomeTeam;
         this.scoreAwayTeam = scoreAwayTeam;
-        this.gameday = gameday;
         this.date = date;
+        this.gameday = gameday;
+        this.homeTeamOdd = homeTeamOdd;
+        this.awayTeamOdd = awayTeamOdd;
+        this.drawOdd = drawOdd;
     }
 
     public Long getId() {
@@ -86,6 +93,30 @@ public class Game {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public double getHomeTeamOdd() {
+        return homeTeamOdd;
+    }
+
+    public void setHomeTeamOdd(double homeTeamOdd) {
+        this.homeTeamOdd = homeTeamOdd;
+    }
+
+    public double getAwayTeamOdd() {
+        return awayTeamOdd;
+    }
+
+    public void setAwayTeamOdd(double awayTeamOdd) {
+        this.awayTeamOdd = awayTeamOdd;
+    }
+
+    public double getDrawOdd() {
+        return drawOdd;
+    }
+
+    public void setDrawOdd(double drawOdd) {
+        this.drawOdd = drawOdd;
     }
 }
 

@@ -15,4 +15,5 @@ export class User {
   betrounds: Array<Betround> = new Array<Betround>();
   notification: Notification | undefined;
   betPermission: boolean | undefined;
+  accountBalance: number | undefined;
 }
