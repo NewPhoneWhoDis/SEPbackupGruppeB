@@ -27,6 +27,7 @@ export class ChatModalComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
     this.userService.getUserById(this.friendOfCurrUserId).subscribe(data => {this.friendUser = data});
+    console.log(this.friendUser)
   }
 
   sendMessage(message: string, currentUserId: number | undefined) {
