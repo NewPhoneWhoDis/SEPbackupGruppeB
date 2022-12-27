@@ -16,6 +16,7 @@ export class BetsOverviewComponent implements OnInit {
 
   currentUser : User | undefined;
   allBets : Array<Bet> = new Array<Bet>();
+  allMoneyBets : Array<Bet> = new Array<Bet>();
   routeId: string | null = '';
   routeNumId: number = 0;
   friends : User[] | undefined;
@@ -30,7 +31,20 @@ export class BetsOverviewComponent implements OnInit {
       let bets = this.currentUser.bets;
       for(let i = 0; i < bets.length; i++){
         if(bets[i].betround?.id === this.routeNumId){
-          this.allBets?.push(bets[i]);
+          if(bets[i].moneyBet){
+            if(bets[i].homeTeamWinner){
+              bets[i].placedBet = bets[i].homeTeam;
+            }
+            if(bets[i].awayTeamWinner){
+              bets[i].placedBet = bets[i].awayTeam;
+            }
+            if(bets[i].draw){
+              bets[i].placedBet = 'Unentschieden';
+            }
+            this.allMoneyBets.push(bets[i])
+          }else{
+            this.allBets?.push(bets[i]);
+          }
         }
       }
     });

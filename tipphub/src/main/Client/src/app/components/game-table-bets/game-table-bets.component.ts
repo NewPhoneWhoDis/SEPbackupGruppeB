@@ -32,6 +32,9 @@ export class GameTableBetsComponent implements OnInit {
   routeNumId: number = 0;
   leaugeId: number = 0;
   leagueTable: boolean = false;
+  disabledHomeTeam: boolean = false;
+  disabledAwayTeam: boolean = false;
+  disabledDraw: boolean = false;
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
@@ -42,6 +45,8 @@ export class GameTableBetsComponent implements OnInit {
               private userService: UserService) {}
 
   ngOnInit(): void {
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe((data)=> {this.currentUser = data;})
+
     this.routeId = this.route.snapshot.paramMap.get('id');
     if(this.routeId){
       this.routeNumId = + this.routeId;
@@ -100,7 +105,6 @@ export class GameTableBetsComponent implements OnInit {
     this.bet.dateOfBet = this.systemDate;
     this.bet.dateOfGame = game.date;
     // show popup tipp übernehmen
-    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe((data)=> {this.currentUser = data;})
     for(let bet of this.currentUser.bets) {
       if(bet.homeTeam === this.bet.homeTeam &&
           bet.awayTeam === this.bet.awayTeam &&
@@ -113,9 +117,10 @@ export class GameTableBetsComponent implements OnInit {
     console.log(game);
   }
 
-  betInRound(): void{
-    console.log(this.bet)
-    console.log(this.storageService.getLoggedUser())
+  betInRound(withMoney: boolean): void{
+    if(withMoney){
+      this.bet.moneyBet = true;
+    }
     this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe();
     window.alert("Wette wurde erfolgreich platziert!")
     location.reload()
@@ -138,6 +143,24 @@ export class GameTableBetsComponent implements OnInit {
     let results = result.split('-')
     this.bet.homeTeamScore = Number(results[0]);
     this.bet.awayTeamScore = Number(results[1])
+  }
+
+  checkSelected(){
+    this.disabledHomeTeam = false;
+    this.disabledAwayTeam = false;
+    this.disabledDraw = false;
+    if(this.bet.homeTeamWinner){
+      this.disabledDraw = true;
+      this.disabledAwayTeam = true;
+    }
+    if(this.bet.awayTeamWinner){
+      this.disabledDraw = true;
+      this.disabledHomeTeam = true;
+    }
+    if(this.bet.draw){
+      this.disabledAwayTeam = true;
+      this.disabledHomeTeam = true;
+    }
   }
 
 }

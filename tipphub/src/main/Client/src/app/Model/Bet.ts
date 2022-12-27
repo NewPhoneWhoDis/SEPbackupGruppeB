@@ -18,4 +18,5 @@ export class Bet {
     draw: boolean | undefined;
     amountOfMoney: number | undefined;
     profit: number | undefined;
+    placedBet: string | undefined;
 }

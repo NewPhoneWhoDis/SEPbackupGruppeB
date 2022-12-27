@@ -73,7 +73,8 @@
         <th class="p-4 w-1/4">#</th>
         <th class="p-4 w-1/4">Auswärtsmannschaft</th>
         <th class="p-4 w-1/4">Datum</th>
-        <th class="p-4 w-1/4" *ngIf="showButtons">Wetten</th>
+        <th class="p-4 w-1/4" *ngIf="showButtons">Tippen</th>
+        <th class="p-4 w-1/4" *ngIf="showButtons && currentUser.hasBetPermission">Wetten</th>
         <th class="p-4 w-1/4" *ngIf="showButtons">Tipphilfe</th>
       </tr>
     </thead>
@@ -95,8 +96,16 @@
             class="btn btn-success"
             *ngIf="game.scoreAwayTeam === undefined"
             (click)="showPopUp(game)"
-            >Wetten!</label
-          >
+            >Tippen!</label>
+        </td>
+        <td class="p-4 w-1/4" *ngIf="showButtons && currentUser.hasBetPermission">
+          <!-- The button to open modal -->
+          <label
+                  for="betWithMoneyModal"
+                  class="btn btn-error"
+                  *ngIf="game.scoreAwayTeam === undefined"
+                  (click)="showPopUp(game)"
+          >Wetten!</label>
         </td>
         <td class="p-4 w-1/4" *ngIf="showButtons">
           <!-- The button to open modal -->
@@ -154,8 +163,8 @@
         required
         min="0"
       />
-      <button class="btn btn-primary w-full mt-2" (click)="betInRound()">
-        Wetten!
+      <button class="btn btn-success w-full mt-2" (click)="betInRound(false)">
+        Tippen!
       </button>
       <button *ngIf="this.showOvertakeButton" class="btn btn-primary w-full mt-2" (click)="overtakeBet(this.tippsResult)">
         Wette aus einer anderen Tipprunde übernehmen!
@@ -163,4 +172,57 @@
       </button>
     </div>
   </div>
+
+  <input type="checkbox" id="betWithMoneyModal" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box relative">
+      <label for="betWithMoneyModal" class="btn btn-sm btn-circle absolute right-2 top-2"
+      >✕</label
+      >
+      <h3 class="text-lg font-bold">Gib den Geldbetrag ein und platziere deine Wette!</h3>
+      <div class="form-control">
+        <label class="cursor-pointer label">
+          <span class="label-text">{{ bet.homeTeam }}</span>
+          <input type="checkbox"
+                 [(ngModel)]="bet.homeTeamWinner"
+                 [disabled] = "disabledHomeTeam"
+                 (change)="checkSelected()"
+                 class="checkbox checkbox-error" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="cursor-pointer label">
+          <span class="label-text">{{ bet.awayTeam }}</span>
+          <input type="checkbox"
+                 [(ngModel)]="bet.awayTeamWinner"
+                 [disabled] = "disabledAwayTeam"
+                 (change)="checkSelected()"
+                 class="checkbox checkbox-error" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="cursor-pointer label">
+          <span class="label-text">Unentschieden</span>
+          <input type="checkbox"
+                 [(ngModel)]="bet.draw"
+                 [disabled] = "disabledDraw"
+                 (change)="checkSelected()"
+                 class="checkbox checkbox-error" />
+        </label>
+      </div>
+      <label class="inline-block mb-2">Betrag</label>
+      <input
+              type="number"
+              [(ngModel)]="bet.amountOfMoney"
+              id="amountOfMoney"
+              class="input input-bordered w-full"
+              required
+              min="0"
+      />
+      <button class="btn btn-error w-full mt-2" (click)="betInRound(true)">
+        Wetten!
+      </button>
+    </div>
+  </div>
+
 </div>
