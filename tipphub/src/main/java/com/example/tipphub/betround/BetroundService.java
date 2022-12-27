@@ -421,7 +421,7 @@ public class BetroundService {
     public String getNickname(Long userId, Long betroundId) {
         List<BetroundNickname> betroundNicknames = betroundNicknameRepository.findAll();
         for (BetroundNickname nickname : betroundNicknames) {
-            if (nickname.getUser().getId() == userId && nickname.getBetround().getId() == betroundId)
+            if (Objects.equals(nickname.getUser().getId(),userId) && Objects.equals(nickname.getBetround().getId(),betroundId))
                 return nickname.getNickname();
         }
         return null;
