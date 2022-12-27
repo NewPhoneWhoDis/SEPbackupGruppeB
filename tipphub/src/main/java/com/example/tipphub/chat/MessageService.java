@@ -26,6 +26,16 @@ public class MessageService {
     }
 
     @Transactional
+    public Message addNewMessageByAuthor(Long authorId, String messageContent) {
+        User author = userRepository.findById(authorId).get();
+        if (author == null) throw new IllegalArgumentException("Invalid author id");
+        Message message = new Message();
+        message.setMessageAuthor(author);
+        message.setMessage(messageContent);
+        return message;
+    }
+
+    @Transactional
     public List<Message> findAll() {
         return messageRepository.findAll();
     }
@@ -38,14 +48,25 @@ public class MessageService {
     @Transactional
     public List<Message> findAllMessagesFromAuthor(Long authorId) {
         User author = this.userRepository.findById(authorId).get();
+        if (author == null) throw new IllegalArgumentException("Invalid author id");
         return messageRepository.findAll().stream()
                 .filter(message -> message.getMessageAuthor().equals(author))
                 .collect(Collectors.toList());
     }
 
     @Transactional
+    public List<Message> findAllMessagesFromReceiver(Long senderId) {
+        User receiver = this.userRepository.findById(senderId).get();
+        if (receiver == null) throw new IllegalArgumentException("Invalid receiver id");
+        return messageRepository.findAll().stream()
+                .filter(message -> message.getReceiver().equals(receiver))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public User findUserByMessageId(Long messageId) {
         Message message = messageRepository.findById(messageId).get();
+        if (message == null) throw new IllegalArgumentException("Invalid message id");
         return message.getMessageAuthor();
     }
 }
