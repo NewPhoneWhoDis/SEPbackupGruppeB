@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import { User } from 'src/app/Model/User';
 import {UserService} from "../../Service/user.service";
 import {data} from "autoprefixer";
+import {Team} from "../../Model/Team";
 
 @Component({
   selector: 'app-game-table-bets',
@@ -35,6 +36,7 @@ export class GameTableBetsComponent implements OnInit {
   disabledHomeTeam: boolean = false;
   disabledAwayTeam: boolean = false;
   disabledDraw: boolean = false;
+  teams: Array<Team> = new Array();
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
@@ -67,6 +69,7 @@ export class GameTableBetsComponent implements OnInit {
         if(!this.leagueTable && this.leagues[m].id != this.leaugeId){
           continue;
         }
+        this.leagueService.getAllTeams(this.leagues[m].id).subscribe();
         this.betroundService.getBestBetters(this.leagues[m].id).subscribe((data) => {
           // @ts-ignore
           this.leagues[m].topBetters = data;
@@ -161,6 +164,10 @@ export class GameTableBetsComponent implements OnInit {
       this.disabledAwayTeam = true;
       this.disabledHomeTeam = true;
     }
+  }
+
+  showTeamTable(league: League){
+    this.teams = league.teams;
   }
 
 }
