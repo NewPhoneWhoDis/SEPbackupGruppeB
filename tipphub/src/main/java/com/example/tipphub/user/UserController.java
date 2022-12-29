@@ -85,4 +85,7 @@ public class UserController {
     public int getBalance(@PathVariable Long userId){
         return userService.getUserById(userId).getBalance();
     }
+
+    @PutMapping("/addPoints/{userId}/{points}")
+    public void addPoints(@PathVariable Long userId, @PathVariable int points){userService.addPoints(userId,points);}
 }

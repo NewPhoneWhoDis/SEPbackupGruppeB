@@ -40,4 +40,8 @@ export class UserService {
   public getBalance(userId : number | undefined) : Observable<number>{
     return this.http.get<number>(`${this.userURL}/getUserById/${userId}`, httpHeaders);
   }
+
+  public addPoints(userId : number | undefined, points : number) : Observable<void>{
+    return this.http.put<void>(`${this.userURL}/addPoints/${userId}/${points}`, httpHeaders);
+  }
 }

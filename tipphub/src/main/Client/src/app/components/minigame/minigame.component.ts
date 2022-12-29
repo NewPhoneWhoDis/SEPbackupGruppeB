@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {interval} from "rxjs";
+import {StorageService} from "../../Service/storage.service";
+import {UserService} from "../../Service/user.service";
+import {User} from "../../Model/User";
 
 @Component({
   selector: 'app-minigame',
@@ -14,10 +17,13 @@ export class MinigameComponent implements OnInit {
   points : number = 0;
   x_vel : number = 5;
   y_vel : number = 5;
-  constructor() { }
+  currentUser : User | undefined;
+  oneTime : boolean = true;
+
+  constructor(private storageService : StorageService, private userService : UserService) { }
 
   ngOnInit(): void {
-
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
   }
 
   startGame(){
@@ -27,7 +33,7 @@ export class MinigameComponent implements OnInit {
       if(this.secondsPassed >= 1){
         this.secondsPassed --;
       }
-      if(this.secondsPassed === 0){
+      if(this.secondsPassed <= 0){
         this.endGame();
         int.unsubscribe();
       }
@@ -46,43 +52,47 @@ export class MinigameComponent implements OnInit {
   }
 
   moveBall(){
-    this.isVisible = true;
-    this.startBallTimer();
+    if(this.gameStarted){
+      this.isVisible = true;
+      this.startBallTimer();
+      let obs = setInterval(()=>{
+        let ball = document.getElementById('ball');
+        let field = document.getElementById('field');
 
-    let obs = setInterval(()=>{
-      let ball = document.getElementById('ball');
-      let field = document.getElementById('field');
+        if(ball && field){
 
-      if(ball && field){
-        // on Collision do this
-        let ball_height = ball.offsetHeight;
-        let ball_width = ball.offsetWidth;
-        let ball_top = ball.offsetTop;
-        let ball_left = ball.offsetLeft;
-        let field_height = field.offsetHeight;
-        let field_width = field.offsetWidth;
-        let field_top = field.offsetTop;
-        let field_left = field.offsetLeft;
+          let ball_height = ball.offsetHeight;
+          let ball_width = ball.offsetWidth;
+          let ball_top = ball.offsetTop;
+          let ball_left = ball.offsetLeft;
+          let field_height = field.offsetHeight;
+          let field_width = field.offsetWidth;
+          let field_top = field.offsetTop;
+          let field_left = field.offsetLeft;
 
-        if(ball_left <= field_left || ball_left >= field_width){
-          this.x_vel = this.x_vel *(-1)
+          if(this.oneTime){
+            ball.style.top = Math.random() * (field_height - field_top) + field_top + "px";
+            ball.style.left = Math.random() * (field_width - field_left) + field_left + "px";
+            this.oneTime = false;
+          }
+
+          // on Collision do this
+          if(ball_left <= field_left || ball_left + ball_width/2 >= field_width){
+            this.x_vel = this.x_vel *(-1)
+          }
+          if (ball_top <= field_top + 5 || ball_top + ball_height/8 >= field_height){
+            this.y_vel = this.y_vel *(-1);
+          }
+
+          //move ball diagonally
+          ball.style.top = ball.offsetTop + this.y_vel + "px";
+          ball.style.left = ball.offsetLeft + this.x_vel + "px";
         }
-
-        if (ball_top <= field_top || ball_top >= field_height){
-          this.y_vel = this.y_vel *(-1);
+        if(!this.isVisible){
+          clearInterval(obs);
         }
-
-        //move ball diagonally
-        ball.style.top = ball.offsetTop + this.y_vel + "px";
-        ball.style.left = ball.offsetLeft + this.x_vel + "px";
-        console.log(ball.style.top)
-        console.log(ball.style.left)
-      }
-      if(!this.isVisible){
-        clearInterval(obs);
-      }
-    },25)
-
+      },25)
+    }
   }
 
   onHit(){
@@ -92,6 +102,7 @@ export class MinigameComponent implements OnInit {
 
   resetBall(){
     this.isVisible = false;
+    this.oneTime = true;
     let obs = interval(1000).subscribe((data) => {
       if(data === 9){
         this.moveBall();
@@ -108,6 +119,7 @@ export class MinigameComponent implements OnInit {
     this.isVisible = false;
     this.secondsPassed = 60;
     // todo add points to balance
+    this.userService.addPoints(this.currentUser?.id,this.points)
     this.points = 0;
   }
 }

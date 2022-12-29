@@ -79,4 +79,9 @@ public class UserService{
         return this.getUserById(userId).hasFriend(this.getUserById(friendId));
     }
 
+    @Transactional
+    public void addPoints(Long userId, int points){
+        User user = this.getUserById(userId);
+        user.setBalance(user.getBalance() + points);
+    }
 }
