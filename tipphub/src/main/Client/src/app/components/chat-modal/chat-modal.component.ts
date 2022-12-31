@@ -12,8 +12,8 @@ import { UserService } from 'src/app/Service/user.service';
 export class ChatModalComponent implements OnInit {
   @ViewChild('messageInput')
   messageInput!: { nativeElement: { value: string; }; };
-  @Input() currUserId: number | undefined = 0;
-  @Input() friendOfCurrUserId: number | undefined = 0;
+  @Input() currUserId: number | undefined = 1;
+  @Input() friendOfCurrUserId: number | undefined = 2;
   currentUserMessages: Array<String> = [];
   friendMessages: Array<String> = [];
   currentUser : User | undefined;
