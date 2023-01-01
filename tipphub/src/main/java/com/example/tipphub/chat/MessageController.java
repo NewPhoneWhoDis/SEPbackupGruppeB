@@ -1,10 +1,8 @@
 package com.example.tipphub.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,12 +19,17 @@ public class MessageController {
     }
 
     @GetMapping("/getAuthorMessages/{id}")
-    public List<Message> getAllMessagesFromAuthor(Long authorId) {
+    public List<Message> getAllMessagesFromAuthor(@PathVariable Long authorId) {
         return messageService.findAllMessagesFromAuthor(authorId);
     }
 
     @GetMapping("/getReceiverMessages/{id}")
-    public List<Message> getAllMessagesFromReceiver(Long receiverId) {
+    public List<Message> getAllMessagesFromReceiver(@PathVariable Long receiverId) {
         return messageService.findAllMessagesFromReceiver(receiverId);
+    }
+
+    @PutMapping("/messageToSave")
+    public void saveMessageToUser(@RequestBody Message message) {
+        messageService.addNewMessageByAuthor(message.getMessageAuthor().getId(), message.getMessage());
     }
 }

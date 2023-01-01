@@ -1,14 +1,14 @@
+import { Message } from './../Model/Message';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../Model/User';
 
 @Injectable({
   providedIn: 'root'
 })
 //!Example code:
 export class MessageService {
-  messageUrl: string = 'http://localhost:8080/messages';
+  messageUrl: string = 'http://localhost:8080/message';
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +24,7 @@ export class MessageService {
     return this.http.get<string[]>(`${this.messageUrl}/all`)
   }
 
-  public saveMessageInDatabase(message: string, user: User) {
-    this.http.put(`${this.messageUrl}/save`, user);
+  public saveMessageInDatabase(message: Message) {
+    this.http.put(`${this.messageUrl}/messageToSave`, message);
   }
 }
