@@ -98,4 +98,12 @@ public class BetroundController {
     public Long getLeaugeId(@PathVariable Long betroundId) {
         return betroundService.getLeagueId(betroundId);
     }
-}
+
+    @GetMapping("/getNumberOfBets/{userId}")
+        public int getNumberOfBets(@PathVariable Long userId){
+            return betroundService.getBetAmountOfUser(userId);
+        }
+    }
+
+
+

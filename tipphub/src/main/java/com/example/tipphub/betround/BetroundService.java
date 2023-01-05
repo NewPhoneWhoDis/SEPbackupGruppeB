@@ -410,5 +410,19 @@ public class BetroundService {
         return betround.getLeague().getId();
     }
 
+    @Transactional
+    public int getBetAmountOfUser(long userId) {
+        int count = 0;
+        User wantedUser = userRepository.findById(userId).get();
+        if (wantedUser.getBets().isEmpty()) {
+            return 0;
+        }
+        for (Bet betIterator : wantedUser.getBets()) {
+            count++;
+        }
+        return count;
+
+
+    }
 
 }
