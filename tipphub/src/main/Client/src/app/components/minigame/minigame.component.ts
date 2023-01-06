@@ -29,24 +29,24 @@ export class MinigameComponent implements OnInit {
   startGame(){
     this.gameStarted = true;
     this.moveBall();
-    let int = interval(1000).subscribe((data) => {
+    let timer = interval(1000).subscribe((data) => {
       if(this.secondsPassed >= 1){
         this.secondsPassed --;
       }
       if(this.secondsPassed <= 0){
         this.endGame();
-        int.unsubscribe();
+        timer.unsubscribe();
       }
     })
   }
 
   startBallTimer(){
-    let int = interval(1000).subscribe((data) => {
+    let ballTimer = interval(1000).subscribe((data) => {
       if(data === 4){
         this.resetBall();
       }
       if(!this.isVisible){
-        int.unsubscribe();
+        ballTimer.unsubscribe();
       }
     });
   }
@@ -55,7 +55,8 @@ export class MinigameComponent implements OnInit {
     if(this.gameStarted){
       this.isVisible = true;
       this.startBallTimer();
-      let obs = setInterval(()=>{
+
+      let mover = setInterval(()=>{
         let ball = document.getElementById('ball');
         let field = document.getElementById('field');
 
@@ -63,24 +64,25 @@ export class MinigameComponent implements OnInit {
 
           let ball_height = ball.offsetHeight;
           let ball_width = ball.offsetWidth;
-          let ball_top = ball.offsetTop;
-          let ball_left = ball.offsetLeft;
+          let ball_y = ball.offsetTop;
+          let ball_x = ball.offsetLeft;
           let field_height = field.offsetHeight;
           let field_width = field.offsetWidth;
-          let field_top = field.offsetTop;
-          let field_left = field.offsetLeft;
+          let field_y = field.offsetTop;
+          let field_x = field.offsetLeft;
 
+          //set ball to random position
           if(this.oneTime){
-            ball.style.top = Math.random() * (field_height - field_top) + field_top + "px";
-            ball.style.left = Math.random() * (field_width - field_left) + field_left + "px";
+            ball.style.top = Math.random() * (field_height - field_y) + field_y + "px";
+            ball.style.left = Math.random() * (field_width - field_x) + field_x + "px";
             this.oneTime = false;
           }
 
           // on Collision do this
-          if(ball_left <= field_left || ball_left + ball_width/2 >= field_width){
+          if(ball_x <= field_x || ball_x + ball_width/2 >= field_width){
             this.x_vel = this.x_vel *(-1)
           }
-          if (ball_top <= field_top + 5 || ball_top + ball_height/8 >= field_height){
+          if (ball_y <= field_y + 5 || ball_y + ball_height/8 >= field_height){
             this.y_vel = this.y_vel *(-1);
           }
 
@@ -88,8 +90,9 @@ export class MinigameComponent implements OnInit {
           ball.style.top = ball.offsetTop + this.y_vel + "px";
           ball.style.left = ball.offsetLeft + this.x_vel + "px";
         }
+
         if(!this.isVisible){
-          clearInterval(obs);
+          clearInterval(mover);
         }
       },25)
     }
@@ -103,13 +106,13 @@ export class MinigameComponent implements OnInit {
   resetBall(){
     this.isVisible = false;
     this.oneTime = true;
-    let obs = interval(1000).subscribe((data) => {
+    let resetTimer = interval(1000).subscribe((data) => {
       if(data === 9){
         this.moveBall();
-        obs.unsubscribe();
+        resetTimer.unsubscribe();
       }
       if(!this.gameStarted){
-        obs.unsubscribe();
+        resetTimer.unsubscribe();
       }
     })
   }
