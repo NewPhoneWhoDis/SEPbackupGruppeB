@@ -425,4 +425,66 @@ public class BetroundService {
 
     }
 
+
+    @Transactional
+    public int getEvaluationOfASingleTeamForAUserInRound(long userId, long betId, String teamName){
+        int evaluationOfTeam = 0;
+       for(Bet betIterator: userRepository.findById(userId).get().getBets()) {
+           if((betIterator.getHomeTeam().equalsIgnoreCase(teamName))||(betIterator.getAwayTeam().equalsIgnoreCase(teamName)))
+           for (Gameday gamedayIterator : leagueRepository.findById(betIterator.getBetround()
+                   .getLeague().getId()).get().getGameSchedule().getGamedayList()) {
+               for (Game actualGame : gamedayIterator.getGames()) {
+                   if (betIterator.getHomeTeam().equals(actualGame.getHomeTeam()) &&
+                           betIterator.getAwayTeam().equals(actualGame.getAwayTeam()) &&
+                            betIterator.getDateOfGame().isEqual(actualGame.getDate())) {
+
+                       if (actualGame.getScoreHomeTeam() == betIterator.getHomeTeamScore() &&
+                               actualGame.getScoreAwayTeam() ==  betIterator.getAwayTeamScore()) {
+                            betIterator.setBetScore(betIterator.getBetround().getScoreRightResult());
+                           evaluationOfTeam += betIterator.getBetScore();
+                       } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam())
+                               * -1) == ((betIterator.getHomeTeamScore() - betIterator.getAwayTeamScore()) * -1)) {
+                           betIterator.setBetScore(betIterator.getBetround().getScoreRightDiff());
+                           evaluationOfTeam += betIterator.getBetScore();
+                       } else if ((actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() &&
+                               betIterator.getHomeTeamScore() > betIterator.getAwayTeamScore()) ||
+                               (actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
+                                       betIterator.getHomeTeamScore() < betIterator.getAwayTeamScore())) {
+                           betIterator.setBetScore(betIterator.getBetround().getScoreRightWin());
+                           evaluationOfTeam += betIterator.getBetScore();
+                       } else {
+                           betIterator.setBetScore(0);
+                           evaluationOfTeam += betIterator.getBetScore();
+                       }
+
+                   }
+
+               }
+           }
+       }
+        return evaluationOfTeam;
+        }
+
+
+
+        @Transactional
+        public Set<Map.Entry<String, Integer>> getPointsAUserMadeFromATeam (long userId, long betroundId) {
+        int points= 0;
+        User wantedUser= userRepository.findById(userId).get();
+        List<Bet> betsOfRound= new ArrayList<>();
+        for(Bet betIterator: wantedUser.getBets()){
+            if(betIterator.getBetround().getId()==betroundId){
+                betsOfRound.add(betIterator);
+            }
+        }
+        Hashtable<String, Integer> teamWithScore = new Hashtable<>();
+        for(Bet betInRoundIterator: betsOfRound){
+            teamWithScore.put(betInRoundIterator.getHomeTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getHomeTeam()));
+            teamWithScore.put(betInRoundIterator.getAwayTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getAwayTeam()));
+
+        }
+        return teamWithScore.entrySet();
+        }
+
+
 }
