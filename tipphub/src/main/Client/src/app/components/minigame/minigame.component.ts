@@ -12,6 +12,7 @@ import {User} from "../../Model/User";
 export class MinigameComponent implements OnInit {
 
   isVisible : boolean = false;
+  isCovered : boolean = false;
   secondsPassed : number = 60;
   gameStarted : boolean = false;
   points : number = 0;
@@ -53,6 +54,7 @@ export class MinigameComponent implements OnInit {
 
   moveBall(){
     if(this.gameStarted){
+      this.isCovered = true;
       this.isVisible = true;
       this.startBallTimer();
 
@@ -75,12 +77,13 @@ export class MinigameComponent implements OnInit {
           if(this.oneTime){
             ball.style.top = Math.random() * (field_height - field_y) + field_y + "px";
             ball.style.left = Math.random() * (field_width - field_x) + field_x + "px";
+            this.isCovered = false;
             this.oneTime = false;
           }
 
           // on Collision do this
           if(ball_x <= field_x || ball_x + ball_width/2 >= field_width){
-            this.x_vel = this.x_vel *(-1)
+            this.x_vel = this.x_vel *(-1);
           }
           if (ball_y <= field_y + 5 || ball_y + ball_height/8 >= field_height){
             this.y_vel = this.y_vel *(-1);
@@ -105,9 +108,10 @@ export class MinigameComponent implements OnInit {
 
   resetBall(){
     this.isVisible = false;
+    this.isCovered = false;
     this.oneTime = true;
     let resetTimer = interval(1000).subscribe((data) => {
-      if(data === 9){
+      if(data === 4){
         this.moveBall();
         resetTimer.unsubscribe();
       }
@@ -121,6 +125,7 @@ export class MinigameComponent implements OnInit {
     this.gameStarted = false;
     this.isVisible = false;
     this.secondsPassed = 60;
+    this.isCovered = false;
     // todo add points to balance
     this.userService.addPoints(this.currentUser?.id,this.points)
     this.points = 0;
