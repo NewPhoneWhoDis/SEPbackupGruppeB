@@ -1,18 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "src/app/Service/auth.service";
+import { StorageService } from "src/app/Service/storage.service";
 import { ChartType } from "./apex.model";
 
-import {
-  linewithDataChart,
-  basicColumChart,
-  columnlabelChart,
-  lineColumAreaChart,
-  basicRadialBarChart,
-  simplePieChart,
-  donutChart,
-  barChart,
-  splineAreaChart,
-  dashedLineChart,
-} from "./data";
+import { basicColumChart, simplePieChart, barChart } from "./data";
 
 @Component({
   selector: "app-statistics-page",
@@ -20,47 +11,26 @@ import {
   styleUrls: ["./statistics-page.component.css"],
 })
 export class StatisticsPageComponent implements OnInit {
-  // bread crumb items
-  breadCrumbItems!: Array<{}>;
-
-  linewithDataChart!: ChartType;
   basicColumChart!: ChartType;
-  columnlabelChart!: ChartType;
-  lineColumAreaChart!: ChartType;
-  basicRadialBarChart!: ChartType;
   simplePieChart!: ChartType;
-  donutChart!: ChartType;
   barChart!: ChartType;
-  splineAreaChart!: ChartType;
-  dashedLineChart!: ChartType;
+  showAdminData: boolean = false;
 
-  constructor() {}
+  constructor(
+    private storageService: StorageService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: "Charts" },
-      { label: "Apex charts", active: true },
-    ];
-
-    /**
-     * Fethches the chart data
-     */
+    if (this.authService.isVerified()) {
+      this.showAdminData = this.storageService.isCurrentUserAdmin();
+    }
     this._fetchData();
   }
 
-  /**
-   * Fetches the chart data
-   */
   private _fetchData() {
-    this.linewithDataChart = linewithDataChart;
     this.basicColumChart = basicColumChart;
-    this.columnlabelChart = columnlabelChart;
-    this.lineColumAreaChart = lineColumAreaChart;
-    this.basicRadialBarChart = basicRadialBarChart;
     this.simplePieChart = simplePieChart;
-    this.donutChart = donutChart;
     this.barChart = barChart;
-    this.splineAreaChart = splineAreaChart;
-    this.dashedLineChart = dashedLineChart;
   }
 }

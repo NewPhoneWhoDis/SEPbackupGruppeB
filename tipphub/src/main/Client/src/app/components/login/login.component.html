@@ -1,8 +1,8 @@
 <!-- Components used from https://daisyui.com/ -->
 <!--<label for="login-modal" class="btn btn-primary">open modal</label>-->
 <input type="checkbox" id="login-modal" class="modal-toggle" />
-<label class="modal cursor-pointer ">
-  <label class="modal-box relative ">
+<label class="modal cursor-pointer">
+  <label class="modal-box relative">
     <div class="py-6 px-6 lg:px-8 text-white">
       <h3 class="mb-4 text-2xl font-medium">Willst du mit tippen?</h3>
       <form class="space-y-6" (ngSubmit)="onSubmit()" #loginForm="ngForm">
@@ -14,83 +14,103 @@
         >
         <!-- Input for Email-Adresse -->
         <div *ngIf="!checker">
-        <div>
-          <label class="label">
-            <span class="label-text">E-Mail Adresse</span>
-          </label>
-          <input
-            type="email"
-            #email="ngModel"
-            placeholder="manuel.neuer@tipphub.de"
-            class="input input-bordered w-full"
-            [(ngModel)]="loginRequest.email"
-            name="email"
-            required
-            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-          />
-          <div class="alert alert-error shadow-lg" *ngIf="email.errors?.['pattern']">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>
-                  Gibe eine gültige E-Mail Adresse ein!
-                </span>
+          <div>
+            <label class="label">
+              <span class="label-text">E-Mail Adresse</span>
+            </label>
+            <input
+              type="email"
+              #email="ngModel"
+              placeholder="manuel.neuer@tipphub.de"
+              class="input input-bordered w-full"
+              [(ngModel)]="loginRequest.email"
+              name="email"
+              required
+              pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+            />
+            <div
+              class="alert alert-error shadow-lg"
+              *ngIf="email.errors?.['pattern']"
+            >
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span> Gibe eine gültige E-Mail Adresse ein! </span>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Input for Password -->
-        <div>
-          <label class="label">
-            <span class="label-text">Passwort</span>
-          </label>
-          <input
-            type="password"
-            placeholder="•••••••••"
-            class="input input-bordered w-full"
-            [(ngModel)]="loginRequest.password"
-            name="password"
-            #password="ngModel"
-            required
-            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-          />
-        </div>
-        <div class="alert alert-error shadow-lg" *ngIf="password.errors?.['pattern']">
+          <!-- Input for Password -->
           <div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span>
-                Das Passwort muss aus mindestens 8 Zeichen bestehen,
-                1 Großbuchstabe, 1 Kleinbuchstabe und 1 Zahl!
-              </span>
+            <label class="label">
+              <span class="label-text">Passwort</span>
+            </label>
+            <input
+              type="password"
+              placeholder="•••••••••"
+              class="input input-bordered w-full"
+              [(ngModel)]="loginRequest.password"
+              name="password"
+              #password="ngModel"
+              required
+              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+            />
+          </div>
+          <!-- Submit-Button -->
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            class="w-full btn btn-primary"
+          >
+            Rein!
+          </button>
+          <!-- Link to Registration-Modal -->
+          <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+            Noch nicht registriert?
+            <a class="link link-primary hover:underline">Registrieren</a>
           </div>
         </div>
-        <!-- Submit-Button -->
-        <button
-                type="submit"
-          (click)="onSubmit()"
-          class="w-full btn btn-primary"
-        >
-          Rein!
-        </button>
-        <!-- Link to Registration-Modal -->
-        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-          Noch nicht registriert?
-          <a class="link link-primary hover:underline">Registrieren</a>
-        </div>
-        </div>
-
 
         <div class="py-6 px-6 lg:px-8 text-white" *ngIf="checker">
-          <h3 class="mb-4 text-2xl font-medium ">Gib den Verifizierungscode ein</h3>
+          <h3 class="mb-4 text-2xl font-medium">
+            Gib den Verifizierungscode ein
+          </h3>
           <form class="space-y-6" (ngSubmit)="verifyCode()">
             <!-- Close-Button -->
             <label
-                    for="login-modal"
-                    class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
-            >✕</label>
-            <div id="otp" class="flex flex-row justify-center text-center px-2 mt-5">
-              <input class="m-2 border h-10 w-40 text-center form-control rounded" type="text" id="first" maxlength="6" [(ngModel)]="typedCode" name="code"/>
+              for="login-modal"
+              class="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
+              >✕</label
+            >
+            <div
+              id="otp"
+              class="flex flex-row justify-center text-center px-2 mt-5"
+            >
+              <input
+                class="m-2 border h-10 w-40 text-center form-control rounded"
+                type="text"
+                id="first"
+                maxlength="6"
+                [(ngModel)]="typedCode"
+                name="code"
+              />
             </div>
             <!-- Submit-Button -->
-            <a (click)="verifyCode()" href="home" class="w-full btn btn-primary" >
+            <a
+              (click)="verifyCode()"
+              href="home"
+              class="w-full btn btn-primary"
+            >
               Verifizieren
             </a>
           </form>
