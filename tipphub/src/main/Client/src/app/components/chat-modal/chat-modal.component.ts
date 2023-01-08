@@ -14,7 +14,7 @@ export class ChatModalComponent implements OnInit {
   @ViewChild('messageInput')
   messageInput!: { nativeElement: { value: string; }; };
   @Input() currUserId: number | undefined = 1;
-  @Input() friendOfCurrUserId: number | undefined = 2;
+  @Input() friendOfCurrUserId: number | undefined = 13;
   currentUserMessages: Array<String> = [];
   friendMessages: Array<String> = [];
   currentUser : User | undefined;
@@ -52,6 +52,7 @@ export class ChatModalComponent implements OnInit {
     authorOfMessage.id = currentUserId;
     this.userService.getUserById(currentUserId as number).subscribe(data => {authorOfMessage = data});
     this.messageService.saveMessageInDatabase(messageObject);
+    console.log(messageObject.message);
   }
 
 }

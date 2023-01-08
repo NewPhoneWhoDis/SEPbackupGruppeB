@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "message_entity")
 public class Message {
 
 
