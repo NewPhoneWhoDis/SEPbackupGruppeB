@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Message } from 'src/app/Model/Message';
 import { User } from 'src/app/Model/User';
 import { MessageService } from 'src/app/Service/chat.service';
 import { StorageService } from 'src/app/Service/storage.service';
@@ -46,8 +47,11 @@ export class ChatModalComponent implements OnInit {
 
   saveMessage(message: string, currentUserId: number) {
     let authorOfMessage: User = new User();
+    let messageObject: Message = new Message();
+    messageObject.message = message;
+    authorOfMessage.id = currentUserId;
     this.userService.getUserById(currentUserId as number).subscribe(data => {authorOfMessage = data});
-    this.messageService.saveMessageInDatabase(message, authorOfMessage);
+    this.messageService.saveMessageInDatabase(messageObject);
   }
 
 }

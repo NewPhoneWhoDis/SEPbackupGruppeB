@@ -30,6 +30,6 @@ public class MessageController {
 
     @PutMapping("/messageToSave")
     public void saveMessageToUser(@RequestBody Message message) {
-        messageService.addNewMessageByAuthor(message.getMessageAuthor().getId(), message.getMessage());
+        messageService.save(message);
     }
 }
