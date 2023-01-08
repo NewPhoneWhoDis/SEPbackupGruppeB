@@ -116,6 +116,9 @@ const simplePieChart: ChartType = {
   chart: {
     height: 320,
     type: "pie",
+    toolbar: {
+      show: true,
+    },
   },
   series: [44, 55, 41, 17, 15],
   labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
@@ -128,7 +131,11 @@ const simplePieChart: ChartType = {
     floating: false,
     fontSize: "14px",
     offsetX: 0,
-    offsetY: -10,
+    offsetY: 0,
+    labels: {
+      colors: undefined,
+      useSeriesColors: true,
+    },
   },
   responsive: [
     {
