@@ -31,7 +31,9 @@ import { betroundPage } from "./components/pages/betroundPage/betroundPage";
 import { LeageCreationPageComponent } from "./components/pages/leage-creation-page/leage-creation-page.component";
 import { GameTableBetsComponent } from "./components/game-table-bets/game-table-bets.component";
 import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
-import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
+import { ChatModalComponent } from "./components/chat-modal/chat-modal.component";
+import { StatisticsPageComponent } from "./components/pages/statistics/statistics-page/statistics-page.component";
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { ChatModalComponent } from './components/chat-modal/chat-modal.component
     GameTableBetsComponent,
     BetroundFilterPipePipe,
     ChatModalComponent,
+    StatisticsPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,7 @@ import { ChatModalComponent } from './components/chat-modal/chat-modal.component
     SharedModule,
     BetsRoutingModule,
     BetsModule,
+    NgApexchartsModule,
   ],
   providers: [LeagueService, CookieService],
   bootstrap: [AppComponent],
