@@ -92,6 +92,7 @@ public class BetroundService {
     @Transactional
     public int getEvaluationInRound(Long userId, Long wantedRound) {
         int evaluationOfRound = 0;
+        User user = userRepository.findById(userId).get();
         for (Bet betOfUser : getBetsOfUserInRound(userId, wantedRound)) {
             for (Gameday gamedayIterator : leagueRepository.findById(betOfUser.getBetround()
                     .getLeague().getId()).get().getGameSchedule().getGamedayList()) {
@@ -99,31 +100,40 @@ public class BetroundService {
                     if (betOfUser.getHomeTeam().equals(actualGame.getHomeTeam()) &&
                             betOfUser.getAwayTeam().equals(actualGame.getAwayTeam()) &&
                             betOfUser.getDateOfGame().isEqual(actualGame.getDate())) {
-
-                        if (actualGame.getScoreHomeTeam() == betOfUser.getHomeTeamScore() &&
-                                actualGame.getScoreAwayTeam() == betOfUser.getAwayTeamScore()) {
-                            betOfUser.setBetScore(betOfUser.getBetround().getScoreRightResult());
-                            evaluationOfRound += betOfUser.getBetScore();
-                        } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam())
-                                * -1) == ((betOfUser.getHomeTeamScore() - betOfUser.getAwayTeamScore()) * -1)) {
-                            betOfUser.setBetScore(betOfUser.getBetround().getScoreRightDiff());
-                            evaluationOfRound += betOfUser.getBetScore();
-                        } else if ((actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() &&
-                                betOfUser.getHomeTeamScore() > betOfUser.getAwayTeamScore()) ||
-                                (actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
-                                        betOfUser.getHomeTeamScore() < betOfUser.getAwayTeamScore())) {
-                            betOfUser.setBetScore(betOfUser.getBetround().getScoreRightWin());
-                            evaluationOfRound += betOfUser.getBetScore();
-                        } else {
-                            betOfUser.setBetScore(0);
-                            evaluationOfRound += betOfUser.getBetScore();
+                        if(betOfUser.isMoneyBet()){
+                            if(actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() && betOfUser.isHomeTeamWinner()){
+                                betOfUser.setProfit(actualGame.getHomeTeamOdd() * betOfUser.getAmountOfMoney());
+                                user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
+                            } else if(actualGame.getScoreAwayTeam() > actualGame.getScoreHomeTeam() && betOfUser.isAwayTeamWinner()){
+                                betOfUser.setProfit(actualGame.getAwayTeamOdd() * betOfUser.getAmountOfMoney());
+                                user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
+                            } else if(actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam() == 0 && betOfUser.isDraw()){
+                                betOfUser.setProfit(actualGame.getDrawOdd() * betOfUser.getAmountOfMoney());
+                                user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
+                            }
+                        }else{
+                            if (actualGame.getScoreHomeTeam() == betOfUser.getHomeTeamScore() &&
+                                    actualGame.getScoreAwayTeam() == betOfUser.getAwayTeamScore()) {
+                                betOfUser.setBetScore(betOfUser.getBetround().getScoreRightResult());
+                                evaluationOfRound += betOfUser.getBetScore();
+                            } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam())
+                                    * -1) == ((betOfUser.getHomeTeamScore() - betOfUser.getAwayTeamScore()) * -1)) {
+                                betOfUser.setBetScore(betOfUser.getBetround().getScoreRightDiff());
+                                evaluationOfRound += betOfUser.getBetScore();
+                            } else if ((actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() &&
+                                    betOfUser.getHomeTeamScore() > betOfUser.getAwayTeamScore()) ||
+                                    (actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
+                                            betOfUser.getHomeTeamScore() < betOfUser.getAwayTeamScore())) {
+                                betOfUser.setBetScore(betOfUser.getBetround().getScoreRightWin());
+                                evaluationOfRound += betOfUser.getBetScore();
+                            } else {
+                                betOfUser.setBetScore(0);
+                                evaluationOfRound += betOfUser.getBetScore();
+                            }
                         }
-
                     }
-
                 }
             }
-
         }
         return evaluationOfRound;
     }
@@ -166,6 +176,10 @@ public class BetroundService {
 
             wantedRound.getBets().add(wantedBet);
             wantedRound.getUsers().add(owner);
+
+            if(wantedBet.isMoneyBet()){
+                owner.setAccountBalance(owner.getAccountBalance() - wantedBet.getAmountOfMoney());
+            }
         }
 
     }
@@ -388,6 +402,14 @@ public class BetroundService {
     public void setNickname(Long userId, Long betroundId, String nickname) {
         User user = userRepository.findById(userId).get();
         Betround betround = betroundRepository.findById(betroundId).get();
+
+        for(BetroundNickname betroundNickname: betroundNicknameRepository.findAll()){
+            if(betroundNickname.getUser().equals(user) && betroundNickname.getBetround().equals(betround)){
+                betroundNickname.setNickname(nickname);
+                return;
+            }
+        }
+
         BetroundNickname betroundNickname = new BetroundNickname();
         betroundNickname.setNickname(nickname);
         betroundNickname.setUser(user);
@@ -399,7 +421,7 @@ public class BetroundService {
     public String getNickname(Long userId, Long betroundId) {
         List<BetroundNickname> betroundNicknames = betroundNicknameRepository.findAll();
         for (BetroundNickname nickname : betroundNicknames) {
-            if (nickname.getUser().getId() == userId && nickname.getBetround().getId() == betroundId)
+            if (Objects.equals(nickname.getUser().getId(),userId) && Objects.equals(nickname.getBetround().getId(),betroundId))
                 return nickname.getNickname();
         }
         return null;

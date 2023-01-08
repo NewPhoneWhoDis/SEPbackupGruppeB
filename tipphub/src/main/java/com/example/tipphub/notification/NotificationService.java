@@ -2,6 +2,7 @@ package com.example.tipphub.notification;
 
 import com.example.tipphub.betround.Bet;
 import com.example.tipphub.betround.BetRepository;
+import com.example.tipphub.email.EmailSenderService;
 import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
 import com.example.tipphub.user.UserService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class NotificationService {
@@ -17,18 +20,24 @@ public class NotificationService {
     private UserRepository userRepository;
     private UserService userService;
     private BetRepository betRepository;
+    private EmailSenderService emailSenderService;
+    private BetPermissionRepository betPermissionRepository;
 
     @Autowired
     public NotificationService(NotificationRepository notificationRepository,
                                FriendRequestRepository friendRequestRepository,
                                UserRepository userRepository,
                                UserService userService,
-                               BetRepository betRepository) {
+                               BetRepository betRepository,
+                               EmailSenderService emailSenderService,
+                               BetPermissionRepository betPermissionRepository) {
         this.notificationRepository = notificationRepository;
         this.friendRequestRepository = friendRequestRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.betRepository = betRepository;
+        this.emailSenderService = emailSenderService;
+        this.betPermissionRepository = betPermissionRepository;
     }
 
     @Transactional
@@ -80,4 +89,52 @@ public class NotificationService {
         friend.getNotification().getSharedBets().add(bet);
     }
 
+    @Transactional
+    public void requestBetPermission(Long userId) throws Exception{
+        User user = userRepository.findById(userId).get();
+
+        List<BetPermission> betPermissions = betPermissionRepository.findAll();
+        for(BetPermission betPermissionIterator: betPermissions){
+            if(Objects.equals(betPermissionIterator.getUserId(), userId)){
+                throw new Exception("Anfrage wurde bereits verschickt!");
+            }
+        }
+
+        for (User userIterator: userRepository.findAll()){
+            if(userIterator.isAdmin() && userIterator.getId() != userId){
+                BetPermission betPermission = new BetPermission();
+                betPermission.setFirstName(user.getFirstName());
+                betPermission.setLastName(user.getLastName());
+                betPermission.setUserId(userId);
+                if(user.getNotification() == null){
+                    Notification notification = new Notification();
+                    notification.getBetPermissions().add(betPermission);
+                    betPermission.setNotification(notification);
+                    betPermissionRepository.save(betPermission);
+                    userIterator.setNotification(notification);
+                    emailSenderService.sendBetPermission(userIterator.getEmail());
+                }else{
+                    betPermission.setNotification(userIterator.getNotification());
+                    betPermissionRepository.save(betPermission);
+                    userIterator.getNotification().getBetPermissions().add(betPermission);
+                    emailSenderService.sendBetPermission(userIterator.getEmail());
+                }
+            }
+        }
+    }
+
+    @Transactional
+    public void processBetPermission(Long betPermissionId, boolean permit){
+        BetPermission betPermission = betPermissionRepository.findById(betPermissionId).get();
+        User user = userRepository.findById(betPermission.getUserId()).get();
+        List<BetPermission> betPermissions = betPermissionRepository.findAll();
+        for (BetPermission betPermissionIterator: betPermissions){
+            if(Objects.equals(betPermissionIterator.getUserId(), betPermission.getUserId())){
+                betPermissionRepository.deleteById(betPermissionIterator.getId());
+            }
+        }
+        if(permit){
+            user.setHasBetPermission(true);
+        }
+    }
 }

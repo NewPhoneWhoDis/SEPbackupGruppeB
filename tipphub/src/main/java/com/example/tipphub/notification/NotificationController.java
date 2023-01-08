@@ -29,4 +29,14 @@ public class NotificationController {
     public void shareBet(@PathVariable Long friendId, @PathVariable Long betId){
         this.notificationService.shareBet(friendId, betId);
     }
+
+    @PutMapping("requestBetPermission/{userId}")
+    public void requestBetPermission(@PathVariable Long userId) throws Exception{
+        this.notificationService.requestBetPermission(userId);
+    }
+
+    @PutMapping("processBetPermission/{betPermissionId}")
+    public void processBetPermission(@PathVariable Long betPermissionId, @RequestParam boolean permit){
+        this.notificationService.processBetPermission(betPermissionId,permit);
+    }
 }

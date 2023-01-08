@@ -30,6 +30,8 @@ public class User {
     private String imageURL;
     private LocalDate dateOfBirth;
     private boolean isAdmin;
+    private boolean hasBetPermission;
+    private double accountBalance;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,
@@ -75,7 +77,7 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public User(String firstName, String lastName, String email, String password, String imageURL, LocalDate dateOfBirth, boolean isAdmin, List<Betround> betrounds, List<Bet> bets, Set<User> friends) {
+    public User(String firstName, String lastName, String email, String password, String imageURL, LocalDate dateOfBirth, boolean isAdmin, List<Betround> betrounds, List<Bet> bets, Set<User> friends, boolean hasBetPermission, double accountBalance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -86,6 +88,8 @@ public class User {
         this.betrounds = betrounds;
         this.bets = bets;
         this.friends = friends;
+        this.hasBetPermission = hasBetPermission;
+        this.accountBalance = accountBalance;
     }
 
     public Long getId() {
@@ -202,5 +206,21 @@ public class User {
 
     public void setBetroundNicknames(List<BetroundNickname> betroundNicknames) {
         this.betroundNicknames = betroundNicknames;
+    }
+
+    public boolean isHasBetPermission() {
+        return hasBetPermission;
+    }
+
+    public void setHasBetPermission(boolean hasBetPermission) {
+        this.hasBetPermission = hasBetPermission;
+    }
+
+    public double getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
     }
 }
