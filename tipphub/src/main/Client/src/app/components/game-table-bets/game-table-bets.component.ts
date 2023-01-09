@@ -69,7 +69,11 @@ export class GameTableBetsComponent implements OnInit {
         if(!this.leagueTable && this.leagues[m].id != this.leaugeId){
           continue;
         }
-        this.leagueService.getAllTeams(this.leagues[m].id).subscribe();
+        this.leagueService.getAllTeams(this.leagues[m].id).subscribe((data) => {
+          // @ts-ignore
+          this.leagues[m].teams = data;
+        });
+        console.log(this.leagues[m])
         this.betroundService.getBestBetters(this.leagues[m].id).subscribe((data) => {
           // @ts-ignore
           this.leagues[m].topBetters = data;

@@ -255,8 +255,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let team of teams" class="">
-                  <td class="p-4 w-1/4">{{team.name}}</td>
+                <tr *ngFor="let team of teams; let i = index">
+                  <td *ngIf="i === 0" class="p-4 w-1/4" class="text-accent">{{team.name}}</td>
+                  <td *ngIf="i === teams.length-1 || i === teams.length -2 || i === teams.length-3" class="p-4 w-1/4" class="text-error">{{team.name}}</td>
+                  <td *ngIf="i > 0 && i < teams.length-3"class="p-4 w-1/4">{{team.name}}</td>
                   <td class="p-4 w-1/3"><b>{{team.wins}}</b></td>
                   <td class="p-4 w-1/3"><b>{{team.loses}}</b></td>
                   <td class="p-4 w-1/3"><b>{{team.draws}}</b></td>
