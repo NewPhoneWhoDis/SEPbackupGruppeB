@@ -14,11 +14,12 @@ export class ChatModalComponent implements OnInit {
   @ViewChild('messageInput')
   messageInput!: { nativeElement: { value: string; }; };
   @Input() currUserId: number | undefined = 1;
-  @Input() friendOfCurrUserId: number | undefined = 13;
+  @Input() friendOfCurrUserId: number | undefined = 1;
   currentUserMessages: Array<String> = [];
   friendMessages: Array<String> = [];
   currentUser : User | undefined;
   friendUser: User | undefined;
+  clickedFriend: User | undefined;
 
   constructor(private messageService: MessageService, 
     private userService: UserService,
@@ -26,6 +27,11 @@ export class ChatModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const user = window.sessionStorage.getItem("clickedFriend");
+    if (user) {
+      this.clickedFriend= JSON.parse(user);
+      console.log(this.clickedFriend?.id);
+    }
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
     this.userService.getUserById(this.friendOfCurrUserId).subscribe(data => {this.friendUser = data});
     console.log(this.friendUser)
@@ -46,13 +52,14 @@ export class ChatModalComponent implements OnInit {
   }
 
   saveMessage(message: string, currentUserId: number) {
-    let authorOfMessage: User = new User();
+    let authorOfMessage: User = this.currentUser as User;
     let messageObject: Message = new Message();
     messageObject.message = message;
-    authorOfMessage.id = currentUserId;
-    this.userService.getUserById(currentUserId as number).subscribe(data => {authorOfMessage = data});
-    this.messageService.saveMessageInDatabase(messageObject);
-    console.log(messageObject.message);
+    //messageObject.messageAuthor = authorOfMessage;
+    //authorOfMessage.id = currentUserId;
+    //this.userService.getUserById(currentUserId as number).subscribe(data => {authorOfMessage = data});
+    this.messageService.saveMessageInDatabase(messageObject).subscribe();
+    console.log(messageObject);
   }
 
 }

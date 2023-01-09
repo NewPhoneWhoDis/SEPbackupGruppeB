@@ -30,6 +30,7 @@ public class MessageController {
 
     @PutMapping("/messageToSave")
     public void saveMessageToUser(@RequestBody Message message) {
+        System.out.println("We are here");
         messageService.save(message);
     }
 }

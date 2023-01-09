@@ -16,8 +16,8 @@
       <div class="chat chat-start">
         <div class="chat-image avatar">
           <div class="w-10 rounded-full">
-            <img *ngIf="friendUser?.imageURL" [src]="friendUser?.imageURL"/>
-            <img *ngIf="!friendUser?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
+            <img *ngIf="clickedFriend?.imageURL" [src]="clickedFriend?.imageURL"/>
+            <img *ngIf="!clickedFriend?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
           </div>
         </div>
         <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage}} test from friendMessage</div>
