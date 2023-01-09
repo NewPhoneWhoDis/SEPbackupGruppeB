@@ -23,12 +23,8 @@ const basicColumChart: ChartType = {
     width: 2,
     colors: ["transparent"],
   },
-  colors: ["#f28c18", "#723da5", "#52ab00"],
+  colors: ["#723da5", "#52ab00"],
   series: [
-    {
-      name: "Net Profit",
-      data: [46, 57, 59, 54, 62, 58, 64, 60, 66],
-    },
     {
       name: "Revenue",
       data: [74, 83, 102, 97, 86, 106, 93, 114, 94],
