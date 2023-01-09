@@ -2,7 +2,6 @@
   <div class="card" *ngIf="showAdminData">
     <div class="card-body">
       <h4 class="card-title mb-4">Liga Statistiken</h4>
-
       <apx-chart
         class="apex-charts"
         dir="ltr"
@@ -46,27 +45,27 @@
             </div>
         -->
   </div>
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title mb-4">Getippte Ergebnisse</h4>
-        <apx-chart
-          class="apex-charts"
-          dir="ltr"
-          [series]="barChart.series"
-          [chart]="barChart.chart"
-          [tooltip]="barChart.tooltip"
-          [plotOptions]="barChart.plotOptions"
-          [dataLabels]="barChart.dataLabels"
-          [xaxis]="barChart.xaxis"
-          [colors]="barChart.colors"
-          [grid]="barChart.grid"
-        ></apx-chart>
+  <div class="row">
+    <div class="col-sm">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Getippte Ergebnisse</h4>
+          <apx-chart
+            class="apex-charts"
+            dir="ltr"
+            [series]="barChart.series"
+            [chart]="barChart.chart"
+            [tooltip]="barChart.tooltip"
+            [plotOptions]="barChart.plotOptions"
+            [dataLabels]="barChart.dataLabels"
+            [xaxis]="barChart.xaxis"
+            [colors]="barChart.colors"
+            [grid]="barChart.grid"
+          ></apx-chart>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6">
+    <div class="col-sm">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title mb-4">Punkte pro Mannschaft</h4>

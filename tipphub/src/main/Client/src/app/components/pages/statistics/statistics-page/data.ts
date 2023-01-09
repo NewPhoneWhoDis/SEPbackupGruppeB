@@ -5,7 +5,7 @@ const basicColumChart: ChartType = {
     height: 350,
     type: "bar",
     toolbar: {
-      show: false,
+      show: true,
     },
   },
   plotOptions: {
@@ -16,14 +16,14 @@ const basicColumChart: ChartType = {
     },
   },
   dataLabels: {
-    enabled: false,
+    enabled: true,
   },
   stroke: {
     show: true,
     width: 2,
     colors: ["transparent"],
   },
-  colors: ["#5664d2", "#1cbb8c", "#fcb92c"],
+  colors: ["#f28c18", "#723da5", "#52ab00"],
   series: [
     {
       name: "Net Profit",
