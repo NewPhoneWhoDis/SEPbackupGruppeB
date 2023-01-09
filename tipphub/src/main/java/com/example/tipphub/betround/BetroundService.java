@@ -411,19 +411,36 @@ public class BetroundService {
     }
 
     @Transactional
-    public int getBetAmountOfUser(long userId) {
+    public int countBetAmountOfUserInRound(Long userId, Long betroundId) {
         int count = 0;
         User wantedUser = userRepository.findById(userId).get();
         if (wantedUser.getBets().isEmpty()) {
             return 0;
         }
         for (Bet betIterator : wantedUser.getBets()) {
-            count++;
+            if(betIterator.getBetround().getId()==betroundId){
+                count++;
+            }
         }
         return count;
 
 
     }
+
+    @Transactional
+    public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(Long userId, Long betroundId) {
+        Hashtable<String, Integer> userAndBets = new Hashtable<>();
+        Betround wantedRound= betroundRepository.findById(betroundId).get();
+       for(Bet betIterator: wantedRound.getBets()){
+           if(!(userAndBets.containsKey(betIterator.getBetOwner())))
+           userAndBets.put(betIterator.getBetOwner().getFirstName()+ betIterator.getBetOwner().getLastName()
+                   , countBetAmountOfUserInRound(betIterator.getBetOwner().getId(),betroundId));
+       }
+     return userAndBets.entrySet();
+    }
+
+
+
 
 
     @Transactional
