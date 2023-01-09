@@ -26,16 +26,23 @@ const basicColumChart: ChartType = {
   colors: ["#723da5", "#52ab00"],
   series: [
     {
-      name: "Revenue",
-      data: [74, 83, 102, 97, 86, 106, 93, 114, 94],
+      name: "Anzahl Nutzer",
+      data: [74, 83, 102, 97, 86, 106],
     },
     {
-      name: "Free Cash Flow",
-      data: [37, 42, 38, 26, 47, 50, 54, 55, 43],
+      name: "Anzahl Tipprunden",
+      data: [37, 42, 38, 26, 17, 31],
     },
   ],
   xaxis: {
-    categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
+    categories: [
+      "Bundesliga",
+      "La Liga",
+      "Premier League",
+      "Serie A",
+      "Ligue 1",
+      "Primera División",
+    ],
   },
   yaxis: {
     title: {
