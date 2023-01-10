@@ -23,7 +23,7 @@ public class Message {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "messageAuthor_id")
-        private User messageAuthor;
+    private User messageAuthor;
 
     @JsonIgnore
     @ManyToOne

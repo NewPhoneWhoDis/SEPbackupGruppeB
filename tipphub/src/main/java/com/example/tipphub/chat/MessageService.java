@@ -69,4 +69,9 @@ public class MessageService {
         if (message == null) throw new IllegalArgumentException("Invalid message id");
         return message.getMessageAuthor();
     }
+
+    @Transactional
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).get();
+    }
 }

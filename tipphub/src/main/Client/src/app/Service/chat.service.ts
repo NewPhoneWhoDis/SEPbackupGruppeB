@@ -24,7 +24,7 @@ export class MessageService {
     return this.http.get<string[]>(`${this.messageUrl}/all`)
   }
 
-  public saveMessageInDatabase(message: Message): Observable<Message>{
-    return this.http.put<Message>(`${this.messageUrl}/messageToSave`, message);
+  public saveMessageInDatabase(message: Message, authorId: number, receiverId: number): Observable<Message>{
+    return this.http.put<Message>(`${this.messageUrl}/messageToSave/${authorId}/${receiverId}`, message);
   }
 }

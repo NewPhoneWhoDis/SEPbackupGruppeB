@@ -28,9 +28,10 @@ public class MessageController {
         return messageService.findAllMessagesFromReceiver(receiverId);
     }
 
-    @PutMapping("/messageToSave")
-    public void saveMessageToUser(@RequestBody Message message) {
-        System.out.println("We are here");
+    @PutMapping("/messageToSave/{authorId}/{receiverId}")
+    public void saveMessageToUser(@RequestBody Message message, @PathVariable Long authorId, @PathVariable Long receiverId) {
+        message.setMessageAuthor(messageService.findUserById(authorId));
+        message.setReceiver(messageService.findUserById(receiverId));
         messageService.save(message);
     }
 }

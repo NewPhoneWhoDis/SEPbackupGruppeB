@@ -33,8 +33,14 @@ export class ChatModalComponent implements OnInit {
       console.log(this.clickedFriend?.id);
     }
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
-    this.userService.getUserById(this.friendOfCurrUserId).subscribe(data => {this.friendUser = data});
-    console.log(this.friendUser)
+
+    this.messageService.getAllCurrentUserMessages().subscribe(data => {
+      this.currentUserMessages = data;
+    })
+
+    this.messageService.getSpecificUserAllMessages().subscribe(data => {
+      this.friendMessages = data;
+    })
   }
 
   sendMessage(message: string, currentUserId: number | undefined) {
@@ -43,22 +49,26 @@ export class ChatModalComponent implements OnInit {
     this.messageInput.nativeElement.value = ' ';
   }
 
-  getMessages() {
-    /*
+  getCurrentUserMessages() {
     this.messageService.getAllCurrentUserMessages().subscribe(data => {
       this.currentUserMessages = data;
     })
-    */
+    return this.currentUserMessages;
+  }
+
+  getFriendUserMessages() {
+    this.messageService.getSpecificUserAllMessages().subscribe(data => {
+      this.friendMessages = data;
+    })
+    return this.friendMessages;
   }
 
   saveMessage(message: string, currentUserId: number) {
-    let authorOfMessage: User = this.currentUser as User;
     let messageObject: Message = new Message();
     messageObject.message = message;
-    //messageObject.messageAuthor = authorOfMessage;
-    //authorOfMessage.id = currentUserId;
-    //this.userService.getUserById(currentUserId as number).subscribe(data => {authorOfMessage = data});
-    this.messageService.saveMessageInDatabase(messageObject).subscribe();
+    messageObject.dateOfCreation = new Date();
+    this.messageService.saveMessageInDatabase(messageObject, this.currentUser?.id as number, 
+      this.clickedFriend?.id as number).subscribe();
     console.log(messageObject);
   }
 
