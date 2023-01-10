@@ -2,8 +2,10 @@ package com.example.tipphub.chat;
 
 import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+import java.util.Objects.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -50,7 +52,7 @@ public class MessageService {
         User author = this.userRepository.findById(authorId).get();
         if (author == null) throw new IllegalArgumentException("Invalid author id");
         return messageRepository.findAll().stream()
-                .filter(message -> message.getMessageAuthor().equals(author))
+                .filter(message -> Objects.equals(message.getMessageAuthor(), author))
                 .collect(Collectors.toList());
     }
 
@@ -59,7 +61,7 @@ public class MessageService {
         User receiver = this.userRepository.findById(senderId).get();
         if (receiver == null) throw new IllegalArgumentException("Invalid receiver id");
         return messageRepository.findAll().stream()
-                .filter(message -> message.getReceiver().equals(receiver))
+                .filter(message -> Objects.equals(message.getReceiver(), receiver))
                 .collect(Collectors.toList());
     }
 

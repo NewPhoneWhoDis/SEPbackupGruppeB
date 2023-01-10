@@ -10,7 +10,7 @@
             <img *ngIf="!currentUser?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
           </div>
         </div>
-        <div class="chat-bubble" *ngFor="let message of currentUserMessages">{{message}} test from currentUser </div>
+        <div class="chat-bubble" *ngFor="let message of currentUserMessages">{{message}}</div>
       </div>
       <!--!FriendUser Icon and Messages-->
       <div class="chat chat-start">
@@ -20,7 +20,7 @@
             <img *ngIf="!clickedFriend?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
           </div>
         </div>
-        <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage}} test from friendMessage</div>
+        <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage}}</div>
       </div>
       <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
           <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"

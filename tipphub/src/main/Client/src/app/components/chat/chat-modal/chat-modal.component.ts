@@ -33,14 +33,22 @@ export class ChatModalComponent implements OnInit {
       console.log(this.clickedFriend?.id);
     }
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+  }
 
-    this.messageService.getAllCurrentUserMessages().subscribe(data => {
+  ngAfterViewInit() {
+    if(this.currentUser)
+    this.messageService.getAuthorMessages(this.currentUser?.id as number).subscribe(data => {
       this.currentUserMessages = data;
     })
 
-    this.messageService.getSpecificUserAllMessages().subscribe(data => {
+    console.log("Current user messages: " + this.currentUserMessages)
+
+    if(this.clickedFriend)
+    this.messageService.getReceiverMessages(this.clickedFriend?.id as number).subscribe(data => {
       this.friendMessages = data;
     })
+
+    console.log("Friend messages:" + this.friendMessages);
   }
 
   sendMessage(message: string, currentUserId: number | undefined) {
@@ -50,14 +58,14 @@ export class ChatModalComponent implements OnInit {
   }
 
   getCurrentUserMessages() {
-    this.messageService.getAllCurrentUserMessages().subscribe(data => {
+    this.messageService.getAuthorMessages(this.clickedFriend?.id as number).subscribe(data => {
       this.currentUserMessages = data;
     })
     return this.currentUserMessages;
   }
 
   getFriendUserMessages() {
-    this.messageService.getSpecificUserAllMessages().subscribe(data => {
+    this.messageService.getReceiverMessages(this.clickedFriend?.id as number).subscribe(data => {
       this.friendMessages = data;
     })
     return this.friendMessages;

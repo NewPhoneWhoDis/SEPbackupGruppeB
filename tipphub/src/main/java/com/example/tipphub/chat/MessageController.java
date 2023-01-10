@@ -18,12 +18,12 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @GetMapping("/getAuthorMessages/{id}")
+    @GetMapping("/getAuthorMessages/{authorId}")
     public List<Message> getAllMessagesFromAuthor(@PathVariable Long authorId) {
         return messageService.findAllMessagesFromAuthor(authorId);
     }
 
-    @GetMapping("/getReceiverMessages/{id}")
+    @GetMapping("/getReceiverMessages/{receiverId}")
     public List<Message> getAllMessagesFromReceiver(@PathVariable Long receiverId) {
         return messageService.findAllMessagesFromReceiver(receiverId);
     }

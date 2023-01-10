@@ -16,12 +16,12 @@ export class MessageService {
     return this.http.get<string[]>(`${this.messageUrl}/all`)
   }
 
-  public getAllCurrentUserMessages(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.messageUrl}/all`)
+  public getAuthorMessages(currentUserId: number): Observable<string[]> {
+    return this.http.get<string[]>(`${this.messageUrl}/getAuthorMessages/${currentUserId}`)
   }
 
-  public getSpecificUserAllMessages(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.messageUrl}/all`)
+  public getReceiverMessages(receiverId: number): Observable<string[]> {
+    return this.http.get<string[]>(`${this.messageUrl}/getReceiverMessages/${receiverId}`)
   }
 
   public saveMessageInDatabase(message: Message, authorId: number, receiverId: number): Observable<Message>{
