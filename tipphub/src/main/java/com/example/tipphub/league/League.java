@@ -1,6 +1,7 @@
 package com.example.tipphub.league;
 
 import com.example.tipphub.betround.Betround;
+import com.example.tipphub.betround.StatisticTeam;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -26,6 +27,11 @@ public class League {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
     private List<Team> teams = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
+    private List<StatisticTeam> statTeams = new ArrayList<>();
+
+
 
     public League() {
     }
@@ -82,5 +88,13 @@ public class League {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    public List<StatisticTeam> getStatTeams() {
+        return statTeams;
+    }
+
+    public void setStatTeams(List<StatisticTeam> statTeams) {
+        this.statTeams = statTeams;
     }
 }
