@@ -59,10 +59,10 @@ public class StatisticTeamService {
           for(Bet betIterator: betround.getBets())
                     if(betIterator.getDateOfGame().isBefore(currentDate)){
                         if (betIterator.getHomeTeam().equals(teamIterator.getName())){
-                            evaluateTeam(teamIterator,betIterator,true);
+                            evaluateTeam(statTeam,betIterator,true);
                         }
                         if(betIterator.getAwayTeam().equals(teamIterator.getName())){
-                            evaluateTeam(teamIterator,betIterator,false);
+                            evaluateTeam(statTeam,betIterator,false);
                         }
                     }
                 }
@@ -78,7 +78,7 @@ public class StatisticTeamService {
 
 
     @Transactional
-    public void evaluateTeam(Team team, Bet bet, boolean homeTeam){
+    public void evaluateTeam(StatisticTeam team, Bet bet, boolean homeTeam){
         if(homeTeam){
             if(bet.getHomeTeamScore() > bet.getAwayTeamScore()){
                 team.setPoints(team.getPoints()+3);
