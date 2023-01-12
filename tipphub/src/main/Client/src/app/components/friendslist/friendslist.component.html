@@ -47,6 +47,9 @@
                     </svg>
                 </a>
             </div>
+            <div class="pt-6" *ngIf="!currentUser?.hasBetPermission && age >= 18">
+                <button class = "btn btn-warning" (click)="requestBetPermission()">Teilnahme an Tippspiel-Wetten anfragen</button>
+            </div>
         </ul>
     </div>
 </div>

@@ -42,7 +42,7 @@ public class LeagueService {
                 gameRepository.save(game);
             }
         }
-
+        addOddsToGames(league.getId());
     }
 
     @Transactional
@@ -89,5 +89,11 @@ public class LeagueService {
         if(!leagueNew.getLogoURL().equals("")){
             league.setLogoURL(leagueNew.getLogoURL());
         }
+    }
+
+    @Transactional
+    public void addOddsToGames(Long leagueId){
+        League league = leagueRepository.findById(leagueId).get();
+
     }
 }

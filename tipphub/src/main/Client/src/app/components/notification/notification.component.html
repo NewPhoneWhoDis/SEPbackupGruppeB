@@ -47,6 +47,27 @@
                         </div>
 
                     </li>
+                    <li class="p-2" *ngFor="let request of currentUser?.notification?.betPermissions">
+                        <div><a title="Profil ansehen" class="link-primary">{{request.firstName}} {{request.lastName}}</a> will an Tippspiel-Wetten teilnehmen
+                            <div class="ml-auto btn-group">
+                                <span title="Anfrage annehmen">
+                                    <button class="btn btn-ghost btn-circle btn-sm" (click)="processBetPermission(request.id,true)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="lightgreen" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                </button>
+                                </span>
+                                <span title="Anfrage ablehnen">
+                                    <button class="btn btn-ghost btn-circle btn-sm" (click)="processBetPermission(request.id,false)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                </span>
+
+                            </div>
+                        </div>
+                    </li>
                 </div>
             </div>
         </ul>

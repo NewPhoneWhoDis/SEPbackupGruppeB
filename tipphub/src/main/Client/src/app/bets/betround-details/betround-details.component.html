@@ -19,7 +19,11 @@
         </svg>
       </div>
       <div *ngIf="!betroundToShow.isPublic" class="badge badge-primary">
-        Public
+        Privat
+      </div>
+      <div *ngIf="!betroundToShow.isPublic && nicknameInBetround.length > 1">
+        <label>Dein Spitzname: </label>
+        <div class="badge badge-accent">{{nicknameInBetround}}</div>
       </div>
       <div *ngIf="betroundToShow.isPublic">
         <svg
@@ -40,6 +44,10 @@
       <div *ngIf="betroundToShow.isPublic" class="badge badge-primary">
         Öffentlich
       </div>
+      <div *ngIf="betroundToShow.isPublic && nicknameInBetround.length > 1 ">
+        <label>Dein Spitzname: </label>
+        <div class="badge badge-accent">{{nicknameInBetround}}</div>
+      </div>
     </h2>
   </div>
   <ul class="menu menu-horizontal bg-base-100 rounded-box mb-5">
@@ -55,7 +63,7 @@
     </li>
     <li>
       <a routerLink="{{ this.router.url }}/bets-overview" class="hover:active"
-        >Deine Tipps</a
+        >Deine Tipps und Wetten</a
       >
     </li>
     <li>
