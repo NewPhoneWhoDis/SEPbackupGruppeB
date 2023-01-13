@@ -188,7 +188,7 @@
       <h3 class="text-lg font-bold">Gib den Geldbetrag ein und platziere deine Wette!</h3>
       <div class="form-control">
         <label class="cursor-pointer label">
-          <span class="label-text">{{ bet.homeTeam }}</span>
+          <span class="label-text">{{ bet.homeTeam }}</span><span class="tab">x {{homeTeamOdd}}</span>
           <input type="checkbox"
                  [(ngModel)]="bet.homeTeamWinner"
                  [disabled] = "disabledHomeTeam"
@@ -198,7 +198,7 @@
       </div>
       <div class="form-control">
         <label class="cursor-pointer label">
-          <span class="label-text">{{ bet.awayTeam }}</span>
+          <span class="label-text">{{ bet.awayTeam }}</span><span class="tab">x {{awayTeamOdd}}</span>
           <input type="checkbox"
                  [(ngModel)]="bet.awayTeamWinner"
                  [disabled] = "disabledAwayTeam"
@@ -208,7 +208,7 @@
       </div>
       <div class="form-control">
         <label class="cursor-pointer label">
-          <span class="label-text">Unentschieden</span>
+          <span class="label-text">Unentschieden</span><span class="tab">x {{drawOdd}}</span>
           <input type="checkbox"
                  [(ngModel)]="bet.draw"
                  [disabled] = "disabledDraw"

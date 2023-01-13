@@ -37,6 +37,9 @@ export class GameTableBetsComponent implements OnInit {
   disabledAwayTeam: boolean = false;
   disabledDraw: boolean = false;
   teams: Array<Team> = new Array();
+  homeTeamOdd: number | undefined;
+  awayTeamOdd: number | undefined;
+  drawOdd: number | undefined;
 
   constructor(private leagueService: LeagueService,
               private hubSystemService: HubSystemService,
@@ -111,6 +114,9 @@ export class GameTableBetsComponent implements OnInit {
     this.bet.awayTeam = game.awayTeam;
     this.bet.dateOfBet = this.systemDate;
     this.bet.dateOfGame = game.date;
+    this.homeTeamOdd = game.homeTeamOdd;
+    this.awayTeamOdd = game.awayTeamOdd;
+    this.drawOdd = game.drawOdd;
     // show popup tipp übernehmen
     for(let bet of this.currentUser.bets) {
       if(bet.homeTeam === this.bet.homeTeam &&

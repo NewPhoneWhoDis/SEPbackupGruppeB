@@ -100,7 +100,7 @@ public class BetroundService {
                     if (betOfUser.getHomeTeam().equals(actualGame.getHomeTeam()) &&
                             betOfUser.getAwayTeam().equals(actualGame.getAwayTeam()) &&
                             betOfUser.getDateOfGame().isEqual(actualGame.getDate())) {
-                        if(betOfUser.isMoneyBet()){
+                        if(betOfUser.isMoneyBet() && !betOfUser.isEvaluated()){
                             if(actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() && betOfUser.isHomeTeamWinner()){
                                 betOfUser.setProfit(actualGame.getHomeTeamOdd() * betOfUser.getAmountOfMoney());
                                 user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
@@ -111,6 +111,7 @@ public class BetroundService {
                                 betOfUser.setProfit(actualGame.getDrawOdd() * betOfUser.getAmountOfMoney());
                                 user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
                             }
+                            betOfUser.setEvaluated(true);
                         }else{
                             if (actualGame.getScoreHomeTeam() == betOfUser.getHomeTeamScore() &&
                                     actualGame.getScoreAwayTeam() == betOfUser.getAwayTeamScore()) {
