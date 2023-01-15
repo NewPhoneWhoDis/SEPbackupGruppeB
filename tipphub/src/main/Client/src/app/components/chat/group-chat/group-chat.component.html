@@ -1,18 +1,9 @@
-<div class="modal" id="group-chat-modal">
+<input type="checkbox" id="group-chat-modal" class="modal-toggle" />
+<div class="modal" id="group-chat-modal-test">
   <div class="modal-box w-full h-full">
-     <a href="#" class="btn">X</a>
+    <label for="group-chat-modal  " class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
      <!--!Current User Icon and Messages-->
-     <div class="chat chat-start py-3">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <!--!Insert Profile pic url here-->
-          <img *ngIf="currentUser?.imageURL" [src]="currentUser?.imageURL"/>
-          <img *ngIf="!currentUser?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
-        </div>
-      </div>
-      
-      <div class="chat-bubble" *ngFor="let message of currentUserMessages">{{message}}</div>
-    </div>
+     
     <!--!FriendUser Icon and Messages-->
     
     <div class="chat chat-start" *ngFor="let user of users">

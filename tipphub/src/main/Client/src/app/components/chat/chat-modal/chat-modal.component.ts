@@ -15,10 +15,10 @@ export class ChatModalComponent implements OnInit {
   messageInput!: { nativeElement: { value: string; }; };
   @Input() currUserId: number | undefined = 1;
   @Input() friendOfCurrUserId: number | undefined = 1;
-  currentUserMessages: Array<String> = [];
-  friendMessages: Array<String> = [];
+  currentUserMessages: Array<Message> = [];
+  friendMessages: Array<Message> = [];
   currentUser : User | undefined;
-  friendUser: User | undefined;
+  //friendUser: User | undefined;
   clickedFriend: User | undefined;
 
   constructor(private messageService: MessageService, 
@@ -52,8 +52,11 @@ export class ChatModalComponent implements OnInit {
   }
 
   sendMessage(message: string, currentUserId: number | undefined) {
-    this.currentUserMessages.push(message);
-    this.saveMessage(message, currentUserId as number);
+    let messageToPush = new Message()
+    messageToPush.message = message;
+    messageToPush.messageAuthor = this.currentUser;
+    this.currentUserMessages.push(messageToPush);
+    this.saveMessage(messageToPush.message, currentUserId as number);
     this.messageInput.nativeElement.value = ' ';
   }
 
