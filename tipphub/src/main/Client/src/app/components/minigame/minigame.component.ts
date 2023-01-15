@@ -126,8 +126,7 @@ export class MinigameComponent implements OnInit {
     this.isVisible = false;
     this.secondsPassed = 60;
     this.isCovered = false;
-    // todo add points to balance
-    this.userService.addPoints(this.currentUser?.id,this.points)
+    this.userService.addPoints(this.currentUser?.id,this.points).subscribe()
     this.points = 0;
   }
 }
