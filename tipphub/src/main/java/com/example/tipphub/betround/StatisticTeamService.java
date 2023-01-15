@@ -13,22 +13,18 @@ import java.util.List;
 @Service
 public class StatisticTeamService {
     private final StatisticTeamRepository statisticTeamRepository;
-    private final LeagueRepository leagueRepository;
     private final BetroundService betroundService;
     private final HubSystemRepository hubSystemRepository;
-    private final BetRepository betRepository;
     private final BetroundRepository betroundRepository;
 
     @Autowired
     public StatisticTeamService(StatisticTeamRepository statisticTeamRepository,
-                                LeagueRepository leagueRepository,
                                 BetroundService betroundService,
-                                HubSystemRepository hubSystemRepository, BetRepository betRepository, BetroundRepository betroundRepository){
+                                HubSystemRepository hubSystemRepository,
+                                BetroundRepository betroundRepository){
         this.statisticTeamRepository = statisticTeamRepository;
-        this.leagueRepository = leagueRepository;
         this.betroundService = betroundService;
         this.hubSystemRepository = hubSystemRepository;
-        this.betRepository = betRepository;
         this.betroundRepository = betroundRepository;
     }
 
