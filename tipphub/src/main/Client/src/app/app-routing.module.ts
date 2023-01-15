@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: "bets-and-pieces", component: betroundPage },
   { path: "ligen-management", component: LeageCreationPageComponent },
   { path: "test", component: GameTableBetsComponent },
-  { path: "group-chat", component: GroupChatComponent}
+  //{ path: "group-chat", component: GroupChatComponent}
 ];
 
 @NgModule({

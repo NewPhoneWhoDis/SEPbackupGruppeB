@@ -57,7 +57,6 @@ import { GroupChatComponent } from './components/chat/group-chat/group-chat.comp
     GameTableBetsComponent,
     BetroundFilterPipePipe,
     ChatModalComponent,
-    GroupChatComponent,
   ],
   imports: [
     BrowserModule,
