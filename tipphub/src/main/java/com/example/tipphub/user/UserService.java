@@ -82,6 +82,6 @@ public class UserService{
     @Transactional
     public void addPoints(Long userId, int points){
         User user = this.getUserById(userId);
-        user.setBalance(user.getBalance() + points);
+        user.setAccountBalance(user.getAccountBalance() + points);
     }
 }

@@ -61,7 +61,7 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<BetroundNickname> betroundNicknames = new ArrayList<>();
 
-    private int balance = 0;
+    private double accountBalance;
 
 
     public User() {
@@ -206,11 +206,11 @@ public class User {
         this.betroundNicknames = betroundNicknames;
     }
 
-    public int getBalance() {
-        return balance;
+    public double getAccountBalance() {
+        return accountBalance;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
     }
 }
