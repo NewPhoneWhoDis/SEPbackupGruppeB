@@ -6,6 +6,7 @@ import {UserService} from "../../Service/user.service";
 import {CookieService} from "../../Service/cookie.service";
 import {FriendRequest} from "../../Model/FriendRequest";
 import {data} from "autoprefixer";
+import {NotificationService} from "../../Service/notification.service";
 @Injectable({
   providedIn: 'root'
 })
@@ -20,12 +21,23 @@ export class FriendslistComponent implements OnInit {
   friends : User[] | undefined;
   searchedUser : String = "";
   clickedFriend : User | undefined;
+  age: number = 0;
 
-  constructor(private friendslistService : FriendslistService, private storageService : StorageService, private userService : UserService) { }
+  constructor(private friendslistService : FriendslistService,
+              private storageService : StorageService,
+              private userService : UserService,
+              private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.friendslistService.getAllFriends(this.storageService.getLoggedUser()).subscribe(data =>{this.friends = data})
-    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{
+      this.currentUser = data
+
+      // @ts-ignore
+      this.age = Math.abs(new Date(Date.now()).getUTCFullYear() - new Date(data.dateOfBirth).getUTCFullYear())
+      console.log(this.age)
+
+    });
   }
 
   addFriend(email : String): void {
@@ -64,5 +76,20 @@ export class FriendslistComponent implements OnInit {
   /*openOptions(): void{
     this.isOpen = true;
   }*/
+
+  requestBetPermission(){
+    this.notificationService.requestBetPermission(this.storageService.getLoggedUser()).subscribe(
+        {
+          next: () => {
+            window.alert("Die Anfrage wurde erfolgreich geschickt!")
+            window.location.reload();
+          },
+          error: () => {
+            window.alert("Du hast schon eine Anfrage geschickt!")
+            window.location.reload();
+          }
+        }
+    );
+  }
 
 }

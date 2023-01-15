@@ -5,6 +5,7 @@ import {League} from "../Model/League";
 import {GameSchedule} from "../Model/GameSchedule";
 import {Gameday} from "../Model/Gameday";
 import {Game} from "../Model/Game";
+import {Team} from "../Model/Team";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,11 @@ export class LeagueService {
 
   public changeNameAndLogo(leagueId: number, league: League): Observable<League>{
     return this.http.put<League>(`${this.leagueURL}/changeNameAndLogo/${leagueId}`,league);
+  }
+
+  public getAllTeams(leagueId: number | undefined): Observable<Team[]>{
+    let teamUrl = this.leagueURL.replace('league','team/getAllTeams');
+    return this.http.get<Team[]>(`${teamUrl}/${leagueId}`);
   }
 
   public isPopUpOpen() {

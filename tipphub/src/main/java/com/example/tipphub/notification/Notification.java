@@ -22,6 +22,9 @@ public class Notification {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "notification")
     private List<FriendRequest> friendRequests =new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "notification")
+    private List<BetPermission> betPermissions =new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -63,5 +66,13 @@ public class Notification {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<BetPermission> getBetPermissions() {
+        return betPermissions;
+    }
+
+    public void setBetPermissions(List<BetPermission> betPermissions) {
+        this.betPermissions = betPermissions;
     }
 }

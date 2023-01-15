@@ -6,4 +6,7 @@ export class Game{
     scoreAwayTeam: number | undefined;
     date: Date | undefined;
     round: number | undefined;
+    homeTeamOdd: number | undefined;
+    awayTeamOdd: number | undefined;
+    drawOdd: number | undefined;
 }
