@@ -486,7 +486,6 @@ public class BetroundService {
 
         @Transactional
         public Set<Map.Entry<String, Integer>> getPointsAUserMadeFromATeam (long userId, long betroundId) {
-        int points= 0;
         User wantedUser= userRepository.findById(userId).get();
         List<Bet> betsOfRound= new ArrayList<>();
         for(Bet betIterator: wantedUser.getBets()){
