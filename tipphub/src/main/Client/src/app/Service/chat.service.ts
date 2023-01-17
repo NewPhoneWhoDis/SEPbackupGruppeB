@@ -27,4 +27,8 @@ export class MessageService {
   public saveMessageInDatabase(message: Message, authorId: number, receiverId: number): Observable<Message>{
     return this.http.put<Message>(`${this.messageUrl}/messageToSave/${authorId}/${receiverId}`, message);
   }
+
+  public getChat(userId: number, friendId: number ): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.messageUrl}/getChat/${userId}/${friendId}`);
+  }
 }

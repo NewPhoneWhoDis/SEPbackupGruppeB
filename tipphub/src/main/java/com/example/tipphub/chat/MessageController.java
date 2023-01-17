@@ -28,6 +28,16 @@ public class MessageController {
         return messageService.findAllMessagesFromReceiver(receiverId);
     }
 
+    @GetMapping("/getChat/{userId}/{friendId}")
+    public List<Message> getChat(@PathVariable Long userId, @PathVariable Long friendId) {
+        return messageService.getChat(userId, friendId);
+    }
+
+    @GetMapping("/getGroupChat")
+    public List<Message> getGroupChat(@RequestParam List<Long> userIds) {
+        return null;
+    }
+
     @PutMapping("/messageToSave/{authorId}/{receiverId}")
     public void saveMessageToUser(@RequestBody Message message, @PathVariable Long authorId, @PathVariable Long receiverId) {
         message.setMessageAuthor(messageService.findUserById(authorId));

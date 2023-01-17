@@ -33,13 +33,20 @@ export class ChatModalComponent implements OnInit {
       console.log(this.clickedFriend?.id);
     }
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+
+    this.messageService.getChat(this.currUserId as number, this.clickedFriend?.id as number)
+    .subscribe(data =>{
+      this.currentUserMessages = data
+    })
   }
 
   ngAfterViewInit() {
+    /*
     if(this.currentUser)
     this.messageService.getAuthorMessages(this.currentUser?.id as number).subscribe(data => {
       this.currentUserMessages = data;
     })
+    */
 
     console.log("Current user messages: " + this.currentUserMessages)
 

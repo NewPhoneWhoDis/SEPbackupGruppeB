@@ -4,6 +4,8 @@ import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Objects.*;
 
@@ -20,6 +22,24 @@ public class MessageService {
     public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<Message> getChat(Long userId, Long friendId) {
+        User user = userRepository.findById(userId).get();
+        User friend = userRepository.findById(friendId).get();
+
+        List<Message> messages = new ArrayList<>();
+
+        List<Message> allMessage = messageRepository.findAll();
+
+        for (Message message : allMessage) {
+            if(Objects.equals(message.getMessageAuthor(), user) &&
+            Objects.equals(message.getReceiver(), friend)) {
+                messages.add(message);
+            }
+        }
+
+        return  messages;
     }
 
     @Transactional
