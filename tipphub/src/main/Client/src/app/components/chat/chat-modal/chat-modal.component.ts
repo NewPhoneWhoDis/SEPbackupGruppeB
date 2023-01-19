@@ -35,18 +35,21 @@ export class ChatModalComponent implements OnInit {
       console.log('This is the friend' + this.clickedFriend?.id);
     }
 
-    this.userService.getUserById(this.storageService.getLoggedUser())
-    .pipe(
-    switchMap(user => {
-        this.currentUser = user;
-        return this.messageService.getChat(this.currentUser?.id as number, this.clickedFriend?.id as number);
-    }),
-    switchMap(chat => {
-        this.currentUserMessages = chat;
-        return this.messageService.getChat(this.clickedFriend?.id as number, this.currentUser?.id as number)
-    })
-)
-.subscribe(data => this.friendMessages = data);
+    setInterval(() => {
+      this.userService.getUserById(this.storageService.getLoggedUser())
+        .pipe(
+        switchMap(user => {
+            this.currentUser = user;
+            return this.messageService.getChat(this.currentUser?.id as number, this.clickedFriend?.id as number);
+        }),
+        switchMap(chat => {
+            this.currentUserMessages = chat;
+            return this.messageService.getChat(this.clickedFriend?.id as number, this.currentUser?.id as number)
+        })
+        ).subscribe(data => this.friendMessages = data);
+    }, 2000);
+      
+    
   }
 
 
