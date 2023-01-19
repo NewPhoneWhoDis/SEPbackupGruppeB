@@ -43,6 +43,19 @@ public class MessageService {
     }
 
     @Transactional
+    public List<Message> getGroupChatMessages(List<Long> userIds) {
+        List<Message> groupChatMessages = new ArrayList<>();
+        for (Long userId : userIds) {
+            List<Message> tempMsg = messageRepository.findAll();
+            for (Message temp : tempMsg) {
+                if (Objects.equals(temp.getMessageAuthor(), userId))
+                    groupChatMessages.add(temp);
+            }
+        }
+        return groupChatMessages;
+    }
+
+    @Transactional
     public Message save(Message message) {
         return messageRepository.save(message);
     }

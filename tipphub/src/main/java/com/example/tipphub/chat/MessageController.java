@@ -2,8 +2,12 @@ package com.example.tipphub.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +39,7 @@ public class MessageController {
 
     @GetMapping("/getGroupChat")
     public List<Message> getGroupChat(@RequestParam List<Long> userIds) {
-        return null;
+        return messageService.getGroupChatMessages(userIds);
     }
 
     @PutMapping("/messageToSave/{authorId}/{receiverId}")
