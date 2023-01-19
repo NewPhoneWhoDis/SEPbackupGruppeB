@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { switchMap } from 'rxjs';
 import { Message } from 'src/app/Model/Message';
 import { User } from 'src/app/Model/User';
 import { MessageService } from 'src/app/Service/chat.service';
@@ -18,7 +19,7 @@ export class ChatModalComponent implements OnInit {
   currentUserMessages: Array<Message> = [];
   friendMessages: Array<Message> = [];
   currentUser : User | undefined;
-  //friendUser: User | undefined;
+  friendUser: User | undefined;
   clickedFriend: User | undefined;
 
   constructor(private messageService: MessageService, 
@@ -27,36 +28,27 @@ export class ChatModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     const user = window.sessionStorage.getItem("clickedFriend");
     if (user) {
       this.clickedFriend= JSON.parse(user);
-      console.log(this.clickedFriend?.id);
+      console.log('This is the friend' + this.clickedFriend?.id);
     }
-    this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
 
-    this.messageService.getChat(this.currUserId as number, this.clickedFriend?.id as number)
-    .subscribe(data =>{
-      this.currentUserMessages = data
+    this.userService.getUserById(this.storageService.getLoggedUser())
+    .pipe(
+    switchMap(user => {
+        this.currentUser = user;
+        return this.messageService.getChat(this.currentUser?.id as number, this.clickedFriend?.id as number);
+    }),
+    switchMap(chat => {
+        this.currentUserMessages = chat;
+        return this.messageService.getChat(this.clickedFriend?.id as number, this.currentUser?.id as number)
     })
+)
+.subscribe(data => this.friendMessages = data);
   }
 
-  ngAfterViewInit() {
-    /*
-    if(this.currentUser)
-    this.messageService.getAuthorMessages(this.currentUser?.id as number).subscribe(data => {
-      this.currentUserMessages = data;
-    })
-    */
-
-    console.log("Current user messages: " + this.currentUserMessages)
-
-    if(this.clickedFriend)
-    this.messageService.getReceiverMessages(this.clickedFriend?.id as number).subscribe(data => {
-      this.friendMessages = data;
-    })
-
-    console.log("Friend messages:" + this.friendMessages);
-  }
 
   sendMessage(message: string, currentUserId: number | undefined) {
     let messageToPush = new Message()
@@ -65,20 +57,6 @@ export class ChatModalComponent implements OnInit {
     this.currentUserMessages.push(messageToPush);
     this.saveMessage(messageToPush.message, currentUserId as number);
     this.messageInput.nativeElement.value = ' ';
-  }
-
-  getCurrentUserMessages() {
-    this.messageService.getAuthorMessages(this.clickedFriend?.id as number).subscribe(data => {
-      this.currentUserMessages = data;
-    })
-    return this.currentUserMessages;
-  }
-
-  getFriendUserMessages() {
-    this.messageService.getReceiverMessages(this.clickedFriend?.id as number).subscribe(data => {
-      this.friendMessages = data;
-    })
-    return this.friendMessages;
   }
 
   saveMessage(message: string, currentUserId: number) {
