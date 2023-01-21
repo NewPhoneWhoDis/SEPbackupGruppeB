@@ -1,24 +1,22 @@
-<input type="checkbox" id="group-chat-modal" class="modal-toggle" />
-<div class="modal" id="group-chat-modal-test">
-  <div class="modal-box w-full h-full">
-    <label for="group-chat-modal  " class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-     <!--!Current User Icon and Messages-->
-     
-    <!--!FriendUser Icon and Messages-->
-    
-    <div class="chat chat-start" *ngFor="let user of users">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img *ngIf="user?.imageURL" [src]="user?.imageURL"/>
-          <img *ngIf="!user?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
+<div class="flex flex-col h-screen">
+    <div class="flex-1 overflow-y-scroll">
+      <div class="p-4">
+        <div class="flex">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile Picture" class="w-12 h-12 rounded-full">
+          <div class="ml-4">
+            <div class="text-lg font-medium">John Doe</div>
+            <div class="text-sm text-gray-600">Hey, how's it going?</div>
+          </div>
         </div>
       </div>
-      <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage}}</div>
+      <div class="p-4">
+        <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
+          <div class="w-3/4 right-0">
+            <input #messageInput type="text" placeholder="Gib deine Nachricht hier an" class="w-full h-10 rounded-lg">
+          </div>
+        </form>
+      </div>
     </div>
-    <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
-        <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"
-        class="input input-bordered input-primary w-full max-w-xs right-0
-        transform absolute focus:outline-none" />
-    </form>
   </div>
-</div>
+  
+  
