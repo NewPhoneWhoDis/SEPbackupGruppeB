@@ -1,9 +1,12 @@
+import { Message } from './../../../Model/Message';
 import { BetroundService } from './../../../Service/betround.service';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from './../../../Service/storage.service';
 import { User } from 'src/app/Model/User';
 import { UserService } from './../../../Service/user.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MessageService } from 'src/app/Service/chat.service';
+import { Subscription, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-group-chat',
@@ -15,17 +18,21 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   @ViewChild('messageInput')
   messageInput!: { nativeElement: { value: string; }; };
   currentUser: User | undefined;
-  currentUserMessages: Array<String> = [];
-  friendMessages: Array<String> = [];
+  currentUserMessages: Array<Message> = [];
+  friendMessages: Array<Message> = [];
   betroundIdString: string | null = '';
   betroundId: number | undefined;
   users: User[] | undefined;
+  usersIds: number[] | undefined;
+  private userSubscription: Subscription | undefined;
+  private intervalId: any;
 
   constructor(
   private userService: UserService, 
   private storageService: StorageService, 
   private route: ActivatedRoute,
-  private betroundService: BetroundService) { }
+  private betroundService: BetroundService,
+  private chatService: MessageService) { }
   
 
   ngOnDestroy(): void {
@@ -33,25 +40,38 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.betroundIdString = this.route.snapshot.paramMap.get('id');
-    if(this.betroundIdString){
-      this.betroundId = +this.betroundIdString;
-    }
-
-
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{
       this.currentUser = data
     });
 
-    this.betroundService.getAllParticipants(this.betroundId).subscribe(data => {
-      this.users = data;
-    })
+
+  this.betroundIdString = this.route.snapshot.paramMap.get('id');
+  if(this.betroundIdString && !isNaN(Number(this.betroundIdString))){
+      this.betroundId = +this.betroundIdString;
+      
+      this.betroundService.getAllParticipants(this.betroundId)
+      .pipe(
+        switchMap(users => {
+          this.users = users;
+          this.usersIds = users.map(user => user.id as number)
+          return this.chatService.getGroupChat(this.usersIds as number[]);
+        })
+      )
+      .subscribe(messages => {
+        this.friendMessages = messages;
+      });
+      
+    }else{
+      console.log("BetroundId is not defined or is not a number")
+    }
+
+ 
 
     console.log(this.users)
   }
 
   sendMessage(message: string, currentUserId: number | undefined) {
-    this.currentUserMessages.push(message);
+    //this.currentUserMessages.push(message);
     //this.saveMessage(message, currentUserId as number);
     this.messageInput.nativeElement.value = ' ';
   }

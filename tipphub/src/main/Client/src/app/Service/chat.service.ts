@@ -1,5 +1,5 @@
 import { Message } from './../Model/Message';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../Model/User';
@@ -33,7 +33,11 @@ export class MessageService {
     return this.http.get<Message[]>(`${this.messageUrl}/getChat/${userId}/${friendId}`);
   }
 
-  public getGroupChat(users: number[]): Observable<number[]> {
-    return this.http.put<number[]>(`${this.messageUrl}/getGroupChat`, users);
-  }
+  public getGroupChat(users: number[]): Observable<Message[]> {
+    let params = new HttpParams();
+    for (let i = 0; i < users.length; i++) {
+        params = params.append('users', users[i]);
+    }
+    return this.http.get<Message[]>(`${this.messageUrl}/getGroupChat`, { params });
+  } 
 }

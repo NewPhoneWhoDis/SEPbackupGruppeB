@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +38,9 @@ public class MessageController {
         return messageService.getChat(userId, friendId);
     }
 
-    @PutMapping("/getGroupChat")
-    public List<Message> getGroupChat(@RequestParam List<Long> userIds) {
-        return messageService.getGroupChatMessages(userIds);
+    @GetMapping("/getGroupChat")
+    public List<Message> getGroupChat(@RequestParam List<Long> users) {
+        return messageService.getGroupChatMessages(users);
     }
 
     @PutMapping("/messageToSave/{authorId}/{receiverId}")
