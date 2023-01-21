@@ -2,6 +2,7 @@ import { Message } from './../Model/Message';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from '../Model/User';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,9 @@ export class MessageService {
 
   public getChat(userId: number, friendId: number ): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.messageUrl}/getChat/${userId}/${friendId}`);
+  }
+
+  public getGroupChat(users: number[]): Observable<number[]> {
+    return this.http.put<number[]>(`${this.messageUrl}/getGroupChat`, users);
   }
 }

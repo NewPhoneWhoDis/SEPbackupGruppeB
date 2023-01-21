@@ -37,7 +37,7 @@ public class MessageController {
         return messageService.getChat(userId, friendId);
     }
 
-    @GetMapping("/getGroupChat")
+    @PutMapping("/getGroupChat")
     public List<Message> getGroupChat(@RequestParam List<Long> userIds) {
         return messageService.getGroupChatMessages(userIds);
     }

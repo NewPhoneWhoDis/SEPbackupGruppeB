@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { switchMap } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { Message } from 'src/app/Model/Message';
 import { User } from 'src/app/Model/User';
 import { MessageService } from 'src/app/Service/chat.service';
@@ -21,6 +21,8 @@ export class ChatModalComponent implements OnInit {
   currentUser : User | undefined;
   friendUser: User | undefined;
   clickedFriend: User | undefined;
+  private subscription: Subscription | undefined;
+  private intervalId: any;
 
   constructor(private messageService: MessageService, 
     private userService: UserService,
@@ -35,8 +37,8 @@ export class ChatModalComponent implements OnInit {
       console.log('This is the friend' + this.clickedFriend?.id);
     }
 
-    setInterval(() => {
-      this.userService.getUserById(this.storageService.getLoggedUser())
+    this.intervalId = setInterval(() => {
+      this.subscription = this.userService.getUserById(this.storageService.getLoggedUser())
         .pipe(
         switchMap(user => {
             this.currentUser = user;
@@ -48,8 +50,11 @@ export class ChatModalComponent implements OnInit {
         })
         ).subscribe(data => this.friendMessages = data);
     }, 2000);
-      
-    
+  }
+
+  ngOnDestroy() {
+    this.subscription!.unsubscribe();
+    clearInterval(this.intervalId);
   }
 
 
@@ -69,6 +74,10 @@ export class ChatModalComponent implements OnInit {
     this.messageService.saveMessageInDatabase(messageObject, this.currentUser?.id as number, 
       this.clickedFriend?.id as number).subscribe();
     console.log(messageObject);
+  }
+
+  destroy() {
+    this.ngOnDestroy();
   }
 
 }
