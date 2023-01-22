@@ -48,7 +48,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   this.betroundIdString = this.route.snapshot.paramMap.get('id');
   if(this.betroundIdString && !isNaN(Number(this.betroundIdString))){
       this.betroundId = +this.betroundIdString;
-      
+
       this.betroundService.getAllParticipants(this.betroundId)
       .pipe(
         switchMap(users => {
@@ -65,14 +65,23 @@ export class GroupChatComponent implements OnInit, OnDestroy {
       console.log("BetroundId is not defined or is not a number")
     }
 
- 
-
     console.log(this.users)
   }
 
+  saveMessage(message: string, currentUserId: number | undefined) {
+    let messageObject: Message = new Message();
+    messageObject.message = message;
+    messageObject.dateOfCreation = new Date();
+    this.chatService.saveMessageInDatabaseGroupChat(messageObject, this.currentUser?.id as number).subscribe();
+    console.log(messageObject);
+  }
+
   sendMessage(message: string, currentUserId: number | undefined) {
-    //this.currentUserMessages.push(message);
-    //this.saveMessage(message, currentUserId as number);
+    let messageToPush = new Message()
+    messageToPush.message = message;
+    messageToPush.messageAuthor = this.currentUser;
+    this.currentUserMessages.push(messageToPush);
+    this.saveMessage(messageToPush.message, currentUserId as number);
     this.messageInput.nativeElement.value = ' ';
   }
 

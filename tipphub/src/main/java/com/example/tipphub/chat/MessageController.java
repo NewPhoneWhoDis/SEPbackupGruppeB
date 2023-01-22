@@ -49,4 +49,10 @@ public class MessageController {
         message.setReceiver(messageService.findUserById(receiverId));
         messageService.save(message);
     }
+
+    @PutMapping("/groupMessageToSave/{authorId}")
+    public void saveMessageGroupChat(@RequestBody Message message, @PathVariable Long authorId) {
+        message.setMessageAuthor(messageService.findUserById(authorId));
+        messageService.save(message);
+    }
 }
