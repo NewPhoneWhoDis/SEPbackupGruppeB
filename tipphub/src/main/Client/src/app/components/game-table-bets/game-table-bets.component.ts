@@ -134,9 +134,15 @@ export class GameTableBetsComponent implements OnInit {
     if(withMoney){
       this.bet.moneyBet = true;
     }
-    this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe();
-    window.alert("Wette wurde erfolgreich platziert!")
-    location.reload()
+    this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe(
+        () => {
+          window.alert("Wette wurde erfolgreich platziert!")
+          location.reload()
+        },
+        () => {
+          window.alert("Du hast kein Geld, du Geringverdiener!!!")
+          location.reload()
+        });
   }
 
   getBetHelp(gameId: number | undefined): void{

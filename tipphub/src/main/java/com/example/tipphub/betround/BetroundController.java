@@ -44,7 +44,7 @@ public class BetroundController {
     @PutMapping("/bet/{ownerId}/{betroundId}")
     public void betInRound(@PathVariable("ownerId") Long ownerId,
             @PathVariable("betroundId") Long betroundId,
-            @RequestBody Bet bet) {
+            @RequestBody Bet bet) throws RuntimeException {
         betroundService.betInRound(ownerId, betroundId, bet);
     }
 

@@ -159,15 +159,23 @@ public class BetroundService {
     }
 
     @Transactional
-    public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
+    public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) throws RuntimeException {
 
         wantedBet.setBetOwner(userRepository.findById(ownerId).get());
         wantedBet.setBetround(betroundRepository.findById(betroundId).get());
 
         Game game = getGameForBet(wantedBet);
         if (game != null) {
-            betRepository.save(wantedBet);
+
             User owner = userRepository.findById(ownerId).get();
+            if(wantedBet.isMoneyBet()){
+                if(owner.getAccountBalance() < wantedBet.getAmountOfMoney()){
+                    throw new RuntimeException();
+                }
+                owner.setAccountBalance(owner.getAccountBalance() - wantedBet.getAmountOfMoney());
+            }
+
+            betRepository.save(wantedBet);
             Betround wantedRound = betroundRepository.findById(betroundId).get();
 
             owner.getBets().add(wantedBet);
@@ -178,9 +186,6 @@ public class BetroundService {
             wantedRound.getBets().add(wantedBet);
             wantedRound.getUsers().add(owner);
 
-            if(wantedBet.isMoneyBet()){
-                owner.setAccountBalance(owner.getAccountBalance() - wantedBet.getAmountOfMoney());
-            }
         }
 
     }
