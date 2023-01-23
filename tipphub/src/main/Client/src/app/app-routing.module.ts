@@ -5,13 +5,15 @@ import { betroundPage } from "./components/pages/betroundPage/betroundPage";
 import { homePage } from "./components/pages/homePage/homePage";
 import { GameTableBetsComponent } from "./components/game-table-bets/game-table-bets.component";
 import { StatisticsPageComponent } from "./components/pages/statistics/statistics-page/statistics-page.component";
+import { MinigameComponent } from "./components/minigame/minigame.component";
 
 const routes: Routes = [
   { path: "", component: homePage },
   { path: "bets-and-pieces", component: betroundPage },
   { path: "ligen-management", component: LeageCreationPageComponent },
-  { path: "statistiken", component: StatisticsPageComponent },
   { path: "test", component: GameTableBetsComponent },
+  { path: "mini-game", component: MinigameComponent },
+  { path: "statistiken", component: StatisticsPageComponent },
 ];
 
 @NgModule({

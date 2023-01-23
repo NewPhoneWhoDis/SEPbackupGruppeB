@@ -32,6 +32,7 @@ import { LeageCreationPageComponent } from "./components/pages/leage-creation-pa
 import { GameTableBetsComponent } from "./components/game-table-bets/game-table-bets.component";
 import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
 import { ChatModalComponent } from "./components/chat-modal/chat-modal.component";
+import { MinigameComponent } from "./components/minigame/minigame.component";
 import { StatisticsPageComponent } from "./components/pages/statistics/statistics-page/statistics-page.component";
 import { NgApexchartsModule } from "ng-apexcharts";
 
@@ -58,6 +59,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     GameTableBetsComponent,
     BetroundFilterPipePipe,
     ChatModalComponent,
+    MinigameComponent,
     StatisticsPageComponent,
   ],
   imports: [
