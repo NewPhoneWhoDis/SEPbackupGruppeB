@@ -1,14 +1,9 @@
 package com.example.tipphub.chat;
 
+import com.example.tipphub.betround.BetroundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,9 +13,12 @@ public class MessageController {
 
     @Autowired
     private final MessageService messageService;
+    @Autowired
+    private final BetroundRepository betroundRepository;
 
-    public MessageController(MessageService messageService) {
+    public MessageController(MessageService messageService, BetroundRepository betroundRepository) {
         this.messageService = messageService;
+        this.betroundRepository = betroundRepository;
     }
 
     @GetMapping("/getAuthorMessages/{authorId}")
@@ -38,9 +36,9 @@ public class MessageController {
         return messageService.getChat(userId, friendId);
     }
 
-    @GetMapping("/getGroupChat")
-    public List<Message> getGroupChat(@RequestParam List<Long> users) {
-        return messageService.getGroupChatMessages(users);
+    @GetMapping("/getGroupChat/{betroundId}")
+    public List<Message> getGroupChat(@PathVariable Long betroundId) {
+        return messageService.getGroupChatMessages(betroundId);
     }
 
     @PutMapping("/messageToSave/{authorId}/{receiverId}")
@@ -50,9 +48,10 @@ public class MessageController {
         messageService.save(message);
     }
 
-    @PutMapping("/groupMessageToSave/{authorId}")
-    public void saveMessageGroupChat(@RequestBody Message message, @PathVariable Long authorId) {
+    @PutMapping("/groupMessageToSave/{authorId}/{betroundId}")
+    public void saveMessageGroupChat(@RequestBody Message message, @PathVariable Long authorId, @PathVariable Long betroundId) {
         message.setMessageAuthor(messageService.findUserById(authorId));
+        message.setBetround(betroundRepository.findById(betroundId).get());
         messageService.save(message);
     }
 }

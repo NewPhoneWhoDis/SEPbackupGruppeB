@@ -1,5 +1,6 @@
 package com.example.tipphub.chat;
 
+import com.example.tipphub.betround.Betround;
 import com.example.tipphub.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,16 +35,30 @@ public class Message {
     @OneToMany(mappedBy = "message")
     private List<Message> messages;
 
+    public Betround getBetround() {
+        return betround;
+    }
+
+    public void setBetround(Betround betround) {
+        this.betround = betround;
+    }
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "betround_id", referencedColumnName = "id")
+    private Betround betround;
+
     public Message() {
     }
 
-    public Message(Long id, String message, LocalDate dateOfCreation, User messageAuthor, User receiver, List<Message> messages) {
+    public Message(Long id, String message, LocalDate dateOfCreation, User messageAuthor, User receiver, List<Message> messages, Betround betround) {
         this.id = id;
         this.message = message;
         this.dateOfCreation = dateOfCreation;
         this.messageAuthor = messageAuthor;
         this.receiver = receiver;
         this.messages = messages;
+        this.betround = betround;
     }
 
     public Long getId() {

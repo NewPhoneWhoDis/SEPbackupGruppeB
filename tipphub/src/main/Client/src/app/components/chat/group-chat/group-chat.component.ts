@@ -54,7 +54,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
         switchMap(users => {
           this.users = users;
           this.usersIds = users.map(user => user.id as number)
-          return this.chatService.getGroupChat(this.usersIds as number[]);
+          return this.chatService.getGroupChat(this.betroundId as number);
         })
       )
       .subscribe(messages => {
@@ -72,7 +72,8 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     let messageObject: Message = new Message();
     messageObject.message = message;
     messageObject.dateOfCreation = new Date();
-    this.chatService.saveMessageInDatabaseGroupChat(messageObject, this.currentUser?.id as number).subscribe();
+    let betroundId: number = +this.betroundIdString!;
+    this.chatService.saveMessageInDatabaseGroupChat(messageObject, this.currentUser?.id as number, betroundId).subscribe();
     console.log(messageObject);
   }
 

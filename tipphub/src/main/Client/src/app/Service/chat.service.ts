@@ -29,19 +29,15 @@ export class MessageService {
     return this.http.put<Message>(`${this.messageUrl}/messageToSave/${authorId}/${receiverId}`, message);
   }
 
-  public saveMessageInDatabaseGroupChat(message: Message, authorId: number): Observable<Message> {
-    return this.http.put<Message>(`${this.messageUrl}/groupMessageToSave/${authorId}`, message)
+  public saveMessageInDatabaseGroupChat(message: Message, authorId: number, betroundId: number): Observable<Message> {
+    return this.http.put<Message>(`${this.messageUrl}/groupMessageToSave/${authorId}/${betroundId}`, message)
   }
 
   public getChat(userId: number, friendId: number ): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.messageUrl}/getChat/${userId}/${friendId}`);
   }
 
-  public getGroupChat(users: number[]): Observable<Message[]> {
-    let params = new HttpParams();
-    for (let i = 0; i < users.length; i++) {
-        params = params.append('users', users[i]);
-    }
-    return this.http.get<Message[]>(`${this.messageUrl}/getGroupChat`, { params });
+  public getGroupChat(betroundId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.messageUrl}/getGroupChat/${betroundId}`);
   } 
 }

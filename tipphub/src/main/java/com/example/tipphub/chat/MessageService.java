@@ -1,13 +1,14 @@
 package com.example.tipphub.chat;
 
+import com.example.tipphub.betround.Betround;
+import com.example.tipphub.betround.BetroundRepository;
 import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Objects.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -18,10 +19,13 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final BetroundRepository betroundRepository;
 
-    public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
+    @Autowired
+    public MessageService(MessageRepository messageRepository, UserRepository userRepository, BetroundRepository betroundRepository) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
+        this.betroundRepository = betroundRepository;
     }
 
     public List<Message> getChat(Long userId, Long friendId) {
@@ -43,20 +47,17 @@ public class MessageService {
     }
 
     @Transactional
-    public List<Message> getGroupChatMessages(List<Long> userIds) {
-        List<Message> groupChatMessages = new ArrayList<>();
-        for (Long userId : userIds) {
-            List<Message> tempMsg = messageRepository.findAll();
-            for (Message temp : tempMsg) {
-                if (Objects.equals(temp.getMessageAuthor(), userId))
-                    groupChatMessages.add(temp);
-            }
-        }
-        return groupChatMessages;
+    public List<Message> getGroupChatMessages(Long betroundId) {
+        Betround betround = betroundRepository.findById(betroundId).get();
+        return betround.getGroupChatMessages();
     }
 
     @Transactional
     public Message save(Message message) {
+        if(message.getBetround() != null) {
+            Betround newBetround = betroundRepository.findById(message.getBetround().getId()).get();
+            newBetround.getGroupChatMessages().add(message);
+        }
         return messageRepository.save(message);
     }
 

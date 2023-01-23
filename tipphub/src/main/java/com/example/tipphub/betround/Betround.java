@@ -1,5 +1,6 @@
 package com.example.tipphub.betround;
 
+import com.example.tipphub.chat.Message;
 import com.example.tipphub.league.League;
 import com.example.tipphub.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,6 +51,25 @@ public class Betround {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
     private List<BetroundNickname> betroundNicknames = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
+    private List<Message> groupChatMessages = new ArrayList<>();
+
+    public List<BetroundNickname> getBetroundNicknames() {
+        return betroundNicknames;
+    }
+
+    public void setBetroundNicknames(List<BetroundNickname> betroundNicknames) {
+        this.betroundNicknames = betroundNicknames;
+    }
+
+    public List<Message> getGroupChatMessages() {
+        return groupChatMessages;
+    }
+
+    public void setGroupChatMessages(List<Message> groupChatMessages) {
+        this.groupChatMessages = groupChatMessages;
+    }
 
     public Betround() {
     }
