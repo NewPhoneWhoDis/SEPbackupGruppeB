@@ -1,88 +1,39 @@
-<!-- <div class="modal" id="chat-modal">
-    <div class="modal-box w-full h-full">
-       <a href="#" class="btn">X</a>
-       <!--!Current User Icon and Messages-->
-       <!-- <div class="chat chat-start py-3">
-        <div class="chat-image avatar">
-          <div class="w-10 rounded-full">
-            <!--!Insert Profile pic url here-->
-            <!-- <img *ngIf="currentUser?.imageURL" [src]="currentUser?.imageURL"/>
-            <img *ngIf="!currentUser?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
-          </div>
-          <p class="px-3">{{currentUser?.firstName}}</p>
-        </div>
-        <div class="chat-bubble" *ngFor="let message of currentUserMessages">{{message.message}}</div>
-      </div> -->
-      <!--!FriendUser Icon and Messages-->
-      <!-- <div class="chat chat-start">
-        <div class="chat-image avatar">
-          <div class="w-10 rounded-full">
-            <img *ngIf="clickedFriend?.imageURL" [src]="clickedFriend?.imageURL"/>
-            <img *ngIf="!clickedFriend?.imageURL" src="./assets/images/Tipper_Andrii.jpeg"/>
-          </div>
-          <p class="px-3">{{clickedFriend?.firstName}}</p>
-        </div>
-        <div class="chat-header"></div>
-        <div class="chat-bubble" *ngFor="let friendMessage of friendMessages">{{friendMessage.message}}</div>
-      </div> -->
-      <!-- <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
-          <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"
-          class="input input-bordered input-primary w-full max-w-xs right-0
-          transform absolute focus:outline-none" />
-      </form>
-         
-    </div>
-</div> --> 
-
 <div class="modal" id="chat-modal">
   <div class="modal-box w-full h-full">
-    <a href="#" (click)="destroy()" class="btn">X</a>
-    <div class="chat chat-start">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img src="https://placeimg.com/192/192/people" />
+    <a href="#" (click)="destroy()" class="btn btn-sm btn-circle absolute right-2 top-2 text-primary">x</a>
+    <div class="flex">
+      <div class="avatar">
+        <div class="w-14 h-14 rounded-full">
+          <img *ngIf="!clickedFriend?.imageURL" src="./assets/images/Tipper_Andrii.jpeg" />
+          <img *ngIf="clickedFriend?.imageURL" [src]="clickedFriend?.imageURL" />
         </div>
       </div>
-      <div class="chat-header">
-        {{clickedFriend?.firstName}}
-        <time class="text-xs opacity-50">12:45</time>
-      </div>
-      <div class="chat-bubble"  *ngFor="let friendMessage of friendMessages">{{friendMessage.message}}</div>
-      <div class="chat-footer opacity-50">
-        Delivered
+      <div>
+        <div class="chat-header ml-10 card-title mb-2">
+          {{clickedFriend?.firstName}}
+        </div>
+        <div class="card card-bordered ml-5 m-1 pt-2 pb-2 pr-4 pl-4 bg-primary text-black w-auto h-auto"  
+        *ngFor="let friendMessage of friendMessages">
+        <div class="absolute top-0 left-0 bg-primary w-4 h-4"></div>
+        {{friendMessage.message}}
+        </div>
       </div>
     </div>
-    <div class="chat chat-end">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img [src]="currentUser?.imageURL" />
+    <div class="flex justify-end">
+      <div class="mt-5">
+        <div class="card card-bordered ml-5 m-1 pt-2 pb-2 pr-4 pl-4 bg-accent text-black w-auto h-auto" 
+        *ngFor="let currentUserMessage of currentUserMessages">
+          <div class="absolute bottom-0 right-0 bg-accent w-4 h-4"></div>
+          {{currentUserMessage.message}}
         </div>
-      </div>
-      <div class="chat-header">
-        {{currentUser?.firstName}}
-        <time class="text-xs opacity-50">12:46</time>
-      </div>
-      <div class="chat-bubble" *ngFor="let currentUserMessage of currentUserMessages">
-        {{currentUserMessage.message}}
-      </div>
-      <div class="chat-footer opacity-50">
-        Seen at 12:46
       </div>
     </div>
 
     <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
       <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"
-      class="input input-bordered input-primary w-full max-w-xs right-0
+      class="input input-bordered input-primary w-auto inset-x-0 bottom-0 m-2
       transform absolute focus:outline-none" />
     </form>
 
   </div>
 </div>
-
-
-<!-- <div class="modal" id="chat-modal">
-  <div class="modal-box w-full h-full">
-    <a href="#" class="btn">X</a>
-
-  </div>
-</div> -->
