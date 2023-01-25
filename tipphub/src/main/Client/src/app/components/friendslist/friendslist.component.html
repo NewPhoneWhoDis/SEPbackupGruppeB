@@ -3,9 +3,13 @@
     <div class="drawer-side">
         <label for="friendslist-drawer" class="drawer-overlay bg-[#303030]"></label>
         <ul class="menu p-4 w-80 h-full bg-base-100 text-base-content fixed ">
-            <div class="card card-bordered border-primary bg-[#303030] w-42 h-5/6 ">
+            <div class="mb-2" *ngIf="!currentUser?.hasBetPermission && age >= 18">
+                <button class = "btn btn-rounded btn-outline btn-primary" (click)="requestBetPermission()">Teilnahme an Tippspiel-Wetten anfragen</button>
+            </div>
+            <div class="card card-bordered border-primary bg-[#303030] w-42 h-3/4 ">
                 <div class="card-body p-2 ">
                     <!-- Sidebar content here -->
+
                     <li *ngFor="let friend of friends">
                             <label title="Profil ansehen" for="profile-modal" class="avatar h-12" (click)="setClickedFriend(friend)">
                                 <div *ngIf="friend.imageURL" class="w-10 rounded-full">
@@ -46,9 +50,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                     </svg>
                 </a>
-            </div>
-            <div class="pt-6" *ngIf="!currentUser?.hasBetPermission && age >= 18">
-                <button class = "btn btn-warning" (click)="requestBetPermission()">Teilnahme an Tippspiel-Wetten anfragen</button>
             </div>
         </ul>
     </div>
