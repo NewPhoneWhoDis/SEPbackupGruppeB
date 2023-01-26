@@ -1,3 +1,4 @@
+import { GroupChatComponent } from './../components/chat/group-chat/group-chat.component';
 import { FormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -17,6 +18,7 @@ import { BetroundDetailsComponent } from "./betround-details/betround-details.co
     BetroundDetailsComponent,
     ScoreboardComponent,
     BetroundDetailsComponent,
+    GroupChatComponent
   ],
   imports: [CommonModule, BetsRoutingModule, FormsModule],
 })

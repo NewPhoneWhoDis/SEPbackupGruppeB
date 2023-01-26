@@ -1,9 +1,14 @@
 package com.example.tipphub.chat;
 
+import com.example.tipphub.betround.Betround;
+import com.example.tipphub.betround.BetroundRepository;
 import com.example.tipphub.user.User;
 import com.example.tipphub.user.UserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -14,14 +19,45 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final BetroundRepository betroundRepository;
 
-    public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
+    @Autowired
+    public MessageService(MessageRepository messageRepository, UserRepository userRepository, BetroundRepository betroundRepository) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
+        this.betroundRepository = betroundRepository;
+    }
+
+    public List<Message> getChat(Long userId, Long friendId) {
+        User user = userRepository.findById(userId).get();
+        User friend = userRepository.findById(friendId).get();
+
+        List<Message> messages = new ArrayList<>();
+
+        List<Message> allMessage = messageRepository.findAll();
+
+        for (Message message : allMessage) {
+            if(Objects.equals(message.getMessageAuthor(), user) &&
+            Objects.equals(message.getReceiver(), friend)) {
+                messages.add(message);
+            }
+        }
+
+        return  messages;
+    }
+
+    @Transactional
+    public List<Message> getGroupChatMessages(Long betroundId) {
+        Betround betround = betroundRepository.findById(betroundId).get();
+        return betround.getGroupChatMessages();
     }
 
     @Transactional
     public Message save(Message message) {
+        if(message.getBetround() != null) {
+            Betround newBetround = betroundRepository.findById(message.getBetround().getId()).get();
+            newBetround.getGroupChatMessages().add(message);
+        }
         return messageRepository.save(message);
     }
 
@@ -50,7 +86,7 @@ public class MessageService {
         User author = this.userRepository.findById(authorId).get();
         if (author == null) throw new IllegalArgumentException("Invalid author id");
         return messageRepository.findAll().stream()
-                .filter(message -> message.getMessageAuthor().equals(author))
+                .filter(message -> Objects.equals(message.getMessageAuthor(), author))
                 .collect(Collectors.toList());
     }
 
@@ -59,7 +95,7 @@ public class MessageService {
         User receiver = this.userRepository.findById(senderId).get();
         if (receiver == null) throw new IllegalArgumentException("Invalid receiver id");
         return messageRepository.findAll().stream()
-                .filter(message -> message.getReceiver().equals(receiver))
+                .filter(message -> Objects.equals(message.getReceiver(), receiver))
                 .collect(Collectors.toList());
     }
 
@@ -68,5 +104,10 @@ public class MessageService {
         Message message = messageRepository.findById(messageId).get();
         if (message == null) throw new IllegalArgumentException("Invalid message id");
         return message.getMessageAuthor();
+    }
+
+    @Transactional
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).get();
     }
 }
