@@ -6,7 +6,7 @@ import { User } from 'src/app/Model/User';
 import { UserService } from './../../../Service/user.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'src/app/Service/chat.service';
-import { Subscription, switchMap } from 'rxjs';
+import { Subscription, switchMap, interval } from 'rxjs';
 
 @Component({
   selector: 'app-group-chat',
@@ -47,23 +47,28 @@ export class GroupChatComponent implements OnInit, OnDestroy {
 
   this.betroundIdString = this.route.snapshot.paramMap.get('id');
   if(this.betroundIdString && !isNaN(Number(this.betroundIdString))){
-      this.betroundId = +this.betroundIdString;
+    this.betroundId = +this.betroundIdString;
 
-      this.betroundService.getAllParticipants(this.betroundId)
-      .pipe(
-        switchMap(users => {
-          this.users = users;
-          this.usersIds = users.map(user => user.id as number)
-          return this.chatService.getGroupChat(this.betroundId as number);
-        })
-      )
-      .subscribe(messages => {
-        this.friendMessages = messages;
-      });
-      
-    }else{
-      console.log("BetroundId is not defined or is not a number")
-    }
+    interval(2000)
+    .pipe(
+      switchMap(() => {
+        return this.betroundService.getAllParticipants(this.betroundId)
+      }),
+      switchMap(users => {
+        this.users = users;
+        this.usersIds = users.map(user => user.id as number)
+        return this.chatService.getGroupChat(this.betroundId as number);
+      })
+    )
+    .subscribe(messages => {
+      this.friendMessages = messages;
+    });
+    
+  }else{
+    console.log("BetroundId is not defined or is not a number")
+  }
+
+  console.log(this.users)
 
     console.log(this.users)
   }

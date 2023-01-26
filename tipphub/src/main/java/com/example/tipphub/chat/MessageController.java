@@ -31,7 +31,7 @@ public class MessageController {
         return messageService.findAllMessagesFromReceiver(receiverId);
     }
 
-    @GetMapping("/getChat/{userId}/{friendId    }")
+    @GetMapping("/getChat/{userId}/{friendId}")
     public List<Message> getChat(@PathVariable Long userId, @PathVariable Long friendId) {
         return messageService.getChat(userId, friendId);
     }
