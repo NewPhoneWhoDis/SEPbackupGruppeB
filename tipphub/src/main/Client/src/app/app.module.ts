@@ -33,6 +33,7 @@ import { GameTableBetsComponent } from "./components/game-table-bets/game-table-
 import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
 import { ChatModalComponent } from './components/chat/chat-modal/chat-modal.component';
 import { GroupChatComponent } from './components/chat/group-chat/group-chat.component';
+import { MinigameComponent } from './components/minigame/minigame.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { GroupChatComponent } from './components/chat/group-chat/group-chat.comp
     GameTableBetsComponent,
     BetroundFilterPipePipe,
     ChatModalComponent,
+    MinigameComponent,
   ],
   imports: [
     BrowserModule,

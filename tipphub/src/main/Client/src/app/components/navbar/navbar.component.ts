@@ -20,7 +20,8 @@ export class NavbarComponent implements OnInit {
   systemDate: Date | undefined;
   leagues: League[] | undefined;
   currentUser : User | undefined;
-  showButtons : boolean = false
+  showButtons : boolean = false;
+  balance : number = 0;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
