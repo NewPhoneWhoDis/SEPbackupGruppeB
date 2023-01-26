@@ -1,3 +1,4 @@
+import { NavigationEnd, Router } from '@angular/router';
 import { Message } from './../../../Model/Message';
 import { BetroundService } from './../../../Service/betround.service';
 import { ActivatedRoute } from '@angular/router';
@@ -24,20 +25,17 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   betroundId: number | undefined;
   users: User[] | undefined;
   usersIds: number[] | undefined;
-  private userSubscription: Subscription | undefined;
+  private intervalSubscription: Subscription | undefined;
   private intervalId: any;
 
   constructor(
   private userService: UserService, 
   private storageService: StorageService, 
   private route: ActivatedRoute,
+  private router: Router,
   private betroundService: BetroundService,
   private chatService: MessageService) { }
   
-
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
 
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{
@@ -49,7 +47,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   if(this.betroundIdString && !isNaN(Number(this.betroundIdString))){
     this.betroundId = +this.betroundIdString;
 
-    interval(2000)
+    this.intervalSubscription = interval(2000)
     .pipe(
       switchMap(() => {
         return this.betroundService.getAllParticipants(this.betroundId)
@@ -68,10 +66,20 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     console.log("BetroundId is not defined or is not a number")
   }
 
-  console.log(this.users)
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      this.ngOnDestroy();
+    }
+  });
 
     console.log(this.users)
   }
+
+  ngOnDestroy() {
+    if(this.intervalSubscription)
+    this.intervalSubscription.unsubscribe();
+  }
+
 
   saveMessage(message: string, currentUserId: number | undefined) {
     let messageObject: Message = new Message();
