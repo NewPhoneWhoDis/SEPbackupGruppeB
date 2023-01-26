@@ -21,7 +21,7 @@ public class Message {
 
     private LocalDate dateOfCreation;
 
-    @JsonIgnore
+    
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "messageAuthor_id")
     private User messageAuthor;

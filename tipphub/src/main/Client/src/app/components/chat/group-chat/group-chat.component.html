@@ -4,9 +4,16 @@
         <div class="flex" *ngFor="let user of users">
           <img *ngIf="!user?.imageURL" src="./assets/images/Tipper_Andrii.jpeg" class="w-12 h-12 rounded-full">
           <img *ngIf="user?.imageURL" [src]="user?.imageURL" class="w-12 h-12 rounded-full">
-          <div class="ml-4">    
-            <div class="text-lg font-medium" >{{user.firstName}}</div>
-            <div class="text-sm text-orange-400"*ngFor="let message of friendMessages">{{message.message}}</div>
+          <div class="text-lg font-medium">{{user.firstName}}</div>
+          <div class="ml-4">
+            <div *ngFor="let message of friendMessages; let i = index">
+                <ng-container *ngIf="user.id === message.messageAuthor?.id">
+                    <div>
+                        
+                        <div class="text-sm text-orange-400">{{message.message}}</div>
+                    </div>
+                </ng-container>   
+            </div>
           </div>
         </div>
       </div>

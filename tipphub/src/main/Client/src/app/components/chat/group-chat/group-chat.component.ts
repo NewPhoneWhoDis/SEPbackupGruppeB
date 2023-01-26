@@ -25,6 +25,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   betroundId: number | undefined;
   users: User[] | undefined;
   usersIds: number[] | undefined;
+  usersWithMessages = new Map<User, Message[]>();
   private intervalSubscription: Subscription | undefined;
   private intervalId: any;
 
@@ -60,6 +61,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     )
     .subscribe(messages => {
       this.friendMessages = messages;
+      
     });
     
   }else{
