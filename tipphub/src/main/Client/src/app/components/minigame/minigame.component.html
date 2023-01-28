@@ -1,4 +1,8 @@
 <div class="w-full h-screen relative z-0">
+    <div id="ad" class="fixed -bottom-72 left-0 z-40">
+        <img *ngIf="!showAd" src="./assets/images/shia_doit.png" class="w-80 h-80">
+        <img *ngIf="showAd" src="./assets/images/shia_doit_epic.png" class="w-80 h-80">
+    </div>
     <app-friendslist class="absolute inset-y-0 right-0 z-20"></app-friendslist>
     <div class="w-full h-full flex justify-center">
         <div class="card w-3/4 h-5/6 bg-[#303030] shadow-xl mt-10">

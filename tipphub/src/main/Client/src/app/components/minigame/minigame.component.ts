@@ -20,11 +20,26 @@ export class MinigameComponent implements OnInit {
   y_vel : number = 5;
   currentUser : User | undefined;
   oneTime : boolean = true;
+  showAd : boolean = false;
 
   constructor(private storageService : StorageService, private userService : UserService) { }
 
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+
+    let popup = interval(1000).subscribe((data) => {
+      let ad = document.getElementById("ad");
+      if(ad){
+        ad.style.top = ad.offsetTop - 5 + "px";
+        console.log(ad.offsetTop)
+        //445
+      }
+
+      if(ad!.offsetTop <= 450){
+        this.showAd = true;
+        popup.unsubscribe()
+      }
+    })
   }
 
   startGame(){
