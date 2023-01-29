@@ -85,4 +85,6 @@ export class BetroundDetailsComponent implements OnInit {
     window.location.reload();
   }
 
+  
+
 }
