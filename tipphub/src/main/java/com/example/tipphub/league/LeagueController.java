@@ -47,4 +47,25 @@ public class LeagueController {
     public void changeNameAndLogo(@PathVariable("leagueId")Long leagueId, @RequestBody League leagueNew){
         leagueService.changeNameAndLogo(leagueId,leagueNew);
     }
+//zyklus3
+    @GetMapping("/numberBetrounds/{leagueId}")
+    public int getNumberOfBetrounds(@PathVariable("leagueId")Long leagueId){
+       return leagueService.getNumberOfBetrounds(leagueId);
+    }
+
+    @PostMapping("/resetBetrounds/{leagueId}")
+    public void resetNumberOfBetrounds(@PathVariable("leagueId")Long leagueId){
+         leagueService.resetNumberOfBetrounds(leagueId);
+    }
+
+    @GetMapping("/numberBettors/{leagueId}")
+    public int getNumberOfBettors(@PathVariable("leagueId")Long leagueId){
+        return  leagueService.getNumberOfBettors(leagueId);
+    }
+
+    @PostMapping("/resetBettors/{leagueId}")
+    public void resetNumberOfBettors(@PathVariable("leagueId")Long leagueId){
+        leagueService.resetNumberOfBettors(leagueId);
+    }
+
 }
