@@ -1,0 +1,39 @@
+<div class="modal" id="chat-modal">
+  <div class="modal-box w-full h-full">
+    <a href="#" (click)="destroy()" class="btn btn-sm btn-circle absolute right-2 top-2 text-primary">x</a>
+    <div class="flex">
+      <div class="avatar">
+        <div class="w-14 h-14 rounded-full">
+          <img *ngIf="!clickedFriend?.imageURL" src="./assets/images/Tipper_Andrii.jpeg" />
+          <img *ngIf="clickedFriend?.imageURL" [src]="clickedFriend?.imageURL" />
+        </div>
+      </div>
+      <div>
+        <div class="chat-header ml-10 card-title mb-2">
+          {{clickedFriend?.firstName}}
+        </div>
+        <div class="card card-bordered ml-5 m-1 pt-2 pb-2 pr-4 pl-4 bg-primary text-black w-auto h-auto"  
+        *ngFor="let friendMessage of friendMessages">
+        <div class="absolute top-0 left-0 bg-primary w-4 h-4"></div>
+        {{friendMessage.message}}
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <div class="mt-5">
+        <div class="card card-bordered ml-5 m-1 pt-2 pb-2 pr-4 pl-4 bg-accent text-black w-auto h-auto" 
+        *ngFor="let currentUserMessage of currentUserMessages">
+          <div class="absolute bottom-0 right-0 bg-accent w-4 h-4"></div>
+          {{currentUserMessage.message}}
+        </div>
+      </div>
+    </div>
+
+    <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
+      <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"
+      class="input input-bordered input-primary w-auto inset-x-0 bottom-0 m-2
+      transform absolute focus:outline-none"/>
+    </form>
+
+  </div>
+</div>

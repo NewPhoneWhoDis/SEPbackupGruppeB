@@ -1,5 +1,6 @@
 import {GameSchedule} from "./GameSchedule";
 import {User} from "./User";
+import {Team} from "./Team";
 
 export class League{
     id: number | undefined;
@@ -8,4 +9,5 @@ export class League{
     gameSchedule: GameSchedule = new GameSchedule();
     topBetters: Array<string> = new Array();
     topTeams: Array<string> = new Array();
+    teams: Array<Team> = new Array();
 }

@@ -45,4 +45,13 @@ public class EmailSenderService {
         msg.setSubject("Tipphub Einladung");
         mailSender.send(msg);
     }
+
+    public void sendBetPermission(String userEmail){
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("noreply.tipphub@gmail.com");
+        msg.setTo(userEmail);
+        msg.setText("Es gibt neue Anfrage zur Teilnahme an Tippspiel-Wetten!");
+        msg.setSubject("Neue Wetten-Anfrage");
+        mailSender.send(msg);
+    }
 }

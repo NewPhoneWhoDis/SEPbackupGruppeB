@@ -72,8 +72,9 @@ export class BetroundService {
     return this.http.put<any>(`${shareBetUrl}/${friendId}/${betId}`,null,httpHeaders);
   }
 
-  public getNickname(userId: number, betroundId: number): Observable<string> {
-    return this.http.get<string>(`${this.betroundUrl}/getNickname/${userId}/${betroundId}`, {headers: {'Accept': 'text/plain'}});
+  public getNickname(userId: number, betroundId: number): Observable<any> {
+    var headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    return this.http.get<any>(`${this.betroundUrl}/getNickname/${userId}/${betroundId}`,  {headers, responseType: 'text' as 'json'});
   }
   
   public getLeagueId(betroundId: number) {

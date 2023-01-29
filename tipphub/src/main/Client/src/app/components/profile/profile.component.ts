@@ -5,6 +5,7 @@ import {UserService} from "../../Service/user.service";
 import {data} from "autoprefixer";
 import {FriendslistService} from "../../Service/friendslist.service";
 import {StorageService} from "../../Service/storage.service";
+//import { Modal } from 'daisyui';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ export class ProfileComponent implements OnInit {
   clickedFriendId : number | undefined;
   isFriend : boolean | undefined;
   currentUser : User | undefined;
+  modalUrl: string = "#chat-modal";
   constructor(private userService : UserService, private friendslistService : FriendslistService, private storageService : StorageService) {
   }
 
@@ -24,6 +26,7 @@ export class ProfileComponent implements OnInit {
     const user = window.sessionStorage.getItem("clickedFriend");
     if (user) {
       this.clickedFriend= JSON.parse(user);
+      console.log(this.clickedFriend?.id);
     }
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
     //this.friendslistService.isFriends(this.storageService.getLoggedUser(),this.storageService.getClickedUser()).subscribe((data) => {this.isFriend = data});
@@ -63,5 +66,11 @@ export class ProfileComponent implements OnInit {
       return temp.email;
     }
     return {};
+  }
+
+  public closeProfileComponet() {
+    const profileModal = document.getElementById('profile-modal')
+    // @ts-ignore
+    profileModal.close()
   }
 }

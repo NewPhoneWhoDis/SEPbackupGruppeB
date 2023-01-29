@@ -29,6 +29,9 @@ public class League {
     @Column
     int numberOfBettors;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
+    private List<Team> teams = new ArrayList<>();
+
     public League() {
     }
 
@@ -92,5 +95,13 @@ public class League {
 
     public void setNumberOfBettors(int numberOfBettors) {
         this.numberOfBettors = numberOfBettors;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 }
