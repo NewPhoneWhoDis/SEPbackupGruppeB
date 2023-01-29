@@ -27,10 +27,10 @@ export class MinigameComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
 
-    let popup = interval(1000).subscribe((data) => {
+    let popup = interval(100).subscribe((data) => {
       let ad = document.getElementById("ad");
       if(ad){
-        ad.style.top = ad.offsetTop - 5 + "px";
+        ad.style.top = ad.offsetTop - 1 + "px";
         console.log(ad.offsetTop)
         //445
       }
