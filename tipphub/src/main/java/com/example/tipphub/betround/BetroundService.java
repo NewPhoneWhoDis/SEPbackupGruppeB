@@ -428,7 +428,7 @@ public class BetroundService {
     }
 
     @Transactional
-    public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(Long userId, Long betroundId) {
+    public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(Long betroundId) {
         Hashtable<String, Integer> userAndBets = new Hashtable<>();
         Betround wantedRound= betroundRepository.findById(betroundId).get();
        for(Bet betIterator: wantedRound.getBets()){

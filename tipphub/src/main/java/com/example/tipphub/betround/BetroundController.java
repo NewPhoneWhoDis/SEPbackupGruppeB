@@ -100,9 +100,9 @@ public class BetroundController {
         return betroundService.getLeagueId(betroundId);
     }
 
-    @GetMapping("/getAmountOfBetsPerUserInRound/{userId}/{betroundId}")
-        public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(@PathVariable Long userId, @PathVariable Long betroundId){
-            return betroundService.getBetAmountPerUserInRound(userId,betroundId);
+    @GetMapping("/getAmountOfBetsPerUserInRound/{betroundId}")
+        public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(@PathVariable Long betroundId){
+            return betroundService.getBetAmountPerUserInRound(betroundId);
         }
 
     @GetMapping("/getPointsAUserMadeFromATeam/{userId}/{betroundId}")
