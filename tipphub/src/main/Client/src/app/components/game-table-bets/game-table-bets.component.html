@@ -188,7 +188,7 @@
       <h3 class="text-lg font-bold">Gib den Geldbetrag ein und platziere deine Wette!</h3>
       <div class="form-control">
         <label class="cursor-pointer label">
-          <span class="label-text">{{ bet.homeTeam }}</span>
+          <span class="label-text">{{ bet.homeTeam }}</span><span class="tab">x {{homeTeamOdd}}</span>
           <input type="checkbox"
                  [(ngModel)]="bet.homeTeamWinner"
                  [disabled] = "disabledHomeTeam"
@@ -198,7 +198,7 @@
       </div>
       <div class="form-control">
         <label class="cursor-pointer label">
-          <span class="label-text">{{ bet.awayTeam }}</span>
+          <span class="label-text">{{ bet.awayTeam }}</span><span class="tab">x {{awayTeamOdd}}</span>
           <input type="checkbox"
                  [(ngModel)]="bet.awayTeamWinner"
                  [disabled] = "disabledAwayTeam"
@@ -208,7 +208,7 @@
       </div>
       <div class="form-control">
         <label class="cursor-pointer label">
-          <span class="label-text">Unentschieden</span>
+          <span class="label-text">Unentschieden</span><span class="tab">x {{drawOdd}}</span>
           <input type="checkbox"
                  [(ngModel)]="bet.draw"
                  [disabled] = "disabledDraw"
@@ -255,8 +255,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let team of teams" class="">
-                  <td class="p-4 w-1/4">{{team.name}}</td>
+                <tr *ngFor="let team of teams; let i = index">
+                  <td *ngIf="i === 0" class="p-4 w-1/4" class="text-accent">{{team.name}}</td>
+                  <td *ngIf="i === teams.length-1 || i === teams.length -2 || i === teams.length-3" class="p-4 w-1/4" class="text-error">{{team.name}}</td>
+                  <td *ngIf="i > 0 && i < teams.length-3"class="p-4 w-1/4">{{team.name}}</td>
                   <td class="p-4 w-1/3"><b>{{team.wins}}</b></td>
                   <td class="p-4 w-1/3"><b>{{team.loses}}</b></td>
                   <td class="p-4 w-1/3"><b>{{team.draws}}</b></td>

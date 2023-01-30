@@ -7,6 +7,7 @@ import { BetsOverviewComponent } from './bets-overview/bets-overview.component';
 import { BetsManagementComponent } from './bets-management/bets-management.component';
 import {GameTableBetsComponent} from "../components/game-table-bets/game-table-bets.component";
 import {ScoreboardComponent} from "./scoreboard/scoreboard.component";
+import { GroupChatComponent } from '../components/chat/group-chat/group-chat.component';
 
 const routes: Routes = [
   {
@@ -29,12 +30,16 @@ const routes: Routes = [
     path: 'betround-details/:id',
     component: BetroundDetailsComponent
   },
-  { path: "betround-details/:id/betTable", component: GameTableBetsComponent },
+  { path: "betround-details/:id/betTable", 
+    component: GameTableBetsComponent 
+  },
   {
     path: 'betround-details/:id/scoreboard',
     component: ScoreboardComponent
+  },
+  { path: "betround-details/:id/groupChat", 
+  component: GroupChatComponent
   }
-
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { Message } from './../Model/Message';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../Model/User';
@@ -8,7 +9,7 @@ import { User } from '../Model/User';
 })
 //!Example code:
 export class MessageService {
-  messageUrl: string = 'http://localhost:8080/messages';
+  messageUrl: string = 'http://localhost:8080/message';
 
   constructor(private http: HttpClient) {}
 
@@ -16,15 +17,27 @@ export class MessageService {
     return this.http.get<string[]>(`${this.messageUrl}/all`)
   }
 
-  public getAllCurrentUserMessages(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.messageUrl}/all`)
+  public getAuthorMessages(currentUserId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.messageUrl}/getAuthorMessages/${currentUserId}`)
   }
 
-  public getSpecificUserAllMessages(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.messageUrl}/all`)
+  public getReceiverMessages(receiverId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.messageUrl}/getReceiverMessages/${receiverId}`)
   }
 
-  public saveMessageInDatabase(message: string, user: User) {
-    this.http.put(`${this.messageUrl}/save`, user);
+  public saveMessageInDatabase(message: Message, authorId: number, receiverId: number): Observable<Message>{
+    return this.http.put<Message>(`${this.messageUrl}/messageToSave/${authorId}/${receiverId}`, message);
   }
+
+  public saveMessageInDatabaseGroupChat(message: Message, authorId: number, betroundId: number): Observable<Message> {
+    return this.http.put<Message>(`${this.messageUrl}/groupMessageToSave/${authorId}/${betroundId}`, message)
+  }
+
+  public getChat(userId: number, friendId: number ): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.messageUrl}/getChat/${userId}/${friendId}`);
+  }
+
+  public getGroupChat(betroundId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.messageUrl}/getGroupChat/${betroundId}`);
+  } 
 }

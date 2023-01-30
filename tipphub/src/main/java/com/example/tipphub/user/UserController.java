@@ -80,4 +80,12 @@ public class UserController {
     public boolean isFriends(@PathVariable Long userId, @PathVariable Long friendId){
         return userService.isFriend(userId,friendId);
     }
+
+    @GetMapping("/getBalance/{userId}")
+    public double getBalance(@PathVariable Long userId){
+        return userService.getUserById(userId).getAccountBalance();
+    }
+
+    @PutMapping("/addPoints/{userId}/{points}")
+    public void addPoints(@PathVariable Long userId, @PathVariable int points){userService.addPoints(userId,points);}
 }
