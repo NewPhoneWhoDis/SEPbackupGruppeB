@@ -26,9 +26,9 @@ public class League {
     private List<Betround> betrounds = new ArrayList<>();
 
     @Column
-    int numberOfBetrounds;
+    int numberOfBetrounds = 0;
     @Column
-    int numberOfBettors;
+    int numberOfBettors = 0;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
     private List<Team> teams = new ArrayList<>();
