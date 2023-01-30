@@ -8,6 +8,7 @@ import { BetsManagementComponent } from "./bets-management/bets-management.compo
 import { GameTableBetsComponent } from "../components/game-table-bets/game-table-bets.component";
 import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
 import { StatisticsComponent } from "./statistics/statistics/statistics.component";
+import { BetTableComponent } from "./bet-table/bet-table.component";
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: "betround-details/:id/statistics",
     component: StatisticsComponent,
+  },
+  {
+    path: "betround-details/:id/tipptabelle",
+    component: BetTableComponent,
   },
 ];
 

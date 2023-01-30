@@ -6,6 +6,7 @@ import { League } from "../Model/League";
 import { User } from "../Model/User";
 import { Bet } from "../Model/Bet";
 import { Game } from "../Model/Game";
+import { StatisticTeam } from "../Model/StatisticTeam";
 
 const httpHeaders = {
   headers: new HttpHeaders({
@@ -155,6 +156,14 @@ export class BetroundService {
     return this.http.get<Set<Map<string, number>>>(
       `${this.betroundUrl}/getAmountOfBetsPerUserInRound/${betroundId}`,
       httpHeaders
+    );
+  }
+
+  public getAllTeams(
+    betroundId: number | undefined
+  ): Observable<Array<StatisticTeam>> {
+    return this.http.get<Array<StatisticTeam>>(
+      `http://localhost:8080/StatisticTeam/getAllTeams/${betroundId}`
     );
   }
 }

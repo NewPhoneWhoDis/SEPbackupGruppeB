@@ -12,6 +12,7 @@ import { StatisticsComponent } from "./statistics/statistics/statistics.componen
 import { BarChartComponent } from "../components/charts/bar-chart/bar-chart.component";
 import { PieChartComponent } from "../components/charts/pie-chart/pie-chart.component";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { BetTableComponent } from "./bet-table/bet-table.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     BetroundDetailsComponent,
     BarChartComponent,
     PieChartComponent,
+    BetTableComponent,
   ],
   imports: [CommonModule, BetsRoutingModule, FormsModule, NgApexchartsModule],
 })
