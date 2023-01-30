@@ -2,11 +2,11 @@
     <input id="friendslist-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side">
         <label for="friendslist-drawer" class="drawer-overlay bg-[#303030]"></label>
-        <ul class="menu p-4 w-80 h-full bg-base-100 text-base-content fixed ">
+        <ul class="menu p-4 w-80 h-full bg-base-100 text-base-content fixed inset-y-16 right-0 z-100">
             <div class="mb-2" *ngIf="!currentUser?.hasBetPermission && age >= 18">
                 <button class = "btn btn-warning" (click)="requestBetPermission()">Teilnahme an Tippspiel-Wetten anfragen</button>
             </div>
-            <div class="card card-bordered border-primary bg-[#303030] w-42 h-4/6 ">
+            <div class="card card-bordered border-primary bg-[#303030] w-42 h-3/4 ">
                 <div class="card-body p-2 ">
                     <!-- Sidebar content here -->
                     <li *ngFor="let friend of friends">
