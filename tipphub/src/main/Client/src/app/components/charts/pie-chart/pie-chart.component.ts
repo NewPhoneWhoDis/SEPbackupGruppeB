@@ -62,23 +62,27 @@ export class PieChartComponent implements OnInit {
     }
     this.getBarChartData();
   }
+
   public getBarChartData() {
+    console.log("getBarChartData");
     this.betroundService
       .getBetAmountPerUserInRound(this.routeNumId)
       .subscribe((data) => {
+        console.log("subscribe");
         this.chartData = data;
+        console.log(this.chartData);
         this.setChartLabels();
       });
-    console.log(this.chartLabels);
   }
 
   private setChartLabels() {
     if (this.chartData) {
-      const keys = new Set<string>();
-      this.chartData.forEach((map) => {
-        map.forEach((_, key) => keys.add(key));
-      });
-      this.chartLabels = Array.from(keys);
+      for (const map of this.chartData) {
+        for (const [key, value] of map.entries()) {
+          this.chartLabels.push(key);
+          this.chartSeries.push(value);
+        }
+      }
     }
   }
 }

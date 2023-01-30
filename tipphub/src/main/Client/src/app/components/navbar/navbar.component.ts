@@ -54,7 +54,6 @@ export class NavbarComponent implements OnInit {
           this.currentUser = data;
         });
       this.showButtons = true;
-      console.log(this.currentUser);
     }
   }
 }

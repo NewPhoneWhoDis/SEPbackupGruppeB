@@ -34,7 +34,6 @@ export class BetsOverviewComponent implements OnInit {
       .getUserById(this.storageService.getLoggedUser())
       .subscribe((data) => {
         this.currentUser = data;
-        console.log(this.currentUser);
         let bets = this.currentUser.bets;
         for (let i = 0; i < bets.length; i++) {
           if (bets[i].betround?.id === this.routeNumId) {

@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   error = "";
   loginRequest: LoginRequest;
   checker = false;
-  typedCode = ""
-  code = ""
+  typedCode = "";
+  code = "";
 
   constructor(
     private authService: AuthService,
@@ -38,29 +38,25 @@ export class LoginComponent implements OnInit {
         this.storageService.saveUser(value);
         this.isLoggedIn = true;
         this.code = this.storageService.getCode();
-        console.log(this.code);
       },
       error: () => {
         this.loginFailed = true;
-        window.alert("Falsches Passwort oder Email!")
-        window.location.reload()
-      }
+        window.alert("Falsches Passwort oder Email!");
+        window.location.reload();
+      },
     });
-    if(!this.loginFailed){
+    if (!this.loginFailed) {
       this.switchChecker();
     }
-
-    console.log(this.loginRequest.email + " " + this.loginRequest.password);
-    console.log("Logged User: " + this.storageService.getLoggedUser());
   }
 
-  switchChecker():void{
-    this.checker=!this.checker;
+  switchChecker(): void {
+    this.checker = !this.checker;
   }
-  verifyCode():void{
-    this.authService.verify(this.code,this.typedCode);
+  verifyCode(): void {
+    this.authService.verify(this.code, this.typedCode);
   }
-  isVerified():boolean{
+  isVerified(): boolean {
     return this.authService.isVerified();
   }
 }
