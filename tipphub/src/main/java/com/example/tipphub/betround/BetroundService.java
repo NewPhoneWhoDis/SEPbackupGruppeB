@@ -467,6 +467,21 @@ public class BetroundService {
      return userAndBets.entrySet();
     }
 
+    public List<String> returnBettorsForBarDiagram(Long betroundId){
+        List<String> keys = getBetAmountPerUserInRound(betroundId).stream()
+                .map(entry -> entry.getKey())
+                .collect(Collectors.toList());
+        return keys;
+    }
+
+    public List<Integer> returnAmountBetsForBarDiagram(Long betroundId){
+        List<Integer> values = getBetAmountPerUserInRound(betroundId).stream()
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
+        return values;
+    }
+
+
 
 
 
@@ -529,6 +544,21 @@ public class BetroundService {
         }
         return teamWithScore.entrySet();
         }
+
+    public List<String> returnTeamsForPieDiagram(Long userId,Long betroundId){
+        List<String> keys = getPointsAUserMadeFromATeam(userId, betroundId).stream()
+                .map(entry -> entry.getKey())
+                .collect(Collectors.toList());
+        return keys;
+    }
+
+    public List<Integer> returnPointsForPieDiagram(Long userId,Long betroundId){
+        List<Integer> values = getPointsAUserMadeFromATeam(userId, betroundId).stream()
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
+        return values;
+    }
+
 
 
 }

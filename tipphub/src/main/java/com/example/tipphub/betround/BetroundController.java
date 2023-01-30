@@ -105,11 +105,35 @@ public class BetroundController {
             return betroundService.getBetAmountPerUserInRound(betroundId);
         }
 
+        @GetMapping("/getKeysBarDiagram/{betroundId}")
+        public List<String> getKeysBarDiagram(@PathVariable Long betroundId){
+        return betroundService.returnBettorsForBarDiagram(betroundId);
+        }
+
+    @GetMapping("/getValuesBarDiagram/{betroundId}")
+    public List<Integer> getValuesBarDiagram(@PathVariable Long betroundId){
+        return betroundService.returnAmountBetsForBarDiagram(betroundId);
+    }
+
     @GetMapping("/getPointsAUserMadeFromATeam/{userId}/{betroundId}")
     public Set<Map.Entry<String, Integer>> getPointsAUserMadeFromATeam(@PathVariable Long userId, @PathVariable Long betroundId) {
 
         return betroundService.getPointsAUserMadeFromATeam(userId, betroundId);
     }
+
+    @GetMapping("/getKeysPieDiagram/{userId}/{betroundId}")
+    public List<String> getKeysPieDiagram(@PathVariable Long userId,
+                                          @PathVariable Long betroundId){
+        return betroundService.returnTeamsForPieDiagram(userId,betroundId);
+    }
+
+    @GetMapping("/getValuesPieDiagram/{userId}/{betroundId}")
+    public List<Integer> getValuesPieDiagram(@PathVariable Long userId,
+            @PathVariable Long betroundId){
+        return betroundService.returnPointsForPieDiagram(userId,betroundId);
+    }
+
+
     }
 
 
