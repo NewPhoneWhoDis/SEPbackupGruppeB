@@ -21,81 +21,82 @@ public class StatisticTeamService {
     public StatisticTeamService(StatisticTeamRepository statisticTeamRepository,
                                 BetroundService betroundService,
                                 HubSystemRepository hubSystemRepository,
-                                BetroundRepository betroundRepository){
+                                BetroundRepository betroundRepository) {
         this.statisticTeamRepository = statisticTeamRepository;
         this.betroundService = betroundService;
         this.hubSystemRepository = hubSystemRepository;
         this.betroundRepository = betroundRepository;
     }
 
+    //Sorry das ist SpaghettiCode :(
     @Transactional
-    public List<StatisticTeam> getAllStatTeams(Long betroundId){
+    public List<StatisticTeam> getAllStatTeams(Long betroundId) {
         List<StatisticTeam> result;
         Betround betround = betroundRepository.findById(betroundId).get();
-        LocalDate currentDate = hubSystemRepository.findById(1L).get().getSystemDate();
+        League league = betround.getLeague();
 
-        if(betround.getLeague().getTeams().size() < 1){
+
+        if (league.getStatTeams().size() < 1) {
             List<String> teamNames = betroundService.getAllTeams(betroundId);
-            for(String name: teamNames){
+            for (String name : teamNames) {
                 StatisticTeam team = new StatisticTeam();
                 team.setName(name);
-                team.setLeague(betround.getLeague());
+                team.setLeague(league);
                 statisticTeamRepository.save(team);
-                betround.getLeague().getStatTeams().add(team);
+                league.getStatTeams().add(team);
             }
         }
 
-        for(Team teamIterator: betround.getLeague().getTeams()){
-            StatisticTeam statTeam= new StatisticTeam();
+        for (StatisticTeam statTeam : league.getStatTeams()) {
             statTeam.setPoints(0);
             statTeam.setDraws(0);
             statTeam.setWins(0);
             statTeam.setLoses(0);
             statTeam.setGoalDifference(0);
-          for(Bet betIterator: betround.getBets())
-                    if(betIterator.getDateOfGame().isBefore(currentDate)){
-                        if (betIterator.getHomeTeam().equals(teamIterator.getName())){
-                            evaluateTeam(statTeam,betIterator,true);
-                        }
-                        if(betIterator.getAwayTeam().equals(teamIterator.getName())){
-                            evaluateTeam(statTeam,betIterator,false);
-                        }
-                    }
+            for (Bet betIterator : betround.getBets()) {
+
+                if (betIterator.getHomeTeam().equals(statTeam.getName())) {
+                    evaluateTeam(statTeam, betIterator, true);
                 }
-        result = betround.getLeague().getStatTeams();
+                if (betIterator.getAwayTeam().equals(statTeam.getName())) {
+                    evaluateTeam(statTeam, betIterator, false);
+                }
+            }
+
+        }
+        result = league.getStatTeams();
         Collections.sort(result, (x, y) -> {
             return x.getPoints() - y.getPoints();
         });
         Collections.reverse(result);
 
-        return  result;
+        return result;
     }
 
 
-
     @Transactional
-    public void evaluateTeam(StatisticTeam team, Bet bet, boolean homeTeam){
-        if(homeTeam){
-            if(bet.getHomeTeamScore() > bet.getAwayTeamScore()){
-                team.setPoints(team.getPoints()+3);
-                team.setWins(team.getWins()+1);
+    public void evaluateTeam(StatisticTeam team, Bet bet, boolean homeTeam) {
+        if (homeTeam) {
+            if (bet.getHomeTeamScore() > bet.getAwayTeamScore()) {
+                team.setPoints(team.getPoints() + 3);
+                team.setWins(team.getWins() + 1);
                 team.setGoalDifference(team.getGoalDifference() + bet.getHomeTeamScore() - bet.getAwayTeamScore());
-            }else if(bet.getAwayTeamScore() > bet.getHomeTeamScore()){
+            } else if (bet.getAwayTeamScore() > bet.getHomeTeamScore()) {
                 team.setLoses(team.getLoses() + 1);
                 team.setGoalDifference(team.getGoalDifference() + bet.getHomeTeamScore() - bet.getAwayTeamScore());
-            }else{
+            } else {
                 team.setDraws(team.getDraws() + 1);
                 team.setPoints(team.getPoints() + 1);
             }
-        }else{
-            if(bet.getHomeTeamScore() < bet.getAwayTeamScore()){
-                team.setPoints(team.getPoints()+3);
-                team.setWins(team.getWins()+1);
+        } else {
+            if (bet.getHomeTeamScore() < bet.getAwayTeamScore()) {
+                team.setPoints(team.getPoints() + 3);
+                team.setWins(team.getWins() + 1);
                 team.setGoalDifference(team.getGoalDifference() + bet.getAwayTeamScore() - bet.getHomeTeamScore());
-            }else if(bet.getAwayTeamScore() < bet.getHomeTeamScore()){
+            } else if (bet.getAwayTeamScore() < bet.getHomeTeamScore()) {
                 team.setLoses(team.getLoses() + 1);
                 team.setGoalDifference(team.getGoalDifference() + bet.getAwayTeamScore() - bet.getHomeTeamScore());
-            }else{
+            } else {
                 team.setDraws(team.getDraws() + 1);
                 team.setPoints(team.getPoints() + 1);
             }

@@ -23,9 +23,6 @@ import javax.persistence.*;
         @JoinColumn(name = "leagueId", referencedColumnName = "id")
         private League league;
 
-        public StatisticTeam() {
-        }
-
         public StatisticTeam(String name, int points, int goalDifference, int wins, int draws, int loses, League league) {
             this.name = name;
             this.points = points;
@@ -34,6 +31,10 @@ import javax.persistence.*;
             this.draws = draws;
             this.loses = loses;
             this.league = league;
+        }
+
+        public StatisticTeam() {
+
         }
 
         public Long getId() {
