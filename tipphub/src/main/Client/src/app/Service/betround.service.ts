@@ -151,12 +151,9 @@ export class BetroundService {
     );
   }
 
-  public getBetAmountPerUserInRound(
-    userId: number,
-    betroundId: number | undefined
-  ) {
-    return this.http.get<string>(
-      `${this.betroundUrl}/getAmountOfBetsPerUserInRound/${userId}/${betroundId}`,
+  public getBetAmountPerUserInRound(betroundId: number | undefined) {
+    return this.http.get<Set<Map<string, number>>>(
+      `${this.betroundUrl}/getAmountOfBetsPerUserInRound/${betroundId}`,
       httpHeaders
     );
   }

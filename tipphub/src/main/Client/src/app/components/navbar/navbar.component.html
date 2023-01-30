@@ -57,10 +57,8 @@
   <!--LOGIN BUTTON-->
   <div class="navbar-end">
     <div *ngIf="currentUser" class="flex justify-center">
-      <a
-              href="mini-game" class="link link-primary m-auto mr-5"
-      >
-        {{currentUser.accountBalance}}
+      <a href="mini-game" class="link link-primary m-auto mr-5">
+        {{ currentUser.accountBalance }}
       </a>
       <label
         title="Benachrichtigungen"

@@ -34,7 +34,6 @@ import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
 import { ChatModalComponent } from "./components/chat-modal/chat-modal.component";
 import { MinigameComponent } from "./components/minigame/minigame.component";
 import { StatisticsPageComponent } from "./components/pages/statistics/statistics-page/statistics-page.component";
-import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -73,7 +72,6 @@ import { NgApexchartsModule } from "ng-apexcharts";
     SharedModule,
     BetsRoutingModule,
     BetsModule,
-    NgApexchartsModule,
   ],
   providers: [LeagueService, CookieService],
   bootstrap: [AppComponent],
