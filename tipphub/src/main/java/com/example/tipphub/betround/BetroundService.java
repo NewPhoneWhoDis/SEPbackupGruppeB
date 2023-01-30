@@ -100,7 +100,7 @@ public class BetroundService {
                     if (betOfUser.getHomeTeam().equals(actualGame.getHomeTeam()) &&
                             betOfUser.getAwayTeam().equals(actualGame.getAwayTeam()) &&
                             betOfUser.getDateOfGame().isEqual(actualGame.getDate())) {
-                        if(betOfUser.isMoneyBet()){
+                        if(betOfUser.isMoneyBet() && !betOfUser.isEvaluated()){
                             if(actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() && betOfUser.isHomeTeamWinner()){
                                 betOfUser.setProfit(actualGame.getHomeTeamOdd() * betOfUser.getAmountOfMoney());
                                 user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
@@ -111,6 +111,7 @@ public class BetroundService {
                                 betOfUser.setProfit(actualGame.getDrawOdd() * betOfUser.getAmountOfMoney());
                                 user.setAccountBalance(user.getAccountBalance() + betOfUser.getProfit());
                             }
+                            betOfUser.setEvaluated(true);
                         }else{
                             if (actualGame.getScoreHomeTeam() == betOfUser.getHomeTeamScore() &&
                                     actualGame.getScoreAwayTeam() == betOfUser.getAwayTeamScore()) {
@@ -158,15 +159,23 @@ public class BetroundService {
     }
 
     @Transactional
-    public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) {
+    public void betInRound(Long ownerId, Long betroundId, Bet wantedBet) throws RuntimeException {
 
         wantedBet.setBetOwner(userRepository.findById(ownerId).get());
         wantedBet.setBetround(betroundRepository.findById(betroundId).get());
 
         Game game = getGameForBet(wantedBet);
         if (game != null) {
-            betRepository.save(wantedBet);
+
             User owner = userRepository.findById(ownerId).get();
+            if(wantedBet.isMoneyBet()){
+                if(owner.getAccountBalance() < wantedBet.getAmountOfMoney()){
+                    throw new RuntimeException();
+                }
+                owner.setAccountBalance(owner.getAccountBalance() - wantedBet.getAmountOfMoney());
+            }
+
+            betRepository.save(wantedBet);
             Betround wantedRound = betroundRepository.findById(betroundId).get();
 
             owner.getBets().add(wantedBet);
@@ -177,9 +186,6 @@ public class BetroundService {
             wantedRound.getBets().add(wantedBet);
             wantedRound.getUsers().add(owner);
 
-            if(wantedBet.isMoneyBet()){
-                owner.setAccountBalance(owner.getAccountBalance() - wantedBet.getAmountOfMoney());
-            }
         }
 
     }
@@ -431,4 +437,98 @@ public class BetroundService {
         Betround betround = betroundRepository.findById(betroundId).get();
         return betround.getLeague().getId();
     }
+
+    @Transactional
+    public int countBetAmountOfUserInRound(Long userId, Long betroundId) {
+        int count = 0;
+        User wantedUser = userRepository.findById(userId).get();
+        if (wantedUser.getBets().isEmpty()) {
+            return 0;
+        }
+        for (Bet betIterator : wantedUser.getBets()) {
+            if(betIterator.getBetround().getId()==betroundId){
+                count++;
+            }
+        }
+        return count;
+
+
+    }
+
+    @Transactional
+    public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(Long betroundId) {
+        Hashtable<String, Integer> userAndBets = new Hashtable<>();
+        Betround wantedRound= betroundRepository.findById(betroundId).get();
+       for(Bet betIterator: wantedRound.getBets()){
+           if(!(userAndBets.containsKey(betIterator.getBetOwner())))
+           userAndBets.put(betIterator.getBetOwner().getFirstName()+ betIterator.getBetOwner().getLastName()
+                   , countBetAmountOfUserInRound(betIterator.getBetOwner().getId(),betroundId));
+       }
+     return userAndBets.entrySet();
+    }
+
+
+
+
+
+    @Transactional
+    public int getEvaluationOfASingleTeamForAUserInRound(long userId, long betId, String teamName){
+        int evaluationOfTeam = 0;
+       for(Bet betIterator: userRepository.findById(userId).get().getBets()) {
+           if((betIterator.getHomeTeam().equalsIgnoreCase(teamName))||(betIterator.getAwayTeam().equalsIgnoreCase(teamName)))
+           for (Gameday gamedayIterator : leagueRepository.findById(betIterator.getBetround()
+                   .getLeague().getId()).get().getGameSchedule().getGamedayList()) {
+               for (Game actualGame : gamedayIterator.getGames()) {
+                   if (betIterator.getHomeTeam().equals(actualGame.getHomeTeam()) &&
+                           betIterator.getAwayTeam().equals(actualGame.getAwayTeam()) &&
+                            betIterator.getDateOfGame().isEqual(actualGame.getDate())) {
+
+                       if (actualGame.getScoreHomeTeam() == betIterator.getHomeTeamScore() &&
+                               actualGame.getScoreAwayTeam() ==  betIterator.getAwayTeamScore()) {
+                            betIterator.setBetScore(betIterator.getBetround().getScoreRightResult());
+                           evaluationOfTeam += betIterator.getBetScore();
+                       } else if (((actualGame.getScoreHomeTeam() - actualGame.getScoreAwayTeam())
+                               * -1) == ((betIterator.getHomeTeamScore() - betIterator.getAwayTeamScore()) * -1)) {
+                           betIterator.setBetScore(betIterator.getBetround().getScoreRightDiff());
+                           evaluationOfTeam += betIterator.getBetScore();
+                       } else if ((actualGame.getScoreHomeTeam() > actualGame.getScoreAwayTeam() &&
+                               betIterator.getHomeTeamScore() > betIterator.getAwayTeamScore()) ||
+                               (actualGame.getScoreHomeTeam() < actualGame.getScoreAwayTeam() &&
+                                       betIterator.getHomeTeamScore() < betIterator.getAwayTeamScore())) {
+                           betIterator.setBetScore(betIterator.getBetround().getScoreRightWin());
+                           evaluationOfTeam += betIterator.getBetScore();
+                       } else {
+                           betIterator.setBetScore(0);
+                           evaluationOfTeam += betIterator.getBetScore();
+                       }
+
+                   }
+
+               }
+           }
+       }
+        return evaluationOfTeam;
+        }
+
+
+
+        @Transactional
+        public Set<Map.Entry<String, Integer>> getPointsAUserMadeFromATeam (long userId, long betroundId) {
+        User wantedUser= userRepository.findById(userId).get();
+        List<Bet> betsOfRound= new ArrayList<>();
+        for(Bet betIterator: wantedUser.getBets()){
+            if(betIterator.getBetround().getId()==betroundId){
+                betsOfRound.add(betIterator);
+            }
+        }
+        Hashtable<String, Integer> teamWithScore = new Hashtable<>();
+        for(Bet betInRoundIterator: betsOfRound){
+            teamWithScore.put(betInRoundIterator.getHomeTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getHomeTeam()));
+            teamWithScore.put(betInRoundIterator.getAwayTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getAwayTeam()));
+
+        }
+        return teamWithScore.entrySet();
+        }
+
+
 }

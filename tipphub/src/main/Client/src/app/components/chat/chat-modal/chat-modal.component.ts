@@ -30,14 +30,12 @@ export class ChatModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    const user = window.sessionStorage.getItem("clickedFriend");
-    if (user) {
-      this.clickedFriend= JSON.parse(user);
-      console.log('This is the friend' + this.clickedFriend?.id);
-    }
-
     this.intervalId = setInterval(() => {
+      const user = window.sessionStorage.getItem("clickedFriend");
+      if (user) {
+        this.clickedFriend= JSON.parse(user);
+        console.log('This is the friend' + this.clickedFriend?.id);
+      }
       this.subscription = this.userService.getUserById(this.storageService.getLoggedUser())
         .pipe(
         switchMap(user => {
@@ -50,6 +48,8 @@ export class ChatModalComponent implements OnInit {
         })
         ).subscribe(data => this.friendMessages = data);
     }, 2000);
+    
+
   }
 
   ngOnDestroy() {

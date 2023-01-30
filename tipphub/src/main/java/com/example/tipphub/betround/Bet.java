@@ -49,6 +49,7 @@ public class Bet {
     private boolean draw;
     private double amountOfMoney;
     private double profit;
+    private boolean evaluated;
 
     public Bet() {
     }
@@ -220,5 +221,13 @@ public class Bet {
 
     public void setProfit(double profit) {
         this.profit = profit;
+    }
+
+    public boolean isEvaluated() {
+        return evaluated;
+    }
+
+    public void setEvaluated(boolean evaluated) {
+        this.evaluated = evaluated;
     }
 }

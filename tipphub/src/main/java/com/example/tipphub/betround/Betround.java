@@ -52,6 +52,7 @@ public class Betround {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
     private List<BetroundNickname> betroundNicknames = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "betround")
     private List<Message> groupChatMessages = new ArrayList<>();
 
