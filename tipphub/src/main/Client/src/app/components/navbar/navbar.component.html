@@ -55,9 +55,10 @@
   <div class="navbar-end">
     <div *ngIf="currentUser" class="flex justify-center">
       <a
-              href="mini-game" class="link link-primary m-auto mr-5"
+              href="mini-game" class="btn btn-outline btn-primary mr-4"
       >
-        {{currentUser.accountBalance}}
+        <span class="text-[#d6d6d6] mr-2 ml-2">{{currentUser.accountBalance}}</span>
+      <img src="assets/images/tippcoin.png" class="w-8 h-8">
       </a>
       <label
         title="Benachrichtigungen"

@@ -1,1 +1,28 @@
-<div class="flex flex-row"></div>
+<div class="flex w-screen h-screen justify-between z-0">
+    <div id="ad" *ngIf="showAndrii" class="fixed -bottom-72 left-0 z-40">
+        <div>
+            <button *ngIf="showAd" class="btn btn-circle btn-outline btn-xs right-0 top-0 absolute" (click)="closePopup()">x</button>
+            <a href="/bets-and-pieces">
+                <img *ngIf="!showAd" src="./assets/images/Andriison.png" class="w-80 h-80">
+                <img *ngIf="showAd && randomNum === 2" src="./assets/images/Andrii_Popup2.png" class="w-80 h-80">
+                <img *ngIf="showAd && randomNum === 1" src="./assets/images/Andrii_Popup1.png" class="w-80 h-80">
+            </a>
+
+        </div>
+
+    </div>
+    <app-friendslist class="absolute inset-y-0 right-0 z-20"></app-friendslist>
+    <div class="hero min-h-screen" style="background-image: url(/assets/images/background.jpg);">
+        <div class="hero-overlay bg-opacity-60"></div>
+        <div class="hero-content text-center text-neutral-content">
+            <div class="max-w-md">
+                <h1 class="mb-5 text-5xl font-bold">Willst du mittippen?</h1>
+                <p class="mb-5">
+                    Millionen von Nutzern gewinnen täglich! Sei jetzt einer von ihnen!
+                </p>
+                <a *ngIf="isLoggedIn" class="btn btn-primary" href="/bets-and-pieces">Komm in die Tipprunde!</a>
+                <label for="login-modal" *ngIf="!isLoggedIn" class="btn btn-primary">Logge dich erst ein</label>
+            </div>
+        </div>
+    </div>
+</div>
