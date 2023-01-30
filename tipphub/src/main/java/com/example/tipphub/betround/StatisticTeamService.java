@@ -55,12 +55,15 @@ public class StatisticTeamService {
             statTeam.setGoalDifference(0);
             for (Bet betIterator : betround.getBets()) {
 
-                if (betIterator.getHomeTeam().equals(statTeam.getName())) {
-                    evaluateTeam(statTeam, betIterator, true);
+                if(!betIterator.isMoneyBet()){
+                    if (betIterator.getHomeTeam().equals(statTeam.getName())) {
+                        evaluateTeam(statTeam, betIterator, true);
+                    }
+                    if (betIterator.getAwayTeam().equals(statTeam.getName())) {
+                        evaluateTeam(statTeam, betIterator, false);
+                    }
                 }
-                if (betIterator.getAwayTeam().equals(statTeam.getName())) {
-                    evaluateTeam(statTeam, betIterator, false);
-                }
+
             }
 
         }
