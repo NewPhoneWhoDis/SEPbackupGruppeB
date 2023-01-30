@@ -21,6 +21,7 @@ export class MinigameComponent implements OnInit {
   currentUser : User | undefined;
   oneTime : boolean = true;
   showAd : boolean = false;
+  showAndrii : boolean = true;
 
   constructor(private storageService : StorageService, private userService : UserService) { }
 
@@ -143,5 +144,10 @@ export class MinigameComponent implements OnInit {
     this.isCovered = false;
     this.userService.addPoints(this.currentUser?.id,this.points).subscribe()
     this.points = 0;
+  }
+
+  closePopup(){
+    this.showAndrii = false;
+    this.showAd = false;
   }
 }
