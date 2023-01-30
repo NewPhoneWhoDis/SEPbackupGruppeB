@@ -31,7 +31,6 @@ export class homePage {
       let ads = document.getElementById("ad");
       if(ads){
         ads.style.top = ads.offsetTop - 1 + "px";
-        console.log(ads.offsetTop)
       }
 
       if(ads!.offsetTop <= 450){
