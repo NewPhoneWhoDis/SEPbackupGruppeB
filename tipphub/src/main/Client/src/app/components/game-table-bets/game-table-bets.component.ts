@@ -39,6 +39,9 @@ export class GameTableBetsComponent implements OnInit {
   homeTeamOdd: number | undefined;
   awayTeamOdd: number | undefined;
   drawOdd: number | undefined;
+  numberOfBetrounds: number = 0;
+  numberOfBetroundsArray: Array<number> = new Array();
+  isAdmin: Boolean | undefined;
 
   constructor(
     private leagueService: LeagueService,
@@ -56,6 +59,8 @@ export class GameTableBetsComponent implements OnInit {
       .subscribe((data) => {
         this.currentUser = data;
       });
+
+    this.isAdmin = this.storageService.isCurrentUserAdmin();
 
     this.routeId = this.route.snapshot.paramMap.get("id");
     if (this.routeId) {
@@ -83,7 +88,6 @@ export class GameTableBetsComponent implements OnInit {
           // @ts-ignore
           this.leagues[m].teams = data;
         });
-        console.log(this.leagues[m]);
         this.betroundService
           .getBestBetters(this.leagues[m].id)
           .subscribe((data) => {
@@ -137,6 +141,19 @@ export class GameTableBetsComponent implements OnInit {
           }
         }
         this.leaguesWithGames.set(this.leagues[m], games);
+
+        this.leagueService
+          .getNumberOfBetrounds(this.leagues[m].id)
+          .subscribe((data) => {
+            //@ts-ignore
+            this.leagues[m].numberOfBetrounds = data;
+          });
+        this.leagueService
+          .getNumberOfBettors(this.leagues[m].id)
+          .subscribe((data) => {
+            //@ts-ignore
+            this.leagues[m].numberOfBettors = data;
+          });
       }
     });
   }
@@ -229,5 +246,9 @@ export class GameTableBetsComponent implements OnInit {
 
   showTeamTable(league: League) {
     this.teams = league.teams;
+  }
+
+  resetNumberOfBettors(leagueId: number | undefined) {
+    this.leagueService.resetNumberOfBettors(leagueId).subscribe();
   }
 }
