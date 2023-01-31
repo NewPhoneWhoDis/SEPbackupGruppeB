@@ -1,5 +1,5 @@
 <div class="flex w-screen h-screen justify-between z-0">
-    <div id="ad" *ngIf="showAndrii" class="fixed -bottom-72 left-0 z-40">
+    <div id="ad" *ngIf="showAndrii && isLoggedIn" class="fixed -bottom-72 left-0 z-40">
         <div>
             <button *ngIf="showAd" class="btn btn-circle btn-outline btn-xs right-0 top-0 absolute" (click)="closePopup()">x</button>
             <a href="/bets-and-pieces">
