@@ -69,29 +69,28 @@
       (click)="showTeamTable(league.key)"
       >Tabelle der Liga</label
     >
-    <div *ngIf="isAdmin">
-      <div class="px-8">
-        <!-- The button to open modal -->
-        <label
-          class="btn text-l h-20"
-          (click)="resetNumberOfBettors(league.key.id)"
-          >Anzahl Tipprunden
-          <div class="badge badge-primary ml-2">
-            {{ league.key.numberOfBetrounds }}
-          </div>
-        </label>
-      </div>
-      <div class="gap-5">
-        <!-- The button to open modal -->
-        <label
-          class="btn text-l h-20"
-          (click)="resetNumberOfBettors(league.key.id)"
-          >Anzahl Nutzer
-          <div class="badge badge-primary ml-2">
-            {{ league.key.numberOfBettors }}
-          </div>
-        </label>
-      </div>
+
+    <div class="px-8" *ngIf="isAdmin">
+      <!-- The button to open modal -->
+      <label
+        class="btn text-l h-20"
+        (click)="resetNumberOfBettors(league.key.id)"
+        >Anzahl Tipprunden
+        <div class="badge badge-primary ml-2">
+          {{ league.key.numberOfBetrounds }}
+        </div>
+      </label>
+    </div>
+    <div class="gap-5" *ngIf="isAdmin">
+      <!-- The button to open modal -->
+      <label
+        class="btn text-l h-20"
+        (click)="resetNumberOfBettors(league.key.id)"
+        >Anzahl Nutzer
+        <div class="badge badge-primary ml-2">
+          {{ league.key.numberOfBettors }}
+        </div>
+      </label>
     </div>
   </div>
   <table
