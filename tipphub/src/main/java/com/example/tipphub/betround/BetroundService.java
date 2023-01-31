@@ -27,6 +27,7 @@ public class BetroundService {
     private final HubSystemRepository hubSystemRepository;
     private final EmailSenderService emailSenderService;
     private final BetroundNicknameRepository betroundNicknameRepository;
+    //private final LeagueService leagueService;
 
     @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
@@ -35,7 +36,7 @@ public class BetroundService {
             HubSystemRepository hubSystemRepository,
             GameRepository gameRepository,
             EmailSenderService emailSenderService,
-            UserService userService,
+            //LeagueService leagueService,
             BetroundNicknameRepository betroundNicknameRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
@@ -45,6 +46,7 @@ public class BetroundService {
         this.gameRepository = gameRepository;
         this.emailSenderService = emailSenderService;
         this.betroundNicknameRepository = betroundNicknameRepository;
+        //this.leagueService = leagueService;
     }
 
     @Transactional
@@ -74,7 +76,7 @@ public class BetroundService {
                 betRepository.save(bet);
             }
         }
-
+        leagueOfBetround.setNumberOfBetrounds(leagueOfBetround.getNumberOfBetrounds()+1);
     }
 
     @Transactional
@@ -186,6 +188,8 @@ public class BetroundService {
             wantedRound.getBets().add(wantedBet);
             wantedRound.getUsers().add(owner);
 
+            League league = wantedRound.getLeague();
+            league.setNumberOfBettors(league.getNumberOfBettors()+1);
         }
 
     }
@@ -458,21 +462,38 @@ public class BetroundService {
     @Transactional
     public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(Long betroundId) {
         Hashtable<String, Integer> userAndBets = new Hashtable<>();
-        Betround wantedRound= betroundRepository.findById(betroundId).get();
-       for(Bet betIterator: wantedRound.getBets()){
-           if(!(userAndBets.containsKey(betIterator.getBetOwner())))
-           userAndBets.put(betIterator.getBetOwner().getFirstName()+ betIterator.getBetOwner().getLastName()
-                   , countBetAmountOfUserInRound(betIterator.getBetOwner().getId(),betroundId));
-       }
-     return userAndBets.entrySet();
+        Betround wantedRound = betroundRepository.findById(betroundId).get();
+        for (Bet betIterator : wantedRound.getBets()) {
+            if (!(userAndBets.containsKey(betIterator.getBetOwner()))) {
+                userAndBets.put(betIterator.getBetOwner().getFirstName() +" "+ betIterator.getBetOwner().getLastName()
+                        , countBetAmountOfUserInRound(betIterator.getBetOwner().getId(), betroundId));
+            }
+
+        }
+        return userAndBets.entrySet();
+    }
+
+    public List<String> returnBettorsForBarDiagram(Long betroundId){
+        List<String> keys = getBetAmountPerUserInRound(betroundId).stream()
+                .map(entry -> entry.getKey())
+                .collect(Collectors.toList());
+        return keys;
+    }
+
+    public List<Integer> returnAmountBetsForBarDiagram(Long betroundId){
+        List<Integer> values = getBetAmountPerUserInRound(betroundId).stream()
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
+        return values;
     }
 
 
 
 
 
+
     @Transactional
-    public int getEvaluationOfASingleTeamForAUserInRound(long userId, long betId, String teamName){
+    public int getEvaluationOfASingleTeamForAUserInRound(long userId, String teamName){
         int evaluationOfTeam = 0;
        for(Bet betIterator: userRepository.findById(userId).get().getBets()) {
            if((betIterator.getHomeTeam().equalsIgnoreCase(teamName))||(betIterator.getAwayTeam().equalsIgnoreCase(teamName)))
@@ -523,12 +544,27 @@ public class BetroundService {
         }
         Hashtable<String, Integer> teamWithScore = new Hashtable<>();
         for(Bet betInRoundIterator: betsOfRound){
-            teamWithScore.put(betInRoundIterator.getHomeTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getHomeTeam()));
-            teamWithScore.put(betInRoundIterator.getAwayTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getAwayTeam()));
+            teamWithScore.put(betInRoundIterator.getHomeTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getHomeTeam()));
+            teamWithScore.put(betInRoundIterator.getAwayTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getAwayTeam()));
 
         }
         return teamWithScore.entrySet();
         }
+
+    public List<String> returnTeamsForPieDiagram(Long userId,Long betroundId){
+        List<String> keys = getPointsAUserMadeFromATeam(userId, betroundId).stream()
+                .map(entry -> entry.getKey())
+                .collect(Collectors.toList());
+        return keys;
+    }
+
+    public List<Integer> returnPointsForPieDiagram(Long userId,Long betroundId){
+        List<Integer> values = getPointsAUserMadeFromATeam(userId, betroundId).stream()
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
+        return values;
+    }
+
 
 
 }
