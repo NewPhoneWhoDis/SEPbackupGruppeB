@@ -53,7 +53,6 @@ export class BetroundCreationModalComponent implements OnInit {
               .addNewBetround(league, this.currentUser, this.betround)
               .subscribe((data: any) => {
                 this.betround = data;
-                console.log(league);
                 window.location.reload();
               });
           }

@@ -31,9 +31,10 @@ import { betroundPage } from "./components/pages/betroundPage/betroundPage";
 import { LeageCreationPageComponent } from "./components/pages/leage-creation-page/leage-creation-page.component";
 import { GameTableBetsComponent } from "./components/game-table-bets/game-table-bets.component";
 import { BetroundFilterPipePipe } from "./Pipes/betround-filter-pipe.pipe";
-import { ChatModalComponent } from './components/chat/chat-modal/chat-modal.component';
-import { GroupChatComponent } from './components/chat/group-chat/group-chat.component';
-import { MinigameComponent } from './components/minigame/minigame.component';
+import { MinigameComponent } from "./components/minigame/minigame.component";
+import { GroupChatComponent } from "./components/chat/group-chat/group-chat.component";
+import { StatisticsPageComponent } from "./components/pages/statistics/statistics-page/statistics-page.component";
+import { ChatModalComponent } from "./components/chat/chat-modal/chat-modal.component";
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MinigameComponent } from './components/minigame/minigame.component';
     BetroundFilterPipePipe,
     ChatModalComponent,
     MinigameComponent,
+    StatisticsPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -35,10 +35,11 @@ export class LeagueUpdateComponent implements OnInit {
             let newLeague = new League();
             newLeague.name = this.newName;
             newLeague.logoURL = this.newLogoURL;
-            this.leagueService.changeNameAndLogo(league.id, newLeague).subscribe((data) => {
-              console.log(newLeague);
-              window.location.reload();
-            });
+            this.leagueService
+              .changeNameAndLogo(league.id, newLeague)
+              .subscribe((data) => {
+                window.location.reload();
+              });
             return;
           }
         }
@@ -46,36 +47,34 @@ export class LeagueUpdateComponent implements OnInit {
     }
   }
 
-  onSubmitAddGame(){
-    if (this.leagues){
-      for(let league of this.leagues){
-        if(league.name == this.league.name){
-          if(league.id){
-            this.leagueService.addGame(league.id,this.game).subscribe(
-                () => {
-                  window.location.reload();
-                }
-            );
+  onSubmitAddGame() {
+    if (this.leagues) {
+      for (let league of this.leagues) {
+        if (league.name == this.league.name) {
+          if (league.id) {
+            this.leagueService.addGame(league.id, this.game).subscribe(() => {
+              window.location.reload();
+            });
           }
         }
       }
     }
   }
 
-  onSubmitDeleteGame(){
-    if (this.leagues){
-      for(let league of this.leagues){
-        for(let gameday of league.gameSchedule.gamedayList){
-          for(let currentGame of gameday.games){
-            if(currentGame.date == this.game.date &&
-                currentGame.awayTeam == this.game.awayTeam &&
-                currentGame.homeTeam == this.game.homeTeam){
-              if(currentGame.id){
-                this.leagueService.deleteGame(currentGame.id).subscribe(
-                    () =>{
-                      window.location.reload();
-                    }
-                );
+  onSubmitDeleteGame() {
+    if (this.leagues) {
+      for (let league of this.leagues) {
+        for (let gameday of league.gameSchedule.gamedayList) {
+          for (let currentGame of gameday.games) {
+            if (
+              currentGame.date == this.game.date &&
+              currentGame.awayTeam == this.game.awayTeam &&
+              currentGame.homeTeam == this.game.homeTeam
+            ) {
+              if (currentGame.id) {
+                this.leagueService.deleteGame(currentGame.id).subscribe(() => {
+                  window.location.reload();
+                });
               }
             }
           }
@@ -103,7 +102,6 @@ export class LeagueUpdateComponent implements OnInit {
       this.readFile(file, subscriber);
     });
     observable.subscribe((d) => {
-      
       this.newLogoURL = d;
     });
   }

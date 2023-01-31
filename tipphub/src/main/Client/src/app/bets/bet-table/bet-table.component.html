@@ -1,0 +1,36 @@
+<app-betround-details></app-betround-details>
+<table class="table table-zebra w-full">
+  <!-- head -->
+  <thead>
+    <tr>
+      <th class="p-4 w-1/4">Mannschaft</th>
+      <th class="p-4 w-1/3">Siege</th>
+      <th class="p-4 w-1/3">Niederlagen</th>
+      <th class="p-4 w-1/3">Unentschieden</th>
+      <th class="p-4 w-1/3">Tordifferenz</th>
+      <th class="p-4 w-1/8">
+        <span class="text-primary flex justify-end">Punkte</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let team of teams" class="">
+      <td class="p-4 w-1/4">{{ team.name }}</td>
+      <td class="p-4 w-1/3">
+        <b>{{ team.wins }}</b>
+      </td>
+      <td class="p-4 w-1/3">
+        <b>{{ team.loses }}</b>
+      </td>
+      <td class="p-4 w-1/3">
+        <b>{{ team.draws }}</b>
+      </td>
+      <td class="p-4 w-1/3">
+        <b>{{ team.goalDifference }}</b>
+      </td>
+      <td class="p-4 w-1/8">
+        <span class="text-primary flex justify-end">{{ team.points }} </span>
+      </td>
+    </tr>
+  </tbody>
+</table>

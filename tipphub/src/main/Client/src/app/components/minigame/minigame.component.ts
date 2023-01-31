@@ -20,17 +20,31 @@ export class MinigameComponent implements OnInit {
   y_vel : number = 5;
   currentUser : User | undefined;
   oneTime : boolean = true;
+  showAd : boolean = false;
+  showAndrii : boolean = true;
 
   constructor(private storageService : StorageService, private userService : UserService) { }
 
   ngOnInit(): void {
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
+
+    let popup = interval(100).subscribe(() => {
+      let ad = document.getElementById("ad");
+      if(ad){
+        ad.style.top = ad.offsetTop - 1 + "px";
+      }
+
+      if(ad!.offsetTop <= 450){
+        this.showAd = true;
+        popup.unsubscribe()
+      }
+    })
   }
 
   startGame(){
     this.gameStarted = true;
     this.moveBall();
-    let timer = interval(1000).subscribe((data) => {
+    let timer = interval(1000).subscribe(() => {
       if(this.secondsPassed >= 1){
         this.secondsPassed --;
       }
@@ -128,5 +142,10 @@ export class MinigameComponent implements OnInit {
     this.isCovered = false;
     this.userService.addPoints(this.currentUser?.id,this.points).subscribe()
     this.points = 0;
+  }
+
+  closePopup(){
+    this.showAndrii = false;
+    this.showAd = false;
   }
 }

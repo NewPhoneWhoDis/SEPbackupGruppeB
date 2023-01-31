@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from "../Model/User";
 import { LoginRequest } from "../Model/LoginRequest";
-import {CookieService} from "./cookie.service";
+import { CookieService } from "./cookie.service";
 
 const httpHeaders = {
   headers: new HttpHeaders({
@@ -29,23 +29,20 @@ export class AuthService {
     );
   }
 
-  verify(code:String, typedCode:String){
-    if(typedCode == "test" || code == typedCode){
-      window.sessionStorage.setItem("Status","verified");
-      console.log("verified");
-    }else{
-      window.sessionStorage.setItem("Status","unverified");
-      console.log("unverified");
-      window.alert("Falscher Code!")
+  verify(code: String, typedCode: String) {
+    if (typedCode == "test" || code == typedCode) {
+      window.sessionStorage.setItem("Status", "verified");
+    } else {
+      window.sessionStorage.setItem("Status", "unverified");
+      window.alert("Falscher Code!");
       window.location.reload();
     }
-
   }
 
-  isVerified():boolean{
-    if(window.sessionStorage.getItem("Status") == "verified"){
+  isVerified(): boolean {
+    if (window.sessionStorage.getItem("Status") == "verified") {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

@@ -23,7 +23,7 @@
       </div>
       <div *ngIf="!betroundToShow.isPublic && nicknameInBetround.length > 1">
         <label>Dein Spitzname: </label>
-        <div class="badge badge-accent">{{nicknameInBetround}}</div>
+        <div class="badge badge-accent">{{ nicknameInBetround }}</div>
       </div>
       <div *ngIf="betroundToShow.isPublic">
         <svg
@@ -44,9 +44,9 @@
       <div *ngIf="betroundToShow.isPublic" class="badge badge-primary">
         Öffentlich
       </div>
-      <div *ngIf="betroundToShow.isPublic && nicknameInBetround.length > 1 ">
+      <div *ngIf="betroundToShow.isPublic && nicknameInBetround.length > 1">
         <label>Dein Spitzname: </label>
-        <div class="badge badge-accent">{{nicknameInBetround}}</div>
+        <div class="badge badge-accent">{{ nicknameInBetround }}</div>
       </div>
     </h2>
   </div>
@@ -77,7 +77,19 @@
       >
     </li>
     <li class="list-none">
-      <a routerLink="{{ this.router.url }}/groupChat"  class="hover:active">Gruppen Chat</a>
+      <a routerLink="{{ this.router.url }}/groupChat" class="hover:active"
+        >Gruppen Chat</a
+      >
+    </li>
+    <li>
+      <a routerLink="{{ this.router.url }}/statistics" class="hover:active"
+        >Statistiken</a
+      >
+    </li>
+    <li>
+      <a routerLink="{{ this.router.url }}/tipptabelle" class="hover:active"
+        >Tipptabelle</a
+      >
     </li>
   </ul>
 </div>
@@ -126,11 +138,18 @@
         <h3 class="text-xl py-10">Gib deine gewünschten Spitznamen an!</h3>
         <input
           type="text"
-          placeholder="Beispielname" [(ngModel)]="nameToChange" name="nameToChange"
+          placeholder="Beispielname"
+          [(ngModel)]="nameToChange"
+          name="nameToChange"
           class="input input-bordered input-primary w-full max-w-xs"
         />
         <div class="py-6">
-          <button class="btn btn-primary" (click)="changeName($event, nameToChange)">Spitzname ändern</button>
+          <button
+            class="btn btn-primary"
+            (click)="changeName($event, nameToChange)"
+          >
+            Spitzname ändern
+          </button>
         </div>
       </form>
       <div class="modal-action">

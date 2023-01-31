@@ -162,16 +162,15 @@ public class LeagueService {
 
     @Transactional
     public int getNumberOfBetrounds(long leagueId){
-        int sum= 0;
+        return leagueRepository.findById(leagueId).get().getNumberOfBetrounds();
+    }
+
+    @Transactional
+    public void countBetrounds(long leagueId){
         League wantedLeague= leagueRepository.findById(leagueId).get();
-        if(wantedLeague.getBetrounds().isEmpty()){
-            return 0;
-        }
-        for(Betround roundIterator:  wantedLeague.getBetrounds()){
-            sum++;
-        }
+        int sum = wantedLeague.getBetrounds().size();
+
         wantedLeague.setNumberOfBetrounds(sum);
-        return sum;
     }
 
     @Transactional
@@ -183,25 +182,18 @@ public class LeagueService {
 
     @Transactional
     public int getNumberOfBettors(long leagueId){
+        return leagueRepository.findById(leagueId).get().getNumberOfBettors();
+    }
+
+    @Transactional
+    public void countNumberOfBettors(long leagueId){
         int sum= 0;
         League wantedLeague= leagueRepository.findById(leagueId).get();
-        if(wantedLeague.getBetrounds().isEmpty()){
-            return 0;
-        }
 
         for(Betround roundIterator:  wantedLeague.getBetrounds()){
-            for(User userIterator: roundIterator.getUsers()){
-               if(roundIterator.getUsers().isEmpty()){
-                   return 0;
-               }
-               else{
-                   if(!(userIterator.getBets().isEmpty()))
-                   sum++;
-               }
-            }
+            sum += roundIterator.getUsers().size();
         }
         wantedLeague.setNumberOfBettors(sum);
-        return sum;
     }
 
     @Transactional

@@ -68,7 +68,7 @@ public class BetroundServiceTest {
 
 
     @Mock
-    UserService mockUser;
+    LeagueService mockLeague;
 
     @Mock
     TeamService mockTeamService;
@@ -92,7 +92,7 @@ public class BetroundServiceTest {
         // Create instance of the class under test
         BetroundService service = new BetroundService(mockBetroundRepository, mockBetRepository,
                 mockUserRepository, mockLeagueRepository, mockHubSystemRepo, mockGameRepository,
-                mockSender, mockUser, betroundNicknameRepository);
+                mockSender, betroundNicknameRepository);
 
         // Call the method under test
         service.addNewBetround(1L, 2L, Mockito.mock(Betround.class));
