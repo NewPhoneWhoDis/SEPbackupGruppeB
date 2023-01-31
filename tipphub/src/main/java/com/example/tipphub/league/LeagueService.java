@@ -162,6 +162,11 @@ public class LeagueService {
 
     @Transactional
     public int getNumberOfBetrounds(long leagueId){
+        return leagueRepository.findById(leagueId).get().getNumberOfBetrounds();
+    }
+
+    @Transactional
+    public int countBetrounds(long leagueId){
         int sum= 0;
         League wantedLeague= leagueRepository.findById(leagueId).get();
         if(wantedLeague.getBetrounds().isEmpty()){
@@ -183,6 +188,11 @@ public class LeagueService {
 
     @Transactional
     public int getNumberOfBettors(long leagueId){
+        return leagueRepository.findById(leagueId).get().getNumberOfBettors();
+    }
+
+    @Transactional
+    public int countNumberOfBettors(long leagueId){
         int sum= 0;
         League wantedLeague= leagueRepository.findById(leagueId).get();
         if(wantedLeague.getBetrounds().isEmpty()){
@@ -191,13 +201,13 @@ public class LeagueService {
 
         for(Betround roundIterator:  wantedLeague.getBetrounds()){
             for(User userIterator: roundIterator.getUsers()){
-               if(roundIterator.getUsers().isEmpty()){
-                   return 0;
-               }
-               else{
-                   if(!(userIterator.getBets().isEmpty()))
-                   sum++;
-               }
+                if(roundIterator.getUsers().isEmpty()){
+                    return 0;
+                }
+                else{
+                    if(!(userIterator.getBets().isEmpty()))
+                        sum++;
+                }
             }
         }
         wantedLeague.setNumberOfBettors(sum);

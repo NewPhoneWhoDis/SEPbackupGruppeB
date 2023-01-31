@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {LeagueService} from "../../Service/league.service";
-import {League} from "../../Model/League";
-import {NgxCsvParser, NgxCSVParserError} from "ngx-csv-parser";
-import {Observable, Subscriber} from "rxjs";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { LeagueService } from "../../Service/league.service";
+import { League } from "../../Model/League";
+import { NgxCsvParser, NgxCSVParserError } from "ngx-csv-parser";
+import { Observable, Subscriber } from "rxjs";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-league-creation-modal",
@@ -15,26 +15,29 @@ export class LeagueCreationModalComponent implements OnInit {
   csvRecords: any;
   header: boolean = false;
 
-  leagueNameValidator = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  leagueCSVValidator = new FormControl('', [Validators.required]);
-  leagueLogoImageValidator = new FormControl('', [Validators.required]);
-  leagueNumberOfGameDaysValidator = new FormControl('', [Validators.required]);
-  leagueDateOfGameValidator = new FormControl('', [Validators.required]);
-  leagueTeamOneValidator = new FormControl('', [Validators.required]);
-  leagueTeamTwoValidator = new FormControl('', [Validators.required]);
+  leagueNameValidator = new FormControl("", [
+    Validators.required,
+    Validators.minLength(3),
+  ]);
+  leagueCSVValidator = new FormControl("", [Validators.required]);
+  leagueLogoImageValidator = new FormControl("", [Validators.required]);
+  leagueNumberOfGameDaysValidator = new FormControl("", [Validators.required]);
+  leagueDateOfGameValidator = new FormControl("", [Validators.required]);
+  leagueTeamOneValidator = new FormControl("", [Validators.required]);
+  leagueTeamTwoValidator = new FormControl("", [Validators.required]);
 
   leagueCreationValidationForm = new FormGroup({
     leagueName: this.leagueNameValidator,
     csvFile: this.leagueCSVValidator,
     logoImage: this.leagueLogoImageValidator,
-  })
+  });
 
   gamePlanCreationValidationForm = new FormGroup({
     numberOfGamedays: this.leagueNumberOfGameDaysValidator,
     dateOfGame: this.leagueDateOfGameValidator,
     teamOne: this.leagueTeamOneValidator,
-    teamTwo: this.leagueTeamTwoValidator
-  })
+    teamTwo: this.leagueTeamTwoValidator,
+  });
 
   constructor(
     private leagueService: LeagueService,
@@ -50,12 +53,10 @@ export class LeagueCreationModalComponent implements OnInit {
       this.league,
       this.csvRecords
     );
-    console.log(this.league);
     this.leagueService.addNewLeague(this.league).subscribe((data) => {
       this.league = data;
       window.location.reload();
     });
-
   }
 
   closePopUp() {
@@ -71,22 +72,18 @@ export class LeagueCreationModalComponent implements OnInit {
     this.header =
       (this.header as unknown as string) === "true" || this.header === true;
     this.ngxCsvParser
-        .parse(files[0], {
-          header: this.header,
-          delimiter: ",",
-          encoding: "utf8",
-        })
-        .pipe()
-        .subscribe({
-          next: (result): void => {
-            console.log("Result", result);
-            this.csvRecords = result;
-          },
-          error: (error: NgxCSVParserError): void => {
-            console.log("Error", error);
-          },
-        });
-
+      .parse(files[0], {
+        header: this.header,
+        delimiter: ",",
+        encoding: "utf8",
+      })
+      .pipe()
+      .subscribe({
+        next: (result): void => {
+          this.csvRecords = result;
+        },
+        error: (error: NgxCSVParserError): void => {},
+      });
   }
 
   saveImage($event: any): void {
@@ -94,26 +91,26 @@ export class LeagueCreationModalComponent implements OnInit {
     this.convertToBase64(file);
   }
 
-  convertToBase64(file: File){
+  convertToBase64(file: File) {
     const observable = new Observable((subscriber: Subscriber<any>) => {
-      this.readFile(file,subscriber);
+      this.readFile(file, subscriber);
     });
-    observable.subscribe((d) =>{
+    observable.subscribe((d) => {
       this.league.logoURL = d;
-    })
+    });
   }
 
-  readFile(file: File,subscriber: Subscriber<any>){
+  readFile(file: File, subscriber: Subscriber<any>) {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
 
-    fileReader.onload = () =>{
+    fileReader.onload = () => {
       subscriber.next(fileReader.result);
       subscriber.complete();
     };
-    fileReader.onerror = (error) =>{
+    fileReader.onerror = (error) => {
       subscriber.error(error);
       subscriber.complete();
-    }
+    };
   }
 }

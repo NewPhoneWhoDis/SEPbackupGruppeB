@@ -9,7 +9,6 @@ import { Component, OnInit } from "@angular/core";
 })
 export class BetroundTableComponent implements OnInit {
   appObservable = new Observable((observer) => {
-    console.log("test");
     observer.next("1");
     observer.next("2");
     observer.next("3");
@@ -19,8 +18,6 @@ export class BetroundTableComponent implements OnInit {
   constructor(public leagueService: LeagueService) {}
 
   ngOnInit(): void {
-    this.appObservable.subscribe((val) => {
-      console.log(val);
-    });
+    this.appObservable.subscribe((val) => {});
   }
 }
