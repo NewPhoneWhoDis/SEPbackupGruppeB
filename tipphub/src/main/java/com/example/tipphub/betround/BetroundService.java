@@ -27,6 +27,7 @@ public class BetroundService {
     private final HubSystemRepository hubSystemRepository;
     private final EmailSenderService emailSenderService;
     private final BetroundNicknameRepository betroundNicknameRepository;
+    private final LeagueService leagueService;
 
     @Autowired
     public BetroundService(BetroundRepository betroundRepository, BetRepository betRepository,
@@ -35,7 +36,7 @@ public class BetroundService {
             HubSystemRepository hubSystemRepository,
             GameRepository gameRepository,
             EmailSenderService emailSenderService,
-            UserService userService,
+            LeagueService leagueService,
             BetroundNicknameRepository betroundNicknameRepository) {
         this.betroundRepository = betroundRepository;
         this.betRepository = betRepository;
@@ -45,6 +46,7 @@ public class BetroundService {
         this.gameRepository = gameRepository;
         this.emailSenderService = emailSenderService;
         this.betroundNicknameRepository = betroundNicknameRepository;
+        this.leagueService = leagueService;
     }
 
     @Transactional
@@ -74,7 +76,7 @@ public class BetroundService {
                 betRepository.save(bet);
             }
         }
-
+        leagueService.countBetrounds(leagueOfRound);
     }
 
     @Transactional
@@ -286,6 +288,7 @@ public class BetroundService {
         }
         user.getBetrounds().add(betround);
         betround.getUsers().add(user);
+        leagueService.countNumberOfBettors(betround.getLeague().getId());
     }
 
     public void sendEmailBetroundInvite(Long betroundId, Long userId) {
