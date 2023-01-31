@@ -251,4 +251,8 @@ export class GameTableBetsComponent implements OnInit {
   resetNumberOfBettors(leagueId: number | undefined) {
     this.leagueService.resetNumberOfBettors(leagueId).subscribe();
   }
+
+  resetNumberOfBetrounds(leagueId: number | undefined) {
+    this.leagueService.resetNumberOfBetrounds(leagueId).subscribe();
+  }
 }
