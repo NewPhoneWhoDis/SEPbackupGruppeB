@@ -50,11 +50,13 @@ export class BarChartComponent implements OnInit {
   public getBarChartData() {
     this.betroundService.getKeyBarDiagram(this.routeNumId).subscribe((data) => {
       this.chartLabels = data;
+      sessionStorage.setItem("chartlabels", JSON.stringify(this.chartLabels));
     });
     this.betroundService
       .getValuesBarDiagram(this.routeNumId)
       .subscribe((data) => {
         this.chartSeries = data;
+        sessionStorage.setItem("chartseries", JSON.stringify(this.chartSeries));
       });
   }
 
