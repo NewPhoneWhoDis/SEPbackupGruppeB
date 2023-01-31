@@ -458,13 +458,15 @@ public class BetroundService {
     @Transactional
     public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(Long betroundId) {
         Hashtable<String, Integer> userAndBets = new Hashtable<>();
-        Betround wantedRound= betroundRepository.findById(betroundId).get();
-       for(Bet betIterator: wantedRound.getBets()){
-           if(!(userAndBets.containsKey(betIterator.getBetOwner())))
-           userAndBets.put(betIterator.getBetOwner().getFirstName()+ betIterator.getBetOwner().getLastName()
-                   , countBetAmountOfUserInRound(betIterator.getBetOwner().getId(),betroundId));
-       }
-     return userAndBets.entrySet();
+        Betround wantedRound = betroundRepository.findById(betroundId).get();
+        for (Bet betIterator : wantedRound.getBets()) {
+            if (!(userAndBets.containsKey(betIterator.getBetOwner()))) {
+                userAndBets.put(betIterator.getBetOwner().getFirstName() +" "+ betIterator.getBetOwner().getLastName()
+                        , countBetAmountOfUserInRound(betIterator.getBetOwner().getId(), betroundId));
+            }
+
+        }
+        return userAndBets.entrySet();
     }
 
     public List<String> returnBettorsForBarDiagram(Long betroundId){
@@ -487,7 +489,7 @@ public class BetroundService {
 
 
     @Transactional
-    public int getEvaluationOfASingleTeamForAUserInRound(long userId, long betId, String teamName){
+    public int getEvaluationOfASingleTeamForAUserInRound(long userId, String teamName){
         int evaluationOfTeam = 0;
        for(Bet betIterator: userRepository.findById(userId).get().getBets()) {
            if((betIterator.getHomeTeam().equalsIgnoreCase(teamName))||(betIterator.getAwayTeam().equalsIgnoreCase(teamName)))
@@ -538,8 +540,8 @@ public class BetroundService {
         }
         Hashtable<String, Integer> teamWithScore = new Hashtable<>();
         for(Bet betInRoundIterator: betsOfRound){
-            teamWithScore.put(betInRoundIterator.getHomeTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getHomeTeam()));
-            teamWithScore.put(betInRoundIterator.getAwayTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getId(),betInRoundIterator.getAwayTeam()));
+            teamWithScore.put(betInRoundIterator.getHomeTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getHomeTeam()));
+            teamWithScore.put(betInRoundIterator.getAwayTeam(),getEvaluationOfASingleTeamForAUserInRound(userId,betInRoundIterator.getAwayTeam()));
 
         }
         return teamWithScore.entrySet();
