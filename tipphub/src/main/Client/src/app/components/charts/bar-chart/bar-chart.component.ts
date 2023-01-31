@@ -1,11 +1,19 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import * as ApexCharts from "apexcharts";
+import {
+  ApexChart,
+  ApexDataLabels,
+  ApexNonAxisChartSeries,
+  ApexPlotOptions,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ChartType,
+} from "ng-apexcharts";
 import { AuthService } from "src/app/Service/auth.service";
-import { StorageService } from "src/app/Service/storage.service";
 import { BetroundService } from "src/app/Service/betround.service";
+import { StorageService } from "src/app/Service/storage.service";
 import { UserService } from "src/app/Service/user.service";
-import { ChartType } from "../apex.model";
-import { ApexChart } from "ng-apexcharts";
 
 @Component({
   selector: "app-bar-chart",
@@ -14,18 +22,31 @@ import { ApexChart } from "ng-apexcharts";
 })
 export class BarChartComponent implements OnInit {
   currentUser: number | undefined;
-  barChart!: ChartType;
-  showAdminData: boolean = false;
   routeId: string | null = "";
   routeNumId: number = 0;
   chartData!: Set<Map<string, number>>;
   chartLabels: string[] = [];
+  chartSeries: number[] = [];
 
   chartDetails: ApexChart = {
     type: "bar",
     toolbar: {
       show: true,
     },
+  };
+
+  xaxis: ApexXAxis = {
+    categories: this.chartLabels,
+  };
+
+  chartPlotOptions: ApexPlotOptions = {
+    bar: {
+      horizontal: true,
+    },
+  };
+
+  chartDataLabels: ApexDataLabels = {
+    enabled: false,
   };
 
   constructor(
@@ -42,31 +63,49 @@ export class BarChartComponent implements OnInit {
         .getUserById(this.storageService.getLoggedUser())
         .subscribe((data) => {
           this.currentUser = data.id;
+          this.getBarChartData();
         });
-    }
-    if (this.authService.isVerified()) {
-      this.showAdminData = this.storageService.isCurrentUserAdmin();
     }
     this.routeId = this.route.snapshot.paramMap.get("id");
     if (this.routeId) {
       this.routeNumId = +this.routeId;
     }
-    this.getBarChartData();
-    if (this.chartData) {
-      const keys = new Set<string>();
-      this.chartData.forEach((map) => {
-        map.forEach((_, key) => keys.add(key));
-      });
-      this.chartLabels = Array.from(keys);
-    }
-    console.log(this.chartLabels);
+    this.renderChart(this.chartLabels, this.chartSeries, "bar", "barchart");
   }
 
   public getBarChartData() {
+    this.betroundService.getKeyBarDiagram(this.routeNumId).subscribe((data) => {
+      this.chartLabels = data;
+    });
     this.betroundService
-      .getBetAmountPerUserInRound(this.routeNumId)
+      .getValuesBarDiagram(this.routeNumId)
       .subscribe((data) => {
-        this.chartData = data;
+        this.chartSeries = data;
       });
+  }
+
+  public renderChart(labeldata: any, maindata: any, type: any, id: any) {
+    const myChart = new ApexCharts(id, {
+      type: type,
+      data: {
+        labels: labeldata,
+        datasets: [
+          {
+            label: "# of Votes",
+            data: maindata,
+
+            borderColor: ["rgba(255, 99, 132, 1)"],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
   }
 }

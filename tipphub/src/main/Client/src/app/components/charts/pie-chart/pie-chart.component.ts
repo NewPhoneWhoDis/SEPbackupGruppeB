@@ -22,7 +22,7 @@ export class PieChartComponent implements OnInit {
   routeNumId: number = 0;
   chartData!: Set<Map<string, number>>;
   chartLabels: string[] = [];
-  chartSeries: ApexNonAxisChartSeries = [40, 32, 28, 55];
+  chartSeries: ApexNonAxisChartSeries = [];
 
   chartDetails: ApexChart = {
     type: "pie",
@@ -54,35 +54,26 @@ export class PieChartComponent implements OnInit {
         .getUserById(this.storageService.getLoggedUser())
         .subscribe((data) => {
           this.currentUser = data.id;
+          console.log(this.currentUser);
+          this.getBarChartData();
         });
     }
     this.routeId = this.route.snapshot.paramMap.get("id");
     if (this.routeId) {
       this.routeNumId = +this.routeId;
     }
-    this.getBarChartData();
   }
 
   public getBarChartData() {
-    console.log("getBarChartData");
     this.betroundService
-      .getBetAmountPerUserInRound(this.routeNumId)
+      .getKeyPieDiagram(this.currentUser, this.routeNumId)
       .subscribe((data) => {
-        console.log("subscribe");
-        this.chartData = data;
-        console.log(this.chartData);
-        this.setChartLabels();
+        this.chartLabels = data;
       });
-  }
-
-  private setChartLabels() {
-    if (this.chartData) {
-      for (const map of this.chartData) {
-        for (const [key, value] of map.entries()) {
-          this.chartLabels.push(key);
-          this.chartSeries.push(value);
-        }
-      }
-    }
+    this.betroundService
+      .getValuesPieDiagram(this.currentUser, this.routeNumId)
+      .subscribe((data) => {
+        this.chartSeries = data;
+      });
   }
 }

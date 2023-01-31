@@ -166,4 +166,38 @@ export class BetroundService {
       `http://localhost:8080/StatisticTeam/getAllTeams/${betroundId}`
     );
   }
+
+  public getKeyBarDiagram(
+    betroundId: number | undefined
+  ): Observable<Array<string>> {
+    return this.http.get<Array<string>>(
+      `${this.betroundUrl}/getKeysBarDiagram/${betroundId}`
+    );
+  }
+
+  public getValuesBarDiagram(
+    betroundId: number | undefined
+  ): Observable<Array<number>> {
+    return this.http.get<Array<number>>(
+      `${this.betroundUrl}/getValuesBarDiagram/${betroundId}`
+    );
+  }
+
+  public getKeyPieDiagram(
+    userId: number | undefined,
+    betroundId: number | undefined
+  ): Observable<Array<string>> {
+    return this.http.get<Array<string>>(
+      `${this.betroundUrl}/getKeysPieDiagram/${userId}/${betroundId}`
+    );
+  }
+
+  public getValuesPieDiagram(
+    userId: number | undefined,
+    betroundId: number | undefined
+  ): Observable<Array<number>> {
+    return this.http.get<Array<number>>(
+      `${this.betroundUrl}/getValuesPieDiagram/${userId}/${betroundId}`
+    );
+  }
 }
