@@ -27,12 +27,16 @@
           <a class="justify-between" href="ligen-management"> Ligen </a>
         </li>
         <li><a routerLink="bets-and-pieces">Bets Management</a></li>
-        <li><a *ngIf="currentUser" href="#chat-modal" class="btn">Chat</a></li>
+        <li>
+          <a *ngIf="currentUser" routerLink="groupChat" class="btn"
+            >Gruppen Chat</a
+          >
+        </li>
         <li><a href="statistiken">Stats</a></li>
       </ul>
     </div>
     <!--LOGO-BUTTON FUNCTIONS AS GO-HOME-BUTTON-->
-    <a class="btn btn-ghost normal-case text-xl" href="home"
+    <a class="btn btn-ghost normal-case text-xl" href="/"
       ><img
         class="h-8"
         src="../../../../assets/images/TippHubLogo_dark.png"
@@ -57,8 +61,11 @@
   <!--LOGIN BUTTON-->
   <div class="navbar-end">
     <div *ngIf="currentUser" class="flex justify-center">
-      <a href="mini-game" class="link link-primary m-auto mr-5">
-        {{ currentUser.accountBalance }}
+      <a href="mini-game" class="btn btn-outline btn-primary mr-4">
+        <span class="text-[#d6d6d6] mr-2 ml-2">{{
+          currentUser.accountBalance
+        }}</span>
+        <img src="assets/images/tippcoin.png" class="w-8 h-8" />
       </a>
       <label
         title="Benachrichtigungen"
@@ -100,5 +107,3 @@
     </div>
   </div>
 </div>
-
-<app-chat-modal></app-chat-modal>

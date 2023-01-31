@@ -70,6 +70,9 @@ public class BetroundServiceTest {
     @Mock
     UserService mockUser;
 
+    @Mock
+    TeamService mockTeamService;
+
     @Test
     void contextLoads() {
 
@@ -134,8 +137,8 @@ public class BetroundServiceTest {
             when(mockLeagueRepository.findById(1L)).thenReturn(java.util.Optional.of(mockLeague));
 
             // Call the method under test
-        LeagueService leagueService= new LeagueService(mockLeagueRepository,mockGamedayRepo,
-                mockGameScheduleRepo,mockGameRepository);
+        LeagueService leagueService= new LeagueService(mockLeagueRepository, mockGamedayRepo
+                ,mockGameScheduleRepo,mockGameRepository, mockTeamService);
             int result = leagueService.getNumberOfBettors(1L);
 
             // Assert that the result is as expected

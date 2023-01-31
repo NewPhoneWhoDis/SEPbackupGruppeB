@@ -36,6 +36,9 @@ export class GameTableBetsComponent implements OnInit {
   disabledAwayTeam: boolean = false;
   disabledDraw: boolean = false;
   teams: Array<Team> = new Array();
+  homeTeamOdd: number | undefined;
+  awayTeamOdd: number | undefined;
+  drawOdd: number | undefined;
 
   constructor(
     private leagueService: LeagueService,
@@ -76,12 +79,16 @@ export class GameTableBetsComponent implements OnInit {
         if (!this.leagueTable && this.leagues[m].id != this.leaugeId) {
           continue;
         }
-        this.leagueService.getAllTeams(this.leagues[m].id).subscribe();
-        this.betroundService
-          .getBestBetters(this.leagues[m].id)
-          .subscribe((data) => {
-            // @ts-ignore
-            this.leagues[m].topBetters = data;
+        this.leagueService.getAllTeams(this.leagues[m].id).subscribe((data) => {
+          // @ts-ignore
+          this.leagues[m].teams = data;
+        });
+        console.log(this.leagues[m])
+        this.betroundService.getBestBetters(this.leagues[m].id).subscribe((data) => {
+          // @ts-ignore
+          this.leagues[m].topBetters = data;
+          // @ts-ignore
+          if(this.leagues[m].topBetters.length < 3){
             // @ts-ignore
             if (this.leagues[m].topBetters.length < 3) {
               // @ts-ignore
@@ -138,6 +145,9 @@ export class GameTableBetsComponent implements OnInit {
     this.bet.awayTeam = game.awayTeam;
     this.bet.dateOfBet = this.systemDate;
     this.bet.dateOfGame = game.date;
+    this.homeTeamOdd = game.homeTeamOdd;
+    this.awayTeamOdd = game.awayTeamOdd;
+    this.drawOdd = game.drawOdd;
     // show popup tipp übernehmen
     for (let bet of this.currentUser.bets) {
       if (
@@ -159,15 +169,15 @@ export class GameTableBetsComponent implements OnInit {
     if (withMoney) {
       this.bet.moneyBet = true;
     }
-    this.betroundService
-      .betInRound(
-        this.storageService.getLoggedUser(),
-        this.routeNumId,
-        this.bet
-      )
-      .subscribe();
-    window.alert("Wette wurde erfolgreich platziert!");
-    location.reload();
+    this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe(
+        () => {
+          window.alert("Wette wurde erfolgreich platziert!")
+          location.reload()
+        },
+        () => {
+          window.alert("Du hast kein Geld, du Geringverdiener!!!")
+          location.reload()
+        });
   }
 
   getBetHelp(gameId: number | undefined): void {

@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
     const user = window.sessionStorage.getItem("clickedFriend");
     if (user) {
       this.clickedFriend= JSON.parse(user);
+      console.log(this.clickedFriend?.id);
     }
     this.userService.getUserById(this.storageService.getLoggedUser()).subscribe(data =>{this.currentUser = data});
     //this.friendslistService.isFriends(this.storageService.getLoggedUser(),this.storageService.getClickedUser()).subscribe((data) => {this.isFriend = data});

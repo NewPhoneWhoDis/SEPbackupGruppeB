@@ -2,11 +2,15 @@ package com.example.tipphub.league;
 
 import com.example.tipphub.betround.Betround;
 import com.example.tipphub.user.User;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import javax.transaction.Transactional;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -16,13 +20,20 @@ public class LeagueService {
     private GamedayRepository gamedayRepository;
     private GameScheduleRepository gameScheduleRepository;
     private GameRepository gameRepository;
+    private TeamService teamService;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @Autowired
-    public LeagueService(LeagueRepository leagueRepository, GamedayRepository gamedayRepository, GameScheduleRepository gameScheduleRepository, GameRepository gameRepository){
+    public LeagueService(LeagueRepository leagueRepository,
+                         GamedayRepository gamedayRepository,
+                         GameScheduleRepository gameScheduleRepository,
+                         GameRepository gameRepository,
+                         TeamService teamService){
         this.leagueRepository = leagueRepository;
         this.gameScheduleRepository = gameScheduleRepository;
         this.gamedayRepository = gamedayRepository;
         this.gameRepository = gameRepository;
+        this.teamService = teamService;
     }
 
     @Transactional
@@ -30,6 +41,7 @@ public class LeagueService {
         return leagueRepository.findAll();
     }
 
+    @Transactional
     public void addNewLeague(League league){
         List<Gameday> gamedayList = league.getGameSchedule().getGamedayList();
         leagueRepository.save(league);
@@ -43,6 +55,7 @@ public class LeagueService {
                 gameRepository.save(game);
             }
         }
+
         addOddsToGames(league.getId());
     }
 
@@ -89,6 +102,61 @@ public class LeagueService {
         }
         if(!leagueNew.getLogoURL().equals("")){
             league.setLogoURL(leagueNew.getLogoURL());
+        }
+    }
+
+    @Transactional
+    public void addOddsToGames(Long leagueId){
+        boolean emptyLeagueTable = true;
+        List<Team> teams = teamService.getAllTeams(leagueId);
+        for(Team team: teams){
+            if(team.getPoints() != 0){
+                emptyLeagueTable = false;
+            }
+        }
+        League league = leagueRepository.findById(leagueId).get();
+        for(Gameday gameday: league.getGameSchedule().getGamedayList()){
+            for(Game game: gameday.getGames()){
+                if(gameday.getRound() == 1){
+                    game.setHomeTeamOdd(1.5);
+                    game.setAwayTeamOdd(1.5);
+                    game.setDrawOdd(1.5);
+                }
+
+                //TODO: Odds berechnen (auf Basis von 5 letzten Spielen)
+
+                if(!emptyLeagueTable){
+                    game.setDrawOdd(0);
+                    for(Team team: teams){
+                        if(team.getName().equals(game.getHomeTeam())){
+                            double winChance = team.getWins()/(double) (team.getWins() + team.getLoses() + team.getDraws());
+                            double drawChance = (team.getDraws() + 1)/(double) (team.getWins() + team.getLoses() + team.getDraws());
+
+                            double odd = (teams.indexOf(team)+1)/10D;
+                            odd += 2 - winChance;
+                            odd = Double.parseDouble(df.format(odd).replace(",","."));
+
+                            double drawOdd = game.getDrawOdd() + odd - drawChance;
+                            drawOdd = Double.parseDouble(df.format(drawOdd).replace(",","."));
+                            game.setHomeTeamOdd(odd);
+                            game.setDrawOdd(drawOdd);
+                        }
+                        if(team.getName().equals(game.getAwayTeam())){
+                            double winChance = team.getWins()/(double) (team.getWins() + team.getLoses() + team.getDraws());
+                            double drawChance = (team.getDraws() + 1)/(double) (team.getWins() + team.getLoses() + team.getDraws());
+
+                            double odd = (teams.indexOf(team)+1)/10D;
+                            odd += 2 - winChance;
+                            odd = Double.parseDouble(df.format(odd).replace(",","."));
+
+                            double drawOdd = game.getDrawOdd() + odd - drawChance;
+                            drawOdd = Double.parseDouble(df.format(drawOdd).replace(",","."));
+                            game.setAwayTeamOdd(odd);
+                            game.setDrawOdd(drawOdd);
+                        }
+                    }
+                }
+            }
         }
     }
 

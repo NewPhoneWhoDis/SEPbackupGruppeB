@@ -1,3 +1,4 @@
+import { GroupChatComponent } from "./../components/chat/group-chat/group-chat.component";
 import { FormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -27,6 +28,7 @@ import { BetTableComponent } from "./bet-table/bet-table.component";
     BarChartComponent,
     PieChartComponent,
     BetTableComponent,
+    GroupChatComponent,
   ],
   imports: [CommonModule, BetsRoutingModule, FormsModule, NgApexchartsModule],
 })

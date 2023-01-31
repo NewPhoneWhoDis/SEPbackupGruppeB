@@ -1,0 +1,31 @@
+<div class="flex flex-col h-screen">
+    <div class="flex-1 overflow-y-scroll">
+      <div class="p-4">
+        <div class="flex" *ngFor="let user of users">
+          <img *ngIf="!user?.imageURL" src="./assets/images/Tipper_Andrii.jpeg" class="w-12 h-12 rounded-full">
+          <img *ngIf="user?.imageURL" [src]="user?.imageURL" class="w-12 h-12 rounded-full">
+          <div>
+              <div class="text-lg font-medium ml-2">{{user.firstName}}</div>
+              <div class="ml-4">
+                <div *ngFor="let message of friendMessages; let i = index">
+                    <ng-container *ngIf="user.id === message.messageAuthor?.id">
+                        <div>
+                            
+                            <div class="text-sm text-orange-400">{{message.message}}</div>
+                        </div>
+                    </ng-container>   
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4">
+        <form (ngSubmit)="sendMessage(messageInput.value, currentUser?.id)" class="py-3">
+            <input #messageInput type="text" placeholder="Gib deine Nachricht hier an"
+            class="input input-bordered input-primary w-auto inset-x-0 bottom-0 m-2
+            transform absolute focus:outline-none"/>
+        </form>
+      </div>
+    </div>
+</div> 
+  

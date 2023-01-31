@@ -33,7 +33,7 @@ public class SignupRequest {
         this.dateOfBirth = dateOfBirth;
         this.isAdmin = isAdmin;
     }
-
+    
 
     public String getFirstName() {
         return firstName;

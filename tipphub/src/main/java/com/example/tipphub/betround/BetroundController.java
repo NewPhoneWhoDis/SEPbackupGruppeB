@@ -45,7 +45,7 @@ public class BetroundController {
     @PutMapping("/bet/{ownerId}/{betroundId}")
     public void betInRound(@PathVariable("ownerId") Long ownerId,
             @PathVariable("betroundId") Long betroundId,
-            @RequestBody Bet bet) {
+            @RequestBody Bet bet) throws RuntimeException {
         betroundService.betInRound(ownerId, betroundId, bet);
     }
 
@@ -100,9 +100,9 @@ public class BetroundController {
         return betroundService.getLeagueId(betroundId);
     }
 
-    @GetMapping("/getAmountOfBetsPerUserInRound/{userId}/{betroundId}")
-        public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(@PathVariable Long userId, @PathVariable Long betroundId){
-            return betroundService.getBetAmountPerUserInRound(userId,betroundId);
+    @GetMapping("/getAmountOfBetsPerUserInRound/{betroundId}")
+        public Set<Map.Entry<String, Integer>> getBetAmountPerUserInRound(@PathVariable Long betroundId){
+            return betroundService.getBetAmountPerUserInRound(betroundId);
         }
 
     @GetMapping("/getPointsAUserMadeFromATeam/{userId}/{betroundId}")
