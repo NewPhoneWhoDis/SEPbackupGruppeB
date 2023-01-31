@@ -3,7 +3,7 @@ import { LeagueTableComponent } from "src/app/components/league-table/league-tab
 import {UserService} from "../../../Service/user.service";
 import {StorageService} from "../../../Service/storage.service";
 import {AuthService} from "../../../Service/auth.service";
-import {interval} from "rxjs";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: "homePage",
@@ -15,6 +15,7 @@ export class homePage {
   showAndrii : boolean = true;
   showAd: boolean = false;
   randomNum : number = 0;
+  subscribe : Subscription | undefined;
 
   constructor(private userService: UserService,
               private storageService: StorageService,
@@ -27,7 +28,7 @@ export class homePage {
       this.isLoggedIn = true;
     }
 
-    let popup = interval(100).subscribe(() => {
+    this.subscribe = interval(100).subscribe((data) => {
       let ads = document.getElementById("ad");
       if(ads){
         ads.style.top = ads.offsetTop - 1 + "px";
@@ -36,9 +37,15 @@ export class homePage {
       if(ads!.offsetTop <= 450){
          this.randomNum = Math.floor(Math.random() * 2) + 1;
         this.showAd = true;
-        popup.unsubscribe()
+        // @ts-ignore
+        this.subscribe.unsubscribe()
       }
     })
+  }
+
+  ngOnDestroy(){
+    // @ts-ignore
+    this.subscribe.unsubscribe()
   }
 
   closePopup(){
