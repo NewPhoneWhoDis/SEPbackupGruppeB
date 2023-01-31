@@ -66,6 +66,30 @@
               pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
             />
           </div>
+          <div
+            class="alert alert-error shadow-lg"
+            *ngIf="password.errors?.['pattern']"
+          >
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>
+                Das Passwort muss aus mindestens 8 Zeichen bestehen, 1
+                Großbuchstabe, 1 Kleinbuchstabe und 1 Zahl!
+              </span>
+            </div>
+          </div>
           <!-- Submit-Button -->
           <button
             type="submit"
@@ -106,12 +130,7 @@
               />
             </div>
             <!-- Submit-Button -->
-            <a
-              (click)="verifyCode()"
-              href="home"
-              class="w-full btn btn-primary"
-            >
-            <a (click)="verifyCode()" href="/" class="w-full btn btn-primary" >
+            <a (click)="verifyCode()" href="/" class="w-full btn btn-primary">
               Verifizieren
             </a>
           </form>

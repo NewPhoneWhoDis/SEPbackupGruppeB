@@ -83,16 +83,19 @@ export class GameTableBetsComponent implements OnInit {
           // @ts-ignore
           this.leagues[m].teams = data;
         });
-        console.log(this.leagues[m])
-        this.betroundService.getBestBetters(this.leagues[m].id).subscribe((data) => {
-          // @ts-ignore
-          this.leagues[m].topBetters = data;
-          // @ts-ignore
-          if(this.leagues[m].topBetters.length < 3){
+        console.log(this.leagues[m]);
+        this.betroundService
+          .getBestBetters(this.leagues[m].id)
+          .subscribe((data) => {
+            // @ts-ignore
+            this.leagues[m].topBetters = data;
             // @ts-ignore
             if (this.leagues[m].topBetters.length < 3) {
               // @ts-ignore
-              this.leagues[m].topBetters.push("", "", "");
+              if (this.leagues[m].topBetters.length < 3) {
+                // @ts-ignore
+                this.leagues[m].topBetters.push("", "", "");
+              }
             }
           });
         this.betroundService
@@ -169,15 +172,22 @@ export class GameTableBetsComponent implements OnInit {
     if (withMoney) {
       this.bet.moneyBet = true;
     }
-    this.betroundService.betInRound(this.storageService.getLoggedUser(),this.routeNumId,this.bet).subscribe(
+    this.betroundService
+      .betInRound(
+        this.storageService.getLoggedUser(),
+        this.routeNumId,
+        this.bet
+      )
+      .subscribe(
         () => {
-          window.alert("Wette wurde erfolgreich platziert!")
-          location.reload()
+          window.alert("Wette wurde erfolgreich platziert!");
+          location.reload();
         },
         () => {
-          window.alert("Du hast kein Geld, du Geringverdiener!!!")
-          location.reload()
-        });
+          window.alert("Du hast kein Geld, du Geringverdiener!!!");
+          location.reload();
+        }
+      );
   }
 
   getBetHelp(gameId: number | undefined): void {
