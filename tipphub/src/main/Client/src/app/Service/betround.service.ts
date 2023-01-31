@@ -171,7 +171,8 @@ export class BetroundService {
     betroundId: number | undefined
   ): Observable<Array<string>> {
     return this.http.get<Array<string>>(
-      `${this.betroundUrl}/getKeysBarDiagram/${betroundId}`
+      `${this.betroundUrl}/getKeysBarDiagram/${betroundId}`,
+      httpHeaders
     );
   }
 
@@ -179,7 +180,8 @@ export class BetroundService {
     betroundId: number | undefined
   ): Observable<Array<number>> {
     return this.http.get<Array<number>>(
-      `${this.betroundUrl}/getValuesBarDiagram/${betroundId}`
+      `${this.betroundUrl}/getValuesBarDiagram/${betroundId}`,
+      httpHeaders
     );
   }
 
@@ -188,7 +190,8 @@ export class BetroundService {
     betroundId: number | undefined
   ): Observable<Array<string>> {
     return this.http.get<Array<string>>(
-      `${this.betroundUrl}/getKeysPieDiagram/${userId}/${betroundId}`
+      `${this.betroundUrl}/getKeysPieDiagram/${userId}/${betroundId}`,
+      httpHeaders
     );
   }
 
@@ -197,7 +200,8 @@ export class BetroundService {
     betroundId: number | undefined
   ): Observable<Array<number>> {
     return this.http.get<Array<number>>(
-      `${this.betroundUrl}/getValuesPieDiagram/${userId}/${betroundId}`
+      `${this.betroundUrl}/getValuesPieDiagram/${userId}/${betroundId}`,
+      httpHeaders
     );
   }
 }
