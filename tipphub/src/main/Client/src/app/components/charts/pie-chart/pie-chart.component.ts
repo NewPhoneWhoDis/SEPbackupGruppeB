@@ -32,7 +32,7 @@ export class PieChartComponent implements OnInit {
   };
 
   chartTitle: ApexTitleSubtitle = {
-    text: "Leading Companies",
+    text: "Erzielte Punkte/Mannschaft",
     align: "center",
   };
 
